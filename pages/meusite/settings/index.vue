@@ -1,6 +1,10 @@
 <script lang="ts" setup>
 import AdminHeader from '~/components/admin/AdminHeader.vue';
-
+definePageMeta({
+    sanctum: {
+        excluded: true,
+    }
+});
 
 </script>
 
