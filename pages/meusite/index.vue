@@ -3,13 +3,11 @@ import LoginForm from '~/components/admin/LoginForm.vue';
 definePageMeta({
     sanctum: {
         excluded: true,
+        guestOnly: true
     }
 });
-definePageMeta({
-    sanctum: {
-        guestOnly: true,
-    }
-});
+
+
 </script>
 
 <template>

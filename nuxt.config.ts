@@ -31,5 +31,8 @@ export default defineNuxtConfig({
   },
   colorMode: {
     preference: 'light'
-  }
+  },
+  css: [
+    '~/assets/scss/main.scss'
+  ],
 })

@@ -18,5 +18,8 @@
     "nuxt-auth-sanctum": "^0.4.12",
     "vue": "latest",
     "vue-router": "latest"
+  },
+  "devDependencies": {
+    "sass": "^1.79.3"
   }
 }

@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import SettingsForm from './SettingsForm.vue';
+import SettingsHours from './SettingsHours.vue';
 
 
 </script>
@@ -10,7 +11,7 @@ import SettingsForm from './SettingsForm.vue';
             <SettingsForm/>
         </div>
         <div class="flex-1 flex items-center justify-center">
-            metade 2
+            <SettingsHours />
         </div>
     </div>
 </template>

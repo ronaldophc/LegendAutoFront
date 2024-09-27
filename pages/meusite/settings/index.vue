@@ -3,9 +3,9 @@ import AdminHeader from '~/components/admin/AdminHeader.vue';
 definePageMeta({
     sanctum: {
         excluded: true,
+        guestOnly: true
     }
 });
-
 </script>
 
 <template>

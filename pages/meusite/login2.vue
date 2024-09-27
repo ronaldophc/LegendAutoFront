@@ -51,6 +51,7 @@
 definePageMeta({
     sanctum: {
         excluded: true,
+        guestOnly: true
     }
 });
 </script>
