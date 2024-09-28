@@ -1,22 +1,27 @@
 <script setup lang="ts">
 import LoginForm from '~/components/admin/LoginForm.vue';
+
 definePageMeta({
-    sanctum: {
-        excluded: true,
-        guestOnly: true
-    }
+  sanctum: {
+    excluded: true,
+    guestOnly: true
+  }
 });
 
 
 </script>
 
 <template>
-  <div class="flex h-screen">
-    <div class="flex-1 flex items-center py-8 px-5">
-      <LoginForm />
-    </div>
-    <div class="hidden lg-custom:flex flex-1 items-center justify-end">
-      <img class="rounded-lg me-5 h-screen max-h-[95vh]" src="../../assets/images/login.png" alt="login">
+  <div class="flex h-screen w-screen items-center justify-center">
+    <!-- Container Principal -->
+    <div class=" flex h-full w-full rounded-lg shadow-lg md:h-4/5 md:w-4/5 lg:w-3/4">
+      <!-- Metade com o Formulário -->
+      <div class="flex w-full flex-col items-center justify-center p-6 md:w-1/2">
+        <LoginForm/>
+      </div>
+      <div class="admin-login_image hidden bg-cover bg-center md:flex md:w-1/2 shadow-lg rounded-e-lg">
+        <img src="~/assets/images/laptop.svg" alt="">
+      </div>
     </div>
   </div>
 </template>

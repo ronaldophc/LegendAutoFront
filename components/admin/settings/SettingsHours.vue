@@ -5,6 +5,15 @@ const snackbar = useSnackbar();
 
 const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
+const daysOfWeekTranslated = {
+  Monday: 'Segunda-feira',
+  Tuesday: 'Terça-feira',
+  Wednesday: 'Quarta-feira',
+  Thursday: 'Quinta-feira',
+  Friday: 'Sexta-feira',
+  Saturday: 'Sábado',
+};
+
 const businessHours = ref<any>({
   Monday: [{opening_time: '', closing_time: ''}],
   Tuesday: [{opening_time: '', closing_time: ''}],
@@ -59,19 +68,22 @@ const submitBusinessHours = () => {
 <template>
 
   <UCard class="my-5" :ui="{ header: {padding: 'px-4 py-0 sm:px-6'} }">
-    <template #header >
+    <template #header>
       <div class="flex flex-col items-center justify-center">
         <UIcon name="i-heroicons-solid:calendar" class="admin-settings_icon w-24 h-24"/>
         <h2 class="font-bold text-2xl mb-2">Horário de atendimento</h2>
         <span class="text-gray-500 text-md">Defina o horário de atendimento do seu estabelecimento.</span>
-        <span class="text-gray-500 text-md">Marque a checkbox com os dias que a loja
-                    ficara aberta de defina os horários ao lado.</span>
       </div>
     </template>
     <UContainer class="flex items-center justify-center">
       <form @submit.prevent="submitBusinessHours">
-        <div v-for="day in daysOfWeek" class="mb-2">
-          <h3 class="text-lg font-semibold">{{ day }}</h3>
+        <div v-for="day in daysOfWeek" class="mb-4">
+
+          <div class="flex flex-row gap-2">
+            <h3 class="text-md font-semibold">{{ daysOfWeekTranslated[day] }}</h3>
+            <button type="button" @click="addTimeSlot(day)" class="text-blue-500">Adicionar hórario</button>
+          </div>
+
           <div v-for="(timeSlot, index) in businessHours[day]" class="flex items-center mb-2">
             <input v-model="timeSlot.opening_time" type="time" class="mr-2 p-2 border rounded"
                    placeholder="Opening Time"/>
@@ -79,9 +91,12 @@ const submitBusinessHours = () => {
                    placeholder="Closing Time"/>
             <button type="button" @click="removeTimeSlot(day, index)" class="text-red-500">Remover horário</button>
           </div>
-          <button type="button" @click="addTimeSlot(day)" class="text-blue-500">Adicionar hórario</button>
+
         </div>
-        <button type="submit" class="admin-settings_button mt-4 p-2 text-white rounded w-full">Salvar</button>
+        <button
+            class="admin-settings_button rounded border py-2 text-lg font-semibold shadow w-full">
+          Salvar
+        </button>
 
       </form>
     </UContainer>
