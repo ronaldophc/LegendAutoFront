@@ -67,7 +67,7 @@ const submitBusinessHours = () => {
 
 <template>
 
-  <UCard class="my-5" :ui="{ header: {padding: 'px-4 py-0 sm:px-6'} }">
+  <UCard class="my-5" :ui="{ header: {padding: 'px-4 py-0 sm:px-0'} }">
     <template #header>
       <div class="flex flex-col items-center justify-center">
         <UIcon name="i-heroicons-solid:calendar" class="admin-settings_icon w-24 h-24"/>

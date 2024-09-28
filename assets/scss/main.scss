@@ -282,4 +282,10 @@ label {
             }
         }
     }
+
+    &_link {
+        &:hover {
+            background-color: rgba($hover-color, 0.25);
+        }
+    }
 }
