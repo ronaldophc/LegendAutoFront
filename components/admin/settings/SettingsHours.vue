@@ -66,15 +66,16 @@ const submitBusinessHours = () => {
 </script>
 
 <template>
+  <UCard class="md:my-5" :ui="{ header: {padding: 'px-4 py-0 sm:px-0'} }">
 
-  <UCard class="my-5" :ui="{ header: {padding: 'px-4 py-0 sm:px-0'} }">
     <template #header>
       <div class="flex flex-col items-center justify-center">
         <UIcon name="i-heroicons-solid:calendar" class="admin-settings_icon w-24 h-24"/>
         <h2 class="font-bold text-2xl mb-2">Horário de atendimento</h2>
-        <span class="text-gray-500 text-md">Defina o horário de atendimento do seu estabelecimento.</span>
+        <span class="text-gray-500 text-md text-center">Defina o horário de atendimento do seu estabelecimento.</span>
       </div>
     </template>
+
     <UContainer class="flex items-center justify-center">
       <form @submit.prevent="submitBusinessHours">
         <div v-for="day in daysOfWeek" class="mb-4">
@@ -93,6 +94,7 @@ const submitBusinessHours = () => {
           </div>
 
         </div>
+
         <button
             class="admin-settings_button rounded border py-2 text-lg font-semibold shadow w-full">
           Salvar
@@ -100,7 +102,6 @@ const submitBusinessHours = () => {
 
       </form>
     </UContainer>
-
 
   </UCard>
 </template>
