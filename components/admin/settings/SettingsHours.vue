@@ -1,33 +1,91 @@
 <script lang="ts" setup>
-const selected = ref(false)
+import {useSnackbar} from "vue3-snackbar";
 
-const monday = ref({
-    active: false,
-    firstHour: '',
-    lastHour: ''
-})
+const snackbar = useSnackbar();
+
+const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+const businessHours = ref<any>({
+  Monday: [{opening_time: '', closing_time: ''}],
+  Tuesday: [{opening_time: '', closing_time: ''}],
+  Wednesday: [{opening_time: '', closing_time: ''}],
+  Thursday: [{opening_time: '', closing_time: ''}],
+  Friday: [{opening_time: '', closing_time: ''}],
+  Saturday: [{opening_time: '', closing_time: ''}],
+});
+
+const addTimeSlot = (day: string | number) => {
+  if (businessHours.value[day].length < 2) {
+    businessHours.value[day].push({opening_time: '', closing_time: ''});
+    return;
+  }
+  snackbar.add({
+    type: 'error',
+    text: 'Máximo de 2 horários por dia',
+  });
+}
+
+const removeTimeSlot = (day: string | number, index: any) => {
+  if (businessHours.value[day].length > 1) {
+    businessHours.value[day].splice(index, 1);
+    return;
+  }
+  snackbar.add({
+    type: 'error',
+    text: 'Mínimo de 1 horário por dia',
+
+  });
+};
+
+const submitBusinessHours = () => {
+  fetch('http://localhost:8001/api/stores/business-hours', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    },
+    body: JSON.stringify({
+      store_id: 1,
+      hours: businessHours.value
+    })
+  })
+      .then(response => response.json())
+      .then(data => console.log(data))
+      .catch(error => console.error('Error:', error));
+}
+
 </script>
 
 <template>
-    <UCard>
-        <template #header>
-            <div class="flex flex-col items-center justify-center">
-                <UIcon name="i-heroicons-solid:calendar" class="w-28 h-28 bg-blue-500" />
-                <h2 class="font-bold text-3xl mb-2">Horário de atendimento</h2>
-                <span class="text-gray-500">Defina o horário de atendimento do seu estabelecimento.</span>
-                <span class="text-gray-500">Marque a checkbox com os dias que a loja
+
+  <UCard class="my-5" :ui="{ header: {padding: 'px-4 py-0 sm:px-6'} }">
+    <template #header >
+      <div class="flex flex-col items-center justify-center">
+        <UIcon name="i-heroicons-solid:calendar" class="admin-settings_icon w-24 h-24"/>
+        <h2 class="font-bold text-2xl mb-2">Horário de atendimento</h2>
+        <span class="text-gray-500 text-md">Defina o horário de atendimento do seu estabelecimento.</span>
+        <span class="text-gray-500 text-md">Marque a checkbox com os dias que a loja
                     ficara aberta de defina os horários ao lado.</span>
-                <div class="flex flex-row gap-2 mt-3">
-                    <span>Um hórario</span>
-                    <UToggle v-model="selected" />
-                    <span>Dois horários</span>
-                </div>
-            </div>
-        </template>
-
-        <div id="monday">
-            <UCheckbox v-model="monday.active" id="monday.check-box" label="Segunda Feira" />
+      </div>
+    </template>
+    <UContainer class="flex items-center justify-center">
+      <form @submit.prevent="submitBusinessHours">
+        <div v-for="day in daysOfWeek" class="mb-2">
+          <h3 class="text-lg font-semibold">{{ day }}</h3>
+          <div v-for="(timeSlot, index) in businessHours[day]" class="flex items-center mb-2">
+            <input v-model="timeSlot.opening_time" type="time" class="mr-2 p-2 border rounded"
+                   placeholder="Opening Time"/>
+            <input v-model="timeSlot.closing_time" type="time" class="mr-2 p-2 border rounded"
+                   placeholder="Closing Time"/>
+            <button type="button" @click="removeTimeSlot(day, index)" class="text-red-500">Remover horário</button>
+          </div>
+          <button type="button" @click="addTimeSlot(day)" class="text-blue-500">Adicionar hórario</button>
         </div>
+        <button type="submit" class="admin-settings_button mt-4 p-2 text-white rounded w-full">Salvar</button>
 
-    </UCard>
+      </form>
+    </UContainer>
+
+
+  </UCard>
 </template>

@@ -121,7 +121,7 @@ blockquote:before,
 blockquote:after,
 q:before,
 q:after {
-    content: '';
+    content: "";
     content: none;
 }
 
@@ -164,14 +164,123 @@ label {
     float: none;
 }
 
-@import 'variables';
-@import 'fonts';
+@import "variables";
+@import "fonts";
 
 * {
     left: 0;
     font-size: 16px;
-    font-family: 'Poppins' !important;
+    font-family: "Nunito" !important;
     color: $black-color;
 }
 
+.admin-login {
 
+    &_form {
+        input {
+            color: $primary-color;
+        }
+        button {
+            background-color: $primary-color;
+            color: #fff;
+            border: none;
+    
+            &:hover {
+                background-color: darken($primary-color, 5%);
+            }
+        }
+    }
+
+    &_image {
+        background-color: darken($primary-color, 5%);
+    }
+
+    &_divider {
+        border-color: $primary-color; // Define a cor da borda
+        border-width: 0.1rem; // Define a largura da borda
+    }
+
+    &_welcome {
+        color: $primary-color; // Define a cor do texto de boas-vindas
+    }
+
+    
+}
+
+.admin-settings {
+
+    &_button {
+        background-color: $primary-color;
+        color: #fff;
+        border: none;
+
+        &:hover {
+            background-color: darken($primary-color, 5%);
+        }
+    }
+    &_body {
+        background-color: #fff;
+    }
+
+    &_hours {
+        background-color: #eff4ff;
+    }
+
+    &_icon {
+        background-color: $primary-color;
+    }
+
+    &_form {
+        input {
+            color: black;
+            border-color: rgb(209 213 219);
+
+            &:focus {
+                border-color: $primary-color;
+            }
+
+            &::placeholder {
+                color: transparent;
+            }
+
+            &:focus::placeholder {
+                color: rgb(209 213 219);
+            }
+
+            &:focus + label {
+                color: $primary-color;
+            }
+        }
+
+        label {
+            color: rgb(107 114 128);
+            background-color: #fff;
+        }
+
+
+    }
+}
+
+.admin-header {
+    &_top {
+        background-color: black;
+    }
+
+    &_top,
+    &_icon,
+    &_logout-text,
+    &_title-left {
+        color: #fff;
+    }
+
+    &_bottom {
+        background-color: $primary-color;
+        a {
+            color: $light-color;
+
+            &:hover {
+                background-color: rgba($hover-color, 0.25);
+            }
+        }
+    }
+}

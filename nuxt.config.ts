@@ -3,7 +3,8 @@ export default defineNuxtConfig({
   ssr: false,
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
-  modules: ['nuxt-auth-sanctum', '@nuxt/ui', '@nuxt/icon', '@nuxtjs/tailwindcss'],
+  pages: true,
+  modules: ['nuxt-auth-sanctum', '@nuxt/ui', '@nuxt/icon', '@nuxtjs/tailwindcss', 'nuxt-snackbar'],
   sanctum: {
     baseUrl: 'http://localhost:8001',
     mode: 'token',
@@ -35,4 +36,9 @@ export default defineNuxtConfig({
   css: [
     '~/assets/scss/main.scss'
   ],
+  snackbar: {
+    bottom: true,
+    left: true,
+    duration: 5000
+  }
 })

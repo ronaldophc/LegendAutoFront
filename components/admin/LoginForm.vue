@@ -24,14 +24,18 @@ async function onLogin() {
 </script>
 
 <template>
-    <div class="mx-auto flex w-full max-w-sm flex-col">
+    <div class="admin-login_form mx-auto flex w-full max-w-sm flex-col">
         <div class="mx-auto mb-5 flex">
             <Logo />
         </div>
 
-        <h1 class="mt-8 text-2xl font-semibold text-gray-700 lg:mt-0">
-            <UDivider label="Bem vindo" size="lg" :ui="{ label: 'text-blue-700 text-3xl' }" />
-        </h1>
+        <div class="mt-8 text-2xl font-semibold lg:mt-0">
+            <div class="relative flex py-5 items-center">
+                <hr class="flex-grow border-t"></hr>
+                <span class="admin-login_welcome flex-shrink mx-4 text-3xl">Bem-vindo</span>
+                <hr class="flex-grow border-t"></hr>
+            </div>
+        </div>
 
         <p class="m-2 text-xl text-gray-400 text-center">
             Preencha com seus dados para prosseguir

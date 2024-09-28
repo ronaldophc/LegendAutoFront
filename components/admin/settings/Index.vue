@@ -6,14 +6,14 @@ import SettingsHours from './SettingsHours.vue';
 </script>
 
 <template>
-    <div class="flex-1 flex bg-gray-300">
-        <div class="flex-1 bg-white flex items-center">
-            <SettingsForm/>
-        </div>
-        <div class="flex-1 flex items-center justify-center">
-            <SettingsHours />
-        </div>
+  <div class="admin-settings_body flex-1 flex flex-col md:flex-row">
+    <div class="admin-settings_form flex-1 flex items-center flex-col md:flex-row">
+      <SettingsForm/>
     </div>
+    <div class="admin-settings_hours flex-1 flex items-center justify-center flex-col md:flex-row">
+      <SettingsHours/>
+    </div>
+  </div>
 </template>
 
 <style scoped>
