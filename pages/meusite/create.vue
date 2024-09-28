@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 definePageMeta({
   layout: 'admin',
   sanctum: {
@@ -7,9 +6,12 @@ definePageMeta({
     guestOnly: true
   }
 });
-
 </script>
 
 <template>
-
+  <AdminCreate />
 </template>
+
+<style scoped>
+
+</style>

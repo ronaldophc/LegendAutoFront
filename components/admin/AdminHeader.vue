@@ -46,12 +46,14 @@ function toggleMenu() {
 
           <ul class="flex-row justify-end w-full text-lg hidden md:flex">
             <li>
-              <a href=""
-                 class="flex px-3 py-2 rounded-2xl">Home</a>
+              <NuxtLink to="/meusite/settings"
+                        class="flex px-3 py-2 rounded-2xl">Home
+              </NuxtLink>
             </li>
             <li>
-              <a href=""
-                 class="flex items-center px-3 py-2 rounded-2xl">Cadastrar</a>
+              <NuxtLink to="/meusite/create"
+                        class="flex items-center px-3 py-2 rounded-2xl">Cadastrar
+              </NuxtLink>
             </li>
             <li>
               <NuxtLink to="/meusite/settings"
@@ -60,9 +62,9 @@ function toggleMenu() {
               </NuxtLink>
             </li>
             <li>
-              <a href=""
-                 class="flex items-center px-3 py-2 rounded-2xl">Ver
-                site</a>
+              <NuxtLink to="/meusite/settings"
+                        class="flex items-center px-3 py-2 rounded-2xl">Ver site
+              </NuxtLink>
             </li>
           </ul>
 
@@ -88,7 +90,7 @@ function toggleMenu() {
                   <NuxtLink to="/meusite/settings" class="admin-header_link flex items-center px-3 py-2 rounded-2xl">
                     Home
                   </NuxtLink>
-                  <NuxtLink to="/meusite/settings" class="admin-header_link flex items-center px-3 py-2 rounded-2xl">
+                  <NuxtLink to="/meusite/create" class="admin-header_link flex items-center px-3 py-2 rounded-2xl">
                     Cadastrar
                   </NuxtLink>
                   <NuxtLink to="/meusite/settings" class="admin-header_link flex items-center px-3 py-2 rounded-2xl">
