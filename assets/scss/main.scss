@@ -184,6 +184,30 @@ label {
     color: $black-color;
 }
 
+.admin-create {
+
+    &_type {
+        background-color: #ededee;
+    }
+
+    &_card {
+        &:hover {
+            .admin-create_circle {
+                background-color: $secondary-color;
+            }
+
+            .admin-create_icon {
+                color: white;
+            }
+            background: linear-gradient(to top, rgba($secondary-color, 0.25), transparent);
+        }
+    }
+
+    &_circle {
+        background-color: #d1d5db;
+    }
+}
+
 .admin-login {
 
     &_form {

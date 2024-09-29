@@ -87,16 +87,16 @@ function toggleMenu() {
 
               <div class="flex flex-col flex-1">
                 <div class="flex flex-col gap-4">
-                  <NuxtLink to="/meusite/settings" class="admin-header_link flex items-center px-3 py-2 rounded-2xl">
+                  <NuxtLink to="/meusite/settings" class="admin-header_link flex items-center px-3 py-2 rounded-2xl" @click.native="isMenuOpen = false">
                     Home
                   </NuxtLink>
-                  <NuxtLink to="/meusite/create" class="admin-header_link flex items-center px-3 py-2 rounded-2xl">
+                  <NuxtLink to="/meusite/create" class="admin-header_link flex items-center px-3 py-2 rounded-2xl" @click.native="isMenuOpen = false">
                     Cadastrar
                   </NuxtLink>
-                  <NuxtLink to="/meusite/settings" class="admin-header_link flex items-center px-3 py-2 rounded-2xl">
+                  <NuxtLink to="/meusite/settings" class="admin-header_link flex items-center px-3 py-2 rounded-2xl" @click.native="isMenuOpen = false">
                     Configurações
                   </NuxtLink>
-                  <NuxtLink to="/meusite/settings" class="admin-header_link flex items-center px-3 py-2 rounded-2xl">
+                  <NuxtLink to="/meusite/settings" class="admin-header_link flex items-center px-3 py-2 rounded-2xl" @click.native="isMenuOpen = false">
                     Ver site
                   </NuxtLink>
                 </div>
