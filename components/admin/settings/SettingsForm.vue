@@ -37,8 +37,9 @@ onMounted(async () => {
 });
 
 async function onSave() {
+
   try {
-    await useApi('api/stores/1', {
+    const response = await useApi('api/stores/1', {
       method: 'PUT',
       body: JSON.stringify({
         address: address.value,
@@ -53,6 +54,13 @@ async function onSave() {
       }),
     });
 
+    if(response.status !== 200) {
+      snackbar.add({
+        type: 'error',
+        text: 'Erro ao atualizar informações',
+      });
+      return;
+    }
     snackbar.add({
       type: 'success',
       text: 'Informações atualizadas com sucesso',
