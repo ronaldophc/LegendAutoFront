@@ -57,18 +57,18 @@ async function onSave() {
     if(response.status !== 200) {
       snackbar.add({
         type: 'error',
-        text: 'Erro ao atualizar informações',
+        text: 'Erro ao atualizar informações.',
       });
       return;
     }
     snackbar.add({
       type: 'success',
-      text: 'Informações atualizadas com sucesso',
+      text: 'Informações atualizadas com sucesso.',
     });
   } catch (e) {
     snackbar.add({
       type: 'error',
-      text: 'Erro ao atualizar informações',
+      text: 'Erro ao atualizar informações.',
     });
     console.error(e);
   }

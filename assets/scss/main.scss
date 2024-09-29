@@ -81,22 +81,22 @@ time,
 mark,
 audio,
 video {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    font-size: 100%;
-    font: inherit;
-    vertical-align: baseline;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
 }
 
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-    -webkit-box-shadow: 0 0 0 30px white inset !important;
-    box-shadow: 0 0 0 30px white inset !important;
-    -webkit-text-fill-color: #000 !important;
-    text-fill-color: #000 !important;
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+  box-shadow: 0 0 0 30px white inset !important;
+  -webkit-text-fill-color: #000 !important;
+  text-fill-color: #000 !important;
 }
 
 article,
@@ -110,216 +110,245 @@ hgroup,
 menu,
 nav,
 section {
-    display: block;
+  display: block;
 }
 
 body {
-    line-height: normal;
+  line-height: normal;
 }
 
 ol,
 ul {
-    list-style: none;
+  list-style: none;
 }
 
 blockquote,
 q {
-    quotes: none;
+  quotes: none;
 }
 
 blockquote:before,
 blockquote:after,
 q:before,
 q:after {
-    content: "";
-    content: none;
+  content: "";
+  content: none;
 }
 
 table {
-    border-collapse: collapse;
-    border-spacing: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
 }
 
 a,
 a:hover,
 a:focus {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 a,
 img {
-    -webkit-transform: rotate(0);
-    -moz-transform: rotate(0);
-    transform: rotate(0);
+  -webkit-transform: rotate(0);
+  -moz-transform: rotate(0);
+  transform: rotate(0);
 }
 
 a,
 img,
 button {
-    transition: all 0.2s;
-    -moz-transition: all 0.2s;
-    -webkit-transition: all 0.2s;
-    -o-transition: all 0.2s;
+  transition: all 0.2s;
+  -moz-transition: all 0.2s;
+  -webkit-transition: all 0.2s;
+  -o-transition: all 0.2s;
 }
 
 a,
 button,
-select,
-label {
-    cursor: pointer;
+select {
+  cursor: pointer;
 }
 
 .clear {
-    clear: both;
-    float: none;
+  clear: both;
+  float: none;
 }
 
 @import "variables";
 @import "fonts";
 
 * {
-    left: 0;
-    font-size: 16px;
-    font-family: "Nunito" !important;
-    color: $black-color;
+  left: 0;
+  font-size: 16px;
+  font-family: "Nunito" !important;
+  color: $black-color;
 }
 
 .admin-create {
+  &_vehicle,
+  &_type {
+    background-color: #ededee;
+  }
 
-    &_type {
-        background-color: #ededee;
+  &_card {
+    &:hover {
+      .admin-create_circle {
+        background-color: $secondary-color;
+      }
+
+      .admin-create_icon {
+        color: white;
+      }
+
+      background: linear-gradient(to top, rgba($secondary-color, 0.25), transparent);
+    }
+  }
+
+  &_circle {
+    background-color: #d1d5db;
+  }
+
+  &_vehicle {
+    input {
+      color: black;
+      border-color: rgb(209 213 219);
+
+      &:focus {
+        border-color: $primary-color;
+      }
+
+      &:focus + label {
+        color: $primary-color;
+      }
     }
 
-    &_card {
-        &:hover {
-            .admin-create_circle {
-                background-color: $secondary-color;
-            }
+    button {
 
-            .admin-create_icon {
-                color: white;
-            }
-            background: linear-gradient(to top, rgba($secondary-color, 0.25), transparent);
-        }
-    }
+      color: #fff;
+      background-color: darken($primary-color, 5%);
+      border-color: darken($primary-color, 10%);
 
-    &_circle {
-        background-color: #d1d5db;
+      &:hover {
+        background-color: $primary-color;
+        border-color: darken($primary-color, 5%);
+      }
     }
+  }
 }
 
 .admin-login {
 
-    &_form {
-        button {
+  &_form {
+    button {
 
-            color: #fff;
-            background-color: darken($primary-color, 5%);
-            border-color: darken($primary-color, 10%);
-    
-            &:hover {
-                background-color: $primary-color;
-                border-color: darken($primary-color, 5%);
-            }
-        }
+      color: #fff;
+      background-color: darken($primary-color, 5%);
+      border-color: darken($primary-color, 10%);
+
+      &:hover {
+        background-color: $primary-color;
+        border-color: darken($primary-color, 5%);
+      }
     }
+  }
 
-    &_image {
-        background-color: darken($primary-color, 5%);
-    }
+  &_image {
+    background-color: darken($primary-color, 5%);
+  }
 
-    &_divider {
-        border-color: darken($primary-color, 5%); // Define a cor da borda
-        border-width: 0.1rem; // Define a largura da borda
-    }
+  &_divider {
+    border-color: darken($primary-color, 5%); // Define a cor da borda
+    border-width: 0.1rem; // Define a largura da borda
+  }
 
-    &_welcome {
-        color: darken($primary-color, 5%); // Define a cor do texto de boas-vindas
-    }
+  &_welcome {
+    color: darken($primary-color, 5%); // Define a cor do texto de boas-vindas
+  }
 
-    
+
 }
 
 .admin-settings {
 
-    &_button {
-        background-color: $primary-color;
-        color: #fff;
-        border: none;
+  &_button {
+    background-color: $primary-color;
+    color: #fff;
+    border: none;
 
-        &:hover {
-            background-color: darken($primary-color, 5%);
-        }
+    &:hover {
+      background-color: darken($primary-color, 5%);
     }
-    &_body {
-        background-color: #fff;
+  }
+
+  &_body {
+    background-color: #fff;
+  }
+
+  &_hours {
+    background-color: #eff4ff;
+  }
+
+  &_icon {
+    background-color: $primary-color;
+  }
+
+  &_form {
+    input {
+      color: black;
+      border-color: rgb(209 213 219);
+
+      &:focus {
+        border-color: $primary-color;
+      }
+
+      &::placeholder {
+        color: transparent;
+      }
+
+      &:focus::placeholder {
+        color: rgb(209 213 219);
+      }
+
+      &:focus + label {
+        color: $primary-color;
+      }
     }
 
-    &_hours {
-        background-color: #eff4ff;
+    label {
+      color: rgb(107 114 128);
+      background-color: #fff;
     }
 
-    &_icon {
-        background-color: $primary-color;
-    }
 
-    &_form {
-        input {
-            color: black;
-            border-color: rgb(209 213 219);
-
-            &:focus {
-                border-color: $primary-color;
-            }
-
-            &::placeholder {
-                color: transparent;
-            }
-
-            &:focus::placeholder {
-                color: rgb(209 213 219);
-            }
-
-            &:focus + label {
-                color: $primary-color;
-            }
-        }
-
-        label {
-            color: rgb(107 114 128);
-            background-color: #fff;
-        }
-
-
-    }
+  }
 }
 
 .admin-header {
-    &_top {
-        background-color: black;
-    }
+  &_top {
+    background-color: black;
+  }
 
-    &_top,
-    &_icon,
-    &_logout-text,
-    &_title-left {
-        color: #fff;
-    }
+  &_top,
+  &_icon,
+  &_logout-text,
+  &_title-left {
+    color: #fff;
+  }
 
-    &_bottom {
-        background-color: $primary-color;
-        a {
-            color: $light-color;
+  &_bottom {
+    background-color: $primary-color;
 
-            &:hover {
-                background-color: rgba($hover-color, 0.25);
-            }
-        }
-    }
+    a {
+      color: $light-color;
 
-    &_link {
-        &:hover {
-            background-color: rgba($hover-color, 0.25);
-        }
+      &:hover {
+        background-color: rgba($hover-color, 0.25);
+      }
     }
+  }
+
+  &_link {
+    &:hover {
+      background-color: rgba($hover-color, 0.25);
+    }
+  }
 }

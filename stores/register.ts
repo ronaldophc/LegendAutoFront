@@ -1,20 +1,25 @@
-import {defineStore} from "pinia";
+// nuxt/stores/register.ts
+import { defineStore } from 'pinia';
 
 export const useRegisterStore = defineStore('register', {
     state: () => ({
         vehicleType: '',
-        vehicleInfo: '',
-        vehiclePhotos: [],
+        vehicleInfo: {} as Car,
+        vehiclePhotos: [] as File[],
+        links: [] as Array<{ id: number; label: string; icon: string; active: boolean }>,
     }),
     actions: {
         setVehicleType(type: string) {
-            this.vehicleType = type
+            this.vehicleType = type;
         },
-        setVehicleInfo(info: string) {
-            this.vehicleInfo = info
+        setVehicleInfo(info: Car) {
+            this.vehicleInfo = info;
         },
-        setVehiclePhotos(photos: FileList) {
-            this.vehiclePhotos = Array.from(photos)
+        setVehiclePhotos(photos: File[]) {
+            this.vehiclePhotos = Array.from(photos);
+        },
+        setLinks(links: Array<{ id: number; label: string; icon: string; active: boolean }>) {
+            this.links = links;
         },
     },
-})
+});
