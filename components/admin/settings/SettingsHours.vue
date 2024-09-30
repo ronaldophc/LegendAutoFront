@@ -64,11 +64,11 @@ const submitBusinessHours = () => {
 </script>
 
 <template>
-  <UCard class="md:my-5" :ui="{ header: {padding: 'px-4 py-0 sm:px-0'} }">
+  <UCard class="md:my-4" :ui="{ header: {padding: 'px-4 py-0 sm:px-0'} }">
 
     <template #header>
       <div class="flex flex-col items-center justify-center">
-        <UIcon name="i-heroicons-solid:calendar" class="admin-settings_icon w-24 h-24"/>
+        <UIcon name="i-heroicons-solid:calendar" class="admin-settings_icon w-20 h-20"/>
         <h2 class="font-bold text-2xl mb-2">Horário de atendimento</h2>
         <span class="text-gray-500 text-md text-center">Defina o horário de atendimento do seu estabelecimento.</span>
       </div>

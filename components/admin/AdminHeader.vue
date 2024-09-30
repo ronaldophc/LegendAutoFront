@@ -46,7 +46,7 @@ function toggleMenu() {
 
           <ul class="flex-row justify-end w-full text-lg hidden md:flex">
             <li>
-              <NuxtLink to="/meusite/settings"
+              <NuxtLink to="/meusite"
                         class="flex px-3 py-2 rounded-2xl">Home
               </NuxtLink>
             </li>
@@ -87,7 +87,7 @@ function toggleMenu() {
 
               <div class="flex flex-col flex-1">
                 <div class="flex flex-col gap-4">
-                  <NuxtLink to="/meusite/settings" class="admin-header_link flex items-center px-3 py-2 rounded-2xl" @click.native="isMenuOpen = false">
+                  <NuxtLink to="/meusite" class="admin-header_link flex items-center px-3 py-2 rounded-2xl" @click.native="isMenuOpen = false">
                     Home
                   </NuxtLink>
                   <NuxtLink to="/meusite/create" class="admin-header_link flex items-center px-3 py-2 rounded-2xl" @click.native="isMenuOpen = false">

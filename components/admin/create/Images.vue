@@ -8,7 +8,15 @@ const register = useRegisterStore();
 const images = ref<File[]>([]);
 const isDragging = ref(false);
 const previewImages = ref<string[]>([]);
+const coverImageIndex = ref<number | null>(null);
 
+function handleCoverSelection(index: number) {
+  if (coverImageIndex.value === index) {
+    coverImageIndex.value = null; // Desseleciona se já estiver selecionado
+  } else {
+    coverImageIndex.value = index; // Seleciona a nova imagem como capa
+  }
+}
 function handleDragOver(event: DragEvent) {
   event.preventDefault();
   isDragging.value = true;
@@ -68,47 +76,61 @@ async function handleSubmit() {
 </script>
 
 <template>
-  <div class="admin-create_images pb-10 text-3xl flex flex-row justify-center items-center w-full px-5">
-    <div class="flex flex-1 w-1/2">
-      <div class="flex flex-wrap mt-5">
-        <div v-for="(preview, index) in previewImages" :key="index" class="m-2">
-          <img :src="preview" alt="Preview" class="w-32 h-32 object-cover rounded-lg"/>
+  <div
+      class="admin-create_images shadow-lg bg-gray-300 pb-5 text-3xl flex flex-col md:flex-row justify-center items-center w-full px-5">
+
+    <div class="flex flex-1 md:w-1/2 mt-3 justify-center items-center">
+      <UCard>
+        <template #header>
+          <div class="flex flex-col items-center justify-center">
+            <h2 class="font-bold text-2xl mb-2 text-center">Carregar imagens</h2>
+            <span class="text-gray-500 text-xl text-center">Carregue as imagens do veículo e defina a capa.</span>
+          </div>
+        </template>
+
+        <div class="flex items-center justify-center w-full">
+          <label for="dropzone-file"
+                 class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100"
+                 :class="{ 'border-blue-500': isDragging }"
+                 @dragover="handleDragOver"
+                 @dragleave="handleDragLeave"
+                 @drop="handleDrop">
+            <div class="flex flex-col items-center justify-center pt-5 pb-6">
+              <UIcon name="i-ic:outline-cloud-upload" class="text-5xl text-gray-500"/>
+              <p class="mb-2 text-sm text-gray-500 dark:text-gray-400 text-center"><span
+                  class="font-semibold">Clique para carregar</span>
+                ou arraste e solte a imagem</p>
+              <p class="text-xs text-gray-500 dark:text-gray-400">PNG, JPG ou WEBP</p>
+            </div>
+            <input id="dropzone-file" type="file" class="hidden" multiple @change="handleFileChange"/>
+          </label>
         </div>
-      </div>
+
+        <template #footer>
+          <button @click="handleSubmit" class="bg-blue-500 text-white p-2 rounded-lg">Enviar imagens</button>
+        </template>
+      </UCard>
     </div>
 
-    <div class="flex flex-1 w-1/2">
-      <div>
-        <UCard>
-          <template #header>
-            <div class="flex flex-col items-center justify-center">
-              <h2 class="font-bold text-2xl mb-2">Carregar imagens</h2>
-              <span class="text-gray-500 text-md text-center">Carregue as imagens do veículo e defina a capa.</span>
-            </div>
-          </template>
+    <div class="flex flex-1 md:w-1/2 mt-2 ms-2 md:mt-0">
+      <div class="max-h-[28rem] overflow-y-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        <UIcon v-if="preview" class="w-20 h-20" name="i-material-symbols:image-outline"></UIcon>
+        <div v-for="(preview, index) in previewImages" :key="index" class="">
+          <UCard class="flex flex-col">
+            <img :src="preview" alt="Preview" class="object-contain h-40 w-full"/>
 
-          <div class="flex items-center justify-center w-full">
-            <label for="dropzone-file"
-                   class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100"
-                   :class="{ 'border-blue-500': isDragging }"
-                   @dragover="handleDragOver"
-                   @dragleave="handleDragLeave"
-                   @drop="handleDrop">
-              <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                <UIcon name="i-ic:outline-cloud-upload" class="text-5xl text-gray-500"/>
-                <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span
-                    class="font-semibold">Clique para carregar</span>
-                  ou arraste e solte a imagem</p>
-                <p class="text-xs text-gray-500 dark:text-gray-400">PNG, JPG ou WEBP</p>
+            <template #footer>
+              <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                  <input type="checkbox" :checked="coverImageIndex === index" @change="handleCoverSelection(index)" />
+                  <label class="ml-2 text-xl">Capa</label>
+                </div>
+                <UIcon name="i-material-symbols:delete-outline" class="text-red-500 cursor-pointer"
+                       @click="previewImages.splice(index, 1)"/>
               </div>
-              <input id="dropzone-file" type="file" class="hidden" multiple @change="handleFileChange"/>
-            </label>
-          </div>
-
-          <template #footer>
-            <button @click="handleSubmit" class="bg-blue-500 text-white p-2 rounded-lg">Enviar imagens</button>
-          </template>
-        </UCard>
+            </template>
+          </UCard>
+        </div>
       </div>
     </div>
   </div>
