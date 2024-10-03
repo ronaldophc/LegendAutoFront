@@ -31,7 +31,7 @@ onMounted(async () => {
     mapsLink.value = data.google_maps;
 
   } catch (e) {
-    console.error(e);
+    console.error("onMounted error: ", e);
   }
 
 });

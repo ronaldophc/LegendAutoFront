@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import {ref} from 'vue';
 import {useApi} from "~/composables/useApi";
+import {stringifyJSON} from "confbox";
+import {forEach} from "superjson/dist/util";
 
 const register = useRegisterStore();
 
@@ -11,7 +13,7 @@ const carInfo = ref<Car>({
   color: 'Branco',
   steering_type: 'Elétrico',
   transmission: 'Manual',
-  doors: '4',
+  doors: '0',
   manufacture_year: '2013',
   model_year: '2014',
   current_km: '12312',
@@ -23,12 +25,9 @@ const carInfo = ref<Car>({
   description: '123123'
 });
 
-const licensePlateError = ref<string>('');
+const errors = ref<Record<string, string[]>>({});
 
-const requiredFields = ['model', 'manufacturer', 'fuel_type',
-  'color', 'steering_type', 'transmission',
-  'doors', 'manufacture_year', 'model_year',
-  'current_km', 'price'];
+const requiredFields = ['model', 'manufacturer', 'price'];
 
 function validateFields() {
   const fields = Object.keys(carInfo.value);
@@ -55,9 +54,9 @@ function validateFields() {
 async function saveCar() {
   const type = register.vehicleType;
   const info = carInfo.value;
-
+  errors.value = {};
   try {
-    const { data, error } = await useApi('api/vehicles', {
+    const response = await useApi('api/vehicles', {
       method: 'POST',
       body: {
         type: type,
@@ -66,28 +65,33 @@ async function saveCar() {
       },
     });
 
-    const license_plate = error.value.data.errors.license_plate;
-
-    if (license_plate) {
-      const inputElement = document.getElementById('license_plate');
-      inputElement.classList.add('error-border');
-      licensePlateError.value = license_plate[0];
+    if (response.status.value === 'error') {
+      errors.value = response.error.value.data.errors || {};
+      verifyErrors();
       return;
     }
 
+    register.setVehicleInfo(carInfo.value);
 
-    // const status = res.status.value;
-    // console.log(res);
-    // if(status === 'error') return;
-    //
-    // register.setVehicleInfo(carInfo.value);
-    //
-    // setLinks();
+    setLinks();
 
-  } catch (e) {
-    console.log('error saveCar', e);
+  } catch (err) {
+    console.log('error saveCar', err);
+    console.log('error saveCar', err.statusCode);
   }
 
+}
+
+function verifyErrors() {
+  for (const field in errors.value) {
+    if (!errors.value.hasOwnProperty(field)) {
+      continue;
+    }
+    const inputElement = document.getElementById(field);
+    if (inputElement) {
+      inputElement.classList.add('error-border');
+    }
+  }
 }
 
 function setLinks() {
@@ -110,73 +114,85 @@ function nextStep() {
   <button  @click="saveCar">SaveCar</button>
   <div class="admin-create_vehicle pb-10 text-xl flex flex-col justify-center items-center w-full">
     <div class="admin-create_form grid grid-cols-1 mt-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-4xl">
-      <div class="flex flex-col">
+      <div class="model flex flex-col">
         <label for="model" class="mb-2 font-bold">Modelo</label>
         <input type="text"
                v-model="carInfo.model"
                id="model"
                class="px-2.5 pb-2.5 pt-4 w-full text-md rounded-lg border focus:outline-none"/>
+        <span v-if="errors.model" class="text-sm text-red-500">{{ errors.model[0] }}</span>
       </div>
-      <div class="flex flex-col">
+      <div class="manufacturer flex flex-col">
         <label for="manufacturer" class="mb-2 font-bold">Fabricante</label>
         <input type="text" v-model="carInfo.manufacturer" id="manufacturer"
                class="px-2.5 pb-2.5 pt-4 w-full text-md rounded-lg border focus:outline-none"/>
+        <span v-if="errors.manufacturer" class="text-sm text-red-500">{{ errors.manufacturer[0] }}</span>
       </div>
-      <div class="flex flex-col">
+      <div class="fuel_type flex flex-col">
         <label for="fuel_type" class="mb-2 font-bold">Combustível</label>
         <input type="text" v-model="carInfo.fuel_type" id="fuel_type"
                class="px-2.5 pb-2.5 pt-4 w-full text-md rounded-lg border focus:outline-none"/>
+        <span v-if="errors.fuel_type" class="text-sm text-red-500">{{ errors.fuel_type[0] }}</span>
       </div>
-      <div class="flex flex-col">
+      <div class="color flex flex-col">
         <label for="color" class="mb-2 font-bold">Cor</label>
         <input type="text" v-model="carInfo.color" id="color"
                class="px-2.5 pb-2.5 pt-4 w-full text-md rounded-lg border focus:outline-none"/>
+        <span v-if="errors.color" class="text-sm text-red-500">{{ errors.color[0] }}</span>
       </div>
-      <div class="flex flex-col">
+      <div class="steering_type flex flex-col">
         <label for="steering_type" class="mb-2 font-bold">Direção</label>
         <input type="text" v-model="carInfo.steering_type" id="steering_type"
                class="px-2.5 pb-2.5 pt-4 w-full text-md rounded-lg border focus:outline-none"/>
+        <span v-if="errors.steering_type" class="text-sm text-red-500">{{ errors.steering_type[0] }}</span>
       </div>
-      <div class="flex flex-col">
+      <div class="transmission flex flex-col">
         <label for="transmission" class="mb-2 font-bold">Transmissão</label>
         <input type="text" v-model="carInfo.transmission" id="transmission"
                class="px-2.5 pb-2.5 pt-4 w-full text-md rounded-lg border focus:outline-none"/>
+      <span v-if="errors.transmission" class="text-sm text-red-500">{{ errors.transmission[0] }}</span>
       </div>
-      <div class="flex flex-col">
+      <div class="doors flex flex-col">
         <label for="doors" class="mb-2 font-bold">Número de Portas</label>
         <input type="number" min="0" v-model="carInfo.doors" id="doors"
                class="px-2.5 pb-2.5 pt-4 w-full text-md rounded-lg border focus:outline-none"/>
+        <span v-if="errors.doors" class="text-sm text-red-500">{{ errors.doors[0] }}</span>
       </div>
-      <div class="flex flex-col">
+      <div class="manufacture_year flex flex-col">
         <label for="manufacture_year" class="mb-2 font-bold">Ano Fabricação</label>
         <input type="number" min="1900" v-model="carInfo.manufacture_year" id="manufacture_year"
                class="px-2.5 pb-2.5 pt-4 w-full text-md rounded-lg border focus:outline-none"/>
+        <span v-if="errors.manufacture_year" class="text-sm text-red-500">{{ errors.manufacture_year[0] }}</span>
       </div>
-      <div class="flex flex-col">
+      <div class="model_year flex flex-col">
         <label for="model_year" class="mb-2 font-bold">Ano Modelo</label>
         <input type="number" min="1900" v-model="carInfo.model_year" id="model_year"
                class="px-2.5 pb-2.5 pt-4 w-full text-md rounded-lg border focus:outline-none"/>
+        <span v-if="errors.model_year" class="text-sm text-red-500">{{ errors.model_year[0] }}</span>
       </div>
-      <div class="flex flex-col">
+      <div class="current_km flex flex-col">
         <label for="current_km" class="mb-2 font-bold">Quilometragem</label>
         <input type="number" min="0" v-model="carInfo.current_km" id="current_km"
                class="px-2.5 pb-2.5 pt-4 w-full text-md rounded-lg border focus:outline-none"/>
+        <span v-if="errors.current_km" class="text-sm text-red-500">{{ errors.current_km[0] }}</span>
       </div>
-      <div class="flex flex-col">
+      <div class="price flex flex-col">
         <label for="price" class="mb-2 font-bold">Preço</label>
         <input type="number" v-model="carInfo.price" id="price"
                class="px-2.5 pb-2.5 pt-4 w-full text-md rounded-lg border focus:outline-none"/>
+        <span v-if="errors.price" class="text-sm text-red-500">{{ errors.price[0] }}</span>
       </div>
-      <div class="flex flex-col">
+      <div class="license_plate flex flex-col">
         <label for="license_plate" class="mb-2 font-bold">Placa</label>
         <input type="text" v-model="carInfo.license_plate" id="license_plate"
                class="px-2.5 pb-2.5 pt-4 w-full text-md rounded-lg border focus:outline-none"/>
-        <span v-if="licensePlateError" class="text-red-500">{{ licensePlateError }}</span>
+        <span v-if="errors.license_plate" class="text-sm text-red-500">{{ errors.license_plate[0] }}</span>
       </div>
-      <div class="flex flex-col">
+      <div class="renavam flex flex-col">
         <label for="renavam" class="mb-2 font-bold">Renavam</label>
         <input type="text" v-model="carInfo.renavam" id="renavam"
                class="px-2.5 pb-2.5 pt-4 w-full text-md rounded-lg border focus:outline-none"/>
+        <span v-if="errors.renavam" class="text-sm text-red-500">{{ errors.renavam[0] }}</span>
       </div>
       <div class="flex flex-col sm:items-center sm:justify-center mt-5">
         <UCheckbox class="text-md sm:items-center sm:justify-center" label="Novidade" help="Aparecer como novidade"
@@ -185,10 +201,11 @@ function nextStep() {
                    v-model="carInfo.is_featured"
                    id="is_featured"/>
       </div>
-      <div class="flex flex-col">
+      <div class="description flex flex-col">
         <label for="description" class="mb-2 font-bold">Descrição</label>
         <textarea v-model="carInfo.description" id="description"
                   class="px-2.5 pb-2.5 pt-4 w-full text-md rounded-lg border focus:outline-none"></textarea>
+        <span v-if="errors.description" class="text-sm text-red-500">{{ errors.description[0] }}</span>
       </div>
       <div class="flex flex-col md:col-span-2 mt-5 items-center justify-center w-full">
         <button @click="nextStep"

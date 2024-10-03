@@ -24,9 +24,9 @@ export default defineNuxtConfig({
         },
         redirect: {
             keepRequestedRoute: false,
-            onLogin: '/meusite/settings',
-            onLogout: '/meusite',
-            onAuthOnly: '/meusite',
+            onLogin: '/meusite',
+            onLogout: '/meusite/login',
+            onAuthOnly: '/meusite/login',
             onGuestOnly: '/',
         },
         client: {
