@@ -18,11 +18,6 @@ const links = [{
   label: 'Carregar fotos do veículo',
   icon: 'i-material-symbols:counter-3-outline',
   active: false,
-}, {
-  id: 4,
-  label: 'Finalizar cadastro',
-  icon: 'i-material-symbols:counter-4-outline',
-  active: false,
 }];
 
 register.setLinks(links);

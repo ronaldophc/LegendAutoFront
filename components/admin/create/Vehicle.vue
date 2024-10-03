@@ -9,69 +9,85 @@ const carInfo = ref<Car>({
   manufacturer: 'Peugeot',
   fuel_type: 'Flex',
   color: 'Branco',
-  steering_type: '',
-  transmission: '',
-  doors: '',
+  steering_type: 'Elétrico',
+  transmission: 'Manual',
+  doors: '4',
   manufacture_year: '2013',
   model_year: '2014',
-  current_km: '',
+  current_km: '12312',
   price: '29000',
   is_new: true,
   is_featured: false,
   license_plate: '123123',
-  renavam: '',
-  description: ''
+  renavam: '123123',
+  description: '123123'
 });
 
-console.log(carInfo.value.model);
+const licensePlateError = ref<string>('');
+
+const requiredFields = ['model', 'manufacturer', 'fuel_type',
+  'color', 'steering_type', 'transmission',
+  'doors', 'manufacture_year', 'model_year',
+  'current_km', 'price'];
+
+function validateFields() {
+  const fields = Object.keys(carInfo.value);
+  let isValid = true;
+
+  fields.forEach(field => {
+    const inputElement = document.getElementById(field);
+    if (requiredFields.includes(field) && !carInfo.value[field]) {
+      console.log('error validate', field);
+      if (inputElement) {
+        inputElement.classList.add('error-border');
+      }
+      isValid = false;
+      return;
+    }
+    if (inputElement) {
+      inputElement.classList.remove('error-border');
+    }
+  });
+
+  return isValid;
+}
 
 async function saveCar() {
   const type = register.vehicleType;
-  const info = register.vehicleInfo;
-  const photos = register.vehiclePhotos;
-  console.log(type);
-  console.log(info);
-  console.log(photos);
-  console.log(...info);
-  const car = await useApi('api/vehicles', {
-    method: 'POST',
-    body: {
-      type: type,
-      ...info
-    }
-  })
-}
+  const info = carInfo.value;
 
-async function consoleLog() {
-  const type = register.vehicleType;
-  const info = register.vehicleInfo;
-  const photos = register.vehiclePhotos;
-  console.log(type);
-  console.log(info);
-  console.log(photos);
-  const car = await useApi('api/vehicles', {
-    method: 'POST',
-    body: {
-      type: type,
-      model: info.model,
-      manufacturer: info.manufacturer,
-      fuel_type: info.fuel_type,
-      color: info.color,
-      steering_type: info.steering_type,
-      transmission: info.transmission,
-      doors: info.doors,
-      manufacture_year: info.manufacture_year,
-      model_year: info.model_year,
-      current_km: info.current_km,
-      price: info.price,
-      is_new: info.is_new,
-      is_featured: info.is_featured,
-      license_plate: info.license_plate,
-      renavam: info.renavam,
-      description: info.description,
-      store_id: 1,
+  try {
+    const { data, error } = await useApi('api/vehicles', {
+      method: 'POST',
+      body: {
+        type: type,
+        ...info,
+        store_id: 1
+      },
+    });
+
+    const license_plate = error.value.data.errors.license_plate;
+
+    if (license_plate) {
+      const inputElement = document.getElementById('license_plate');
+      inputElement.classList.add('error-border');
+      licensePlateError.value = license_plate[0];
+      return;
     }
-  })
+
+
+    // const status = res.status.value;
+    // console.log(res);
+    // if(status === 'error') return;
+    //
+    // register.setVehicleInfo(carInfo.value);
+    //
+    // setLinks();
+
+  } catch (e) {
+    console.log('error saveCar', e);
+  }
+
 }
 
 function setLinks() {
@@ -80,13 +96,18 @@ function setLinks() {
 }
 
 function nextStep() {
-  register.setVehicleInfo(carInfo.value);
-  setLinks();
+  const validate = validateFields();
+
+  if (!validate) return;
+
+  saveCar();
+
 }
 
 </script>
 
 <template>
+  <button  @click="saveCar">SaveCar</button>
   <div class="admin-create_vehicle pb-10 text-xl flex flex-col justify-center items-center w-full">
     <div class="admin-create_form grid grid-cols-1 mt-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-4xl">
       <div class="flex flex-col">
@@ -94,8 +115,7 @@ function nextStep() {
         <input type="text"
                v-model="carInfo.model"
                id="model"
-               class="px-2.5 pb-2.5 pt-4 w-full text-md rounded-lg border focus:outline-none"
-               placeholder="Avenida Manoel Ribas - 554"/>
+               class="px-2.5 pb-2.5 pt-4 w-full text-md rounded-lg border focus:outline-none"/>
       </div>
       <div class="flex flex-col">
         <label for="manufacturer" class="mb-2 font-bold">Fabricante</label>
@@ -151,6 +171,7 @@ function nextStep() {
         <label for="license_plate" class="mb-2 font-bold">Placa</label>
         <input type="text" v-model="carInfo.license_plate" id="license_plate"
                class="px-2.5 pb-2.5 pt-4 w-full text-md rounded-lg border focus:outline-none"/>
+        <span v-if="licensePlateError" class="text-red-500">{{ licensePlateError }}</span>
       </div>
       <div class="flex flex-col">
         <label for="renavam" class="mb-2 font-bold">Renavam</label>
@@ -178,3 +199,9 @@ function nextStep() {
     </div>
   </div>
 </template>
+
+<style scoped>
+.error-border {
+  border: 1px solid red;
+}
+</style>

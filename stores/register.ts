@@ -6,6 +6,7 @@ export const useRegisterStore = defineStore('register', {
         vehicleType: '',
         vehicleInfo: {} as Car,
         vehiclePhotos: [] as File[],
+        vehicleId: 0,
         links: [] as Array<{ id: number; label: string; icon: string; active: boolean }>,
     }),
     actions: {
@@ -21,5 +22,8 @@ export const useRegisterStore = defineStore('register', {
         setLinks(links: Array<{ id: number; label: string; icon: string; active: boolean }>) {
             this.links = links;
         },
+        setVehicleId(id: number) {
+            this.vehicleId = id;
+        }
     },
 });

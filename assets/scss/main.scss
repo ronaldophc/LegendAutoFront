@@ -183,10 +183,25 @@ select {
   color: $black-color;
 }
 
+
+
 .admin-create {
+  &_images,
   &_vehicle,
   &_type {
     background-color: #ededee;
+  }
+
+  &_label {
+    border-width: 2px;
+    border-style: dashed;
+    border-color: #d1d5db;
+    background-color: #f9fafb;
+
+    &:hover {
+      background-color: #f3f4f6;
+    }
+
   }
 
   &_card {
@@ -221,18 +236,20 @@ select {
       }
     }
 
-    button {
+  }
 
-      color: #fff;
-      background-color: darken($primary-color, 5%);
-      border-color: darken($primary-color, 10%);
+  &_button {
 
-      &:hover {
-        background-color: $primary-color;
-        border-color: darken($primary-color, 5%);
-      }
+    color: #fff;
+    background-color: darken($primary-color, 5%);
+    border-color: darken($primary-color, 10%);
+
+    &:hover {
+      background-color: $primary-color;
+      border-color: darken($primary-color, 5%);
     }
   }
+
 }
 
 .admin-login {
