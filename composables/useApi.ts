@@ -1,15 +1,13 @@
 import type {UseFetchOptions} from "#app";
-import {useCookie} from "#app/composables/cookie";
-import {useFetch} from "#app/composables/fetch";
 
-export function useApi<T>(path: string, options: UseFetchOptions<T> = {}) {
+export function useBaseApi<T>(path: string, options: UseFetchOptions<T> = {}) {
 
     let headers: any = {};
 
-    const token = useCookie('sanctum.token.cookie');
+    const token = useCookie("XSRF-TOKEN");
 
-    if (token) {
-        headers['Authorization'] = `Bearer ${token.value}`;
+    if (token.value) {
+        headers["X-XSRF-TOKEN"] = token.value as string;
     }
 
     const apiUrl = useRuntimeConfig().public.apiBase;
@@ -20,9 +18,17 @@ export function useApi<T>(path: string, options: UseFetchOptions<T> = {}) {
         ...options,
         headers: {
             ...headers,
-            ...options?.headers,
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
+            ...options?.headers
         },
     });
+}
+
+export async function useApi<T>(path: string, options: UseFetchOptions<T> = {}) {
+    const token = useCookie("XSRF-TOKEN");
+
+    if(!token.value){
+        await useBaseApi("/sanctum/csrf-cookie");
+    }
+
+    return useBaseApi(path, options);
 }

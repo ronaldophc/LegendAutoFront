@@ -1,14 +1,27 @@
-<!-- nuxt/components/admin/create/BreadCrumb.vue -->
 <script setup lang="ts">
-import { useRegisterStore } from '~/stores/register';
-import {ref} from "#imports";
+
+import { ref, onMounted, onUnmounted } from 'vue';
 
 const register = useRegisterStore();
-const isSmallScreen = ref(window.innerWidth < 900);
 
-window.addEventListener('resize', () => {
+const isSmallScreen = ref(false);
+
+if (process.client) {
   isSmallScreen.value = window.innerWidth < 900;
-});
+
+  const handleResize = () => {
+    isSmallScreen.value = window.innerWidth < 900;
+  };
+
+  onMounted(() => {
+    window.addEventListener('resize', handleResize);
+  });
+
+  onUnmounted(() => {
+    window.removeEventListener('resize', handleResize);
+  });
+}
+
 </script>
 
 <template>

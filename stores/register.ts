@@ -1,4 +1,3 @@
-// nuxt/stores/register.ts
 import { defineStore } from 'pinia';
 
 export const useRegisterStore = defineStore('register', {

@@ -1,7 +1,5 @@
 <script setup lang="ts">
 
-import {useApi} from "~/composables/useApi";
-
 const cars = ref([]);
 
 onMounted(async () => {

@@ -1,5 +1,4 @@
-<script lang="ts" setup>
-import {useSnackbar} from "vue3-snackbar";
+<script setup lang="ts">
 
 const snackbar = useSnackbar();
 

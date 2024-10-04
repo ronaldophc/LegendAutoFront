@@ -1,4 +1,3 @@
-// nuxt/types/Car.ts
 export interface Car {
     model: string;
     manufacturer: string;

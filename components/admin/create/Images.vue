@@ -1,9 +1,4 @@
-<!--suppress TypeScriptValidateTypes -->
 <script setup lang="ts">
-import {ref} from 'vue';
-import {useApiImage} from '~/composables/useApiImage';
-import {useRegisterStore} from '~/stores/register';
-import {useRouter} from "#vue-router";
 
 const register = useRegisterStore();
 const router = useRouter();

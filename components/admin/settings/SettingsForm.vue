@@ -1,7 +1,4 @@
-<script lang="ts" setup>
-import {ref} from 'vue';
-import {useApi} from "~/composables/useApi";
-import {useSnackbar} from "vue3-snackbar";
+<script setup lang="ts">
 
 const snackbar = useSnackbar();
 
@@ -55,17 +52,19 @@ async function onSave() {
       }),
     });
 
-    if(response.status !== 200) {
+    if(response.status.value !== 'success') {
       snackbar.add({
         type: 'error',
         text: 'Erro ao atualizar informações.',
       });
       return;
     }
+
     snackbar.add({
       type: 'success',
       text: 'Informações atualizadas com sucesso.',
     });
+
   } catch (e) {
     snackbar.add({
       type: 'error',

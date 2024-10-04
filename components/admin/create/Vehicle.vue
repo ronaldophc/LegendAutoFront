@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import {ref} from 'vue';
+
 import {useApiService} from "~/composables/useApiService";
 import type {Car} from "~/types/Car";
-import {useSnackbar} from "vue3-snackbar";
-import {useRegisterStore} from "~/stores/register";
 
 const snackbar = useSnackbar();
 const register = useRegisterStore();

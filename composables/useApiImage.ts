@@ -1,15 +1,16 @@
-import {useCookie} from "#app/composables/cookie";
-import {useFetch} from "#app/composables/fetch";
+import {useBaseApi} from "~/composables/useApi";
 
-export function useApiImage(formData: FormData) {
+export async function useApiImage(formData: FormData) {
 
     let headers: any = {};
 
-    const token = useCookie('sanctum.token.cookie');
+    const token = useCookie("XSRF-TOKEN");
 
-    if (token) {
-        headers['Authorization'] = `Bearer ${token.value}`;
+    if(!token.value){
+        await useBaseApi("/sanctum/csrf-cookie");
     }
+
+    headers["X-XSRF-TOKEN"] = token.value as string;
 
     const apiUrl = useRuntimeConfig().public.apiBase;
 

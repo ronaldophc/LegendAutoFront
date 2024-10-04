@@ -1,5 +1,4 @@
-<script lang="ts" setup>
-import {ref} from 'vue';
+<script setup lang="ts">
 
 const {logout} = useSanctumAuth();
 const router = useRouter();

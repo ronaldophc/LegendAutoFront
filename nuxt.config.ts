@@ -1,9 +1,7 @@
 import {defineNuxtConfig} from 'nuxt/config'
 
 export default defineNuxtConfig({
-    ssr: true,
     devtools: {enabled: true},
-    pages: true,
     modules: [
         'nuxt-auth-sanctum',
         '@nuxt/ui',
@@ -14,7 +12,7 @@ export default defineNuxtConfig({
     ],
     sanctum: {
         baseUrl: 'http://localhost:8001',
-        mode: 'token',
+        mode: 'cookie',
         redirectIfAuthenticated: false,
         redirectIfUnauthenticated: false,
         endpoints: {

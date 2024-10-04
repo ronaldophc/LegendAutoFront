@@ -1,14 +1,24 @@
-<script lang="ts" setup>
-import {ref} from 'vue';
-import SettingsForm from './SettingsForm.vue';
-import SettingsHours from './SettingsHours.vue';
+<script setup lang="ts">
+import { ref, onMounted, onUnmounted } from 'vue';
 
-const isSmallScreen = ref(window.innerWidth < 1025);
+const isSmallScreen = ref(false);
 const selectedComponent = ref('form');
 
-window.addEventListener('resize', () => {
+if (process.client) {
   isSmallScreen.value = window.innerWidth < 1025;
-});
+
+  const handleResize = () => {
+    isSmallScreen.value = window.innerWidth < 1025;
+  };
+
+  onMounted(() => {
+    window.addEventListener('resize', handleResize);
+  });
+
+  onUnmounted(() => {
+    window.removeEventListener('resize', handleResize);
+  });
+}
 
 const showForm = () => {
   selectedComponent.value = 'form';
@@ -28,10 +38,10 @@ const showHours = () => {
       </button>
     </div>
     <div v-if="!isSmallScreen || selectedComponent === 'form'" class="admin-settings_form flex-1 flex">
-      <SettingsForm/>
+      <AdminSettingsForm/>
     </div>
     <div v-if="!isSmallScreen || selectedComponent === 'hours'" class="admin-settings_hours flex-1 flex justify-center">
-      <SettingsHours/>
+      <AdminSettingsHours/>
     </div>
   </div>
 </template>

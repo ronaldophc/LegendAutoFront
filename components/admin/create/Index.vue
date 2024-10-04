@@ -1,5 +1,4 @@
-<script lang="ts" setup>
-import { useRegisterStore } from '~/stores/register';
+<script setup lang="ts">
 
 const register = useRegisterStore();
 
