@@ -1,10 +1,25 @@
 <script setup lang="ts">
 
+const cars = ref([]);
+
+onMounted(async () => {
+  const response = await useApi('api/vehicles', {
+    method: 'GET',
+  });
+  const data = response.data.value.data;
+  cars.value = data.data;
+  console.log(cars.value)
+});
+
+function carName(car) {
+  return car.manufacturer + ' ' + car.model;
+}
+
 </script>
 
 <template>
   <div class="min-h-screen bg-gray-100">
-    <main class="container mx-auto py-8">
+    <main class="p-3 mx-auto py-8">
       <div class="flex">
         <!-- Sidebar de Filtros -->
         <aside class="w-1/4 bg-white p-4 shadow rounded-lg">
@@ -13,10 +28,9 @@
 
           <div class="mb-4">
             <h3 class="font-semibold mb-2">Tipo de veículo</h3>
-            <div class="flex space-x-2">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
               <button class="bg-blue-500 text-white px-4 py-2 rounded">CARRO</button>
               <button class="bg-gray-200 px-4 py-2 rounded">MOTO</button>
-              <button class="bg-gray-200 px-4 py-2 rounded">UTILITÁRIO</button>
             </div>
           </div>
 
@@ -24,7 +38,7 @@
             <h3 class="font-semibold mb-2">Marca</h3>
             <input type="text" placeholder="Pesquisar marca" class="w-full p-2 border rounded mb-4">
             <!-- Listagem de Marcas (exemplo simplificado) -->
-            <div class="grid grid-cols-2 gap-2">
+            <div class="grid grid-cols-1 gap-2 md:grid-cols-2">
               <div class="bg-gray-200 p-2 rounded text-center">Audi</div>
               <div class="bg-gray-200 p-2 rounded text-center">BMW</div>
               <!-- Adicionar mais marcas -->
@@ -46,16 +60,16 @@
           <!-- Cartão de Veículo -->
           <div class="grid grid-cols-1 gap-4">
             <!-- Repetir este bloco para cada veículo -->
-            <div class="bg-white p-4 shadow rounded-lg flex items-center justify-between">
+            <div v-for="car in cars" :key="car.id" class="bg-white p-4 shadow rounded-lg flex items-center justify-between">
               <div class="flex items-center">
-                <img src="https://via.placeholder.com/150" alt="Imagem do Veículo" class="w-24 h-24 mr-4 rounded-lg">
+                <img :src="car.image_url || 'https://via.placeholder.com/150'" alt="Imagem do Veículo" class="w-24 h-24 mr-4 rounded-lg">
                 <div>
-                  <h3 class="text-lg font-bold">Nome do Veículo</h3>
-                  <p class="text-sm text-gray-600">Ano: 2019-2020 | 10,000 KM | Câmbio Automático</p>
+                  <h3 class="text-lg font-bold">{{ carName(car) }}</h3>
+                  <p class="text-sm text-gray-600">Ano: {{ car.model_year }} | {{ car.current_km }} KM</p>
                 </div>
               </div>
               <div>
-                <span class="text-xl font-bold">R$ 1.000.000</span>
+                <span class="text-xl font-bold">R$ {{ car.price }}</span>
                 <button class="bg-blue-500 text-white px-4 py-2 ml-4 rounded">Editar</button>
                 <button class="text-red-500 ml-2">Excluir</button>
               </div>

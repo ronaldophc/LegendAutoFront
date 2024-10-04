@@ -1,11 +1,13 @@
+<!--suppress TypeScriptValidateTypes -->
 <script setup lang="ts">
-import { ref } from 'vue';
-import { useApi } from '~/composables/useApi';
-import { useRegisterStore } from '~/stores/register';
+import {ref} from 'vue';
+import {useApi} from '~/composables/useApi';
+import {useApiImage} from '~/composables/useApiImage';
+import {useRegisterStore} from '~/stores/register';
 
 const register = useRegisterStore();
-
-const images = ref<File[]>([]);
+const router = useRouter();
+const images = ref([]);
 const isDragging = ref(false);
 const previewImages = ref<string[]>([]);
 const coverImageIndex = ref<number | null>(null);
@@ -17,6 +19,7 @@ function handleCoverSelection(index: number) {
   }
   coverImageIndex.value = index; // Seleciona a nova imagem como capa
 }
+
 function handleDragOver(event: DragEvent) {
   event.preventDefault();
   isDragging.value = true;
@@ -49,34 +52,22 @@ function insertImages(files: any[]) {
 }
 
 async function handleSubmit() {
-  const formData = new FormData();
-  images.value.forEach(image => {
-    formData.append('images[]', image);
-  });
+  const vehicleId = register.vehicleId; // Replace with the actual vehicle ID
+  for (const image of images.value) {
+    let formData = new FormData();
 
-  try {
-    const id = register.vehicleId;
-    const response = await useApi('api/vehicles/images', {
-      method: 'POST',
-      body: {
-        formData,
-        'vehicle_id': id,
-        'image_url': 'http://localhost:3000/storage/vehicles/1/',
-      },
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        'Accept': 'application/json',
-      }
-    });
-  } catch (error) {
-    console.error('Erro no upload:', error);
+    formData.append('image', image);
+    formData.append('vehicle_id', vehicleId.toString());
+    await useApiImage(formData);
   }
+  await router.push('/meusite');
 }
+
 </script>
 
 <template>
   <div
-    class="admin-create_images shadow-lg pb-5 text-3xl flex flex-col md:flex-row justify-center items-center w-full px-5">
+      class="admin-create_images shadow-lg pb-5 text-3xl flex flex-col md:flex-row justify-center items-center w-full px-5">
 
     <div class="flex flex-1 md:w-1/2 mt-3 justify-center items-center">
       <UCard>
@@ -89,21 +80,21 @@ async function handleSubmit() {
 
         <div class="flex items-center justify-center w-full">
           <label for="dropzone-file"
-            class="admin-create_label flex flex-col items-center justify-center w-full h-64 rounded-lg cursor-pointer"
-            :class="{ 'dragging': isDragging }" @dragover="handleDragOver" @dragleave="handleDragLeave"
-            @drop="handleDrop">
+                 class="admin-create_label flex flex-col items-center justify-center w-full h-64 rounded-lg cursor-pointer"
+                 :class="{ 'dragging': isDragging }" @dragover="handleDragOver" @dragleave="handleDragLeave"
+                 @drop="handleDrop">
             <div class="flex flex-col items-center justify-center pt-5 pb-6">
-              <UIcon name="i-ic:outline-cloud-upload" class="text-5xl text-gray-500" />
+              <UIcon name="i-ic:outline-cloud-upload" class="text-5xl text-gray-500"/>
 
               <p class="mb-2 text-sm text-gray-500 dark:text-gray-400 text-center">
                 <span class="font-semibold">
                   Clique para carregar
                 </span>
                 ou arraste e solte a imagem</p>
-                
+
               <p class="text-xs text-gray-500 dark:text-gray-400">PNG, JPG ou WEBP</p>
             </div>
-            <input id="dropzone-file" type="file" class="hidden" multiple @change="handleFileChange" />
+            <input id="dropzone-file" type="file" class="hidden" multiple @change="handleFileChange"/>
           </label>
         </div>
 
@@ -118,16 +109,16 @@ async function handleSubmit() {
         <!-- <UIcon v-if="preview" class="w-20 h-20" name="i-material-symbols:image-outline"></UIcon> -->
         <div v-for="(preview, index) in previewImages" :key="index" class="">
           <UCard class="flex flex-col">
-            <img :src="preview" alt="Preview" class="object-contain h-40 w-full" />
+            <img :src="preview" alt="Preview" class="object-contain h-40 w-full"/>
 
             <template #footer>
               <div class="flex justify-between items-center">
                 <div class="flex items-center">
-                  <input type="checkbox" :checked="coverImageIndex === index" @change="handleCoverSelection(index)" />
+                  <input type="checkbox" :checked="coverImageIndex === index" @change="handleCoverSelection(index)"/>
                   <label class="ml-2 text-xl">Capa</label>
                 </div>
                 <UIcon name="i-material-symbols:delete-outline" class="text-red-500 cursor-pointer"
-                  @click="previewImages.splice(index, 1)" />
+                       @click="previewImages.splice(index, 1)"/>
               </div>
             </template>
           </UCard>

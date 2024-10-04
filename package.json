@@ -18,7 +18,8 @@
     "nuxt-auth-sanctum": "^0.4.12",
     "nuxt-snackbar": "^1.1.2",
     "vue": "latest",
-    "vue-router": "latest"
+    "vue-router": "latest",
+    "vue3-snackbar": "^2.3.4"
   },
   "devDependencies": {
     "sass": "^1.79.3"

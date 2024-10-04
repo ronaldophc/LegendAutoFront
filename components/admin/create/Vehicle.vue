@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import {ref} from 'vue';
-import {useApi} from "~/composables/useApi";
-import {stringifyJSON} from "confbox";
-import {forEach} from "superjson/dist/util";
+import {useApiService} from "~/composables/useApiService";
 
+const snackbar = useSnackbar();
 const register = useRegisterStore();
 
 const carInfo = ref<Car>({
@@ -27,61 +26,6 @@ const carInfo = ref<Car>({
 
 const errors = ref<Record<string, string[]>>({});
 
-const requiredFields = ['model', 'manufacturer', 'price'];
-
-function validateFields() {
-  const fields = Object.keys(carInfo.value);
-  let isValid = true;
-
-  fields.forEach(field => {
-    const inputElement = document.getElementById(field);
-    if (requiredFields.includes(field) && !carInfo.value[field]) {
-      console.log('error validate', field);
-      if (inputElement) {
-        inputElement.classList.add('error-border');
-      }
-      isValid = false;
-      return;
-    }
-    if (inputElement) {
-      inputElement.classList.remove('error-border');
-    }
-  });
-
-  return isValid;
-}
-
-async function saveCar() {
-  const type = register.vehicleType;
-  const info = carInfo.value;
-  errors.value = {};
-  try {
-    const response = await useApi('api/vehicles', {
-      method: 'POST',
-      body: {
-        type: type,
-        ...info,
-        store_id: 1
-      },
-    });
-
-    if (response.status.value === 'error') {
-      errors.value = response.error.value.data.errors || {};
-      verifyErrors();
-      return;
-    }
-
-    register.setVehicleInfo(carInfo.value);
-
-    setLinks();
-
-  } catch (err) {
-    console.log('error saveCar', err);
-    console.log('error saveCar', err.statusCode);
-  }
-
-}
-
 function verifyErrors() {
   for (const field in errors.value) {
     if (!errors.value.hasOwnProperty(field)) {
@@ -99,19 +43,27 @@ function setLinks() {
   register.links[2].active = true;
 }
 
-function nextStep() {
-  const validate = validateFields();
 
-  if (!validate) return;
+async function nextStep() {
+  const response = await useApiService(carInfo.value, register.vehicleType, 1);
 
-  saveCar();
+  if (!response.success) {
+    errors.value = response.errors;
+    verifyErrors();
+    return;
+  }
 
+  register.setVehicleInfo(carInfo.value);
+  setLinks();
+  snackbar.add({
+    type: 'success',
+    text: 'Veiculo cadastrado com sucesso',
+  });
 }
 
 </script>
 
 <template>
-  <button  @click="saveCar">SaveCar</button>
   <div class="admin-create_vehicle pb-10 text-xl flex flex-col justify-center items-center w-full">
     <div class="admin-create_form grid grid-cols-1 mt-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-4xl">
       <div class="model flex flex-col">
@@ -150,7 +102,7 @@ function nextStep() {
         <label for="transmission" class="mb-2 font-bold">Transmissão</label>
         <input type="text" v-model="carInfo.transmission" id="transmission"
                class="px-2.5 pb-2.5 pt-4 w-full text-md rounded-lg border focus:outline-none"/>
-      <span v-if="errors.transmission" class="text-sm text-red-500">{{ errors.transmission[0] }}</span>
+        <span v-if="errors.transmission" class="text-sm text-red-500">{{ errors.transmission[0] }}</span>
       </div>
       <div class="doors flex flex-col">
         <label for="doors" class="mb-2 font-bold">Número de Portas</label>

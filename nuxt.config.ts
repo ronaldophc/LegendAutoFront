@@ -10,7 +10,7 @@ export default defineNuxtConfig({
         '@nuxt/icon',
         '@nuxtjs/tailwindcss',
         'nuxt-snackbar',
-        '@pinia/nuxt'
+        '@pinia/nuxt',
     ],
     sanctum: {
         baseUrl: 'http://localhost:8001',
