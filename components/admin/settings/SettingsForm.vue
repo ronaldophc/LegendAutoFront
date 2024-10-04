@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import {ref} from 'vue';
 import {useApi} from "~/composables/useApi";
+import {useSnackbar} from "vue3-snackbar";
 
 const snackbar = useSnackbar();
 

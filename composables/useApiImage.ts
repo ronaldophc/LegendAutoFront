@@ -1,20 +1,25 @@
-export async function useApiImage(formData: FormData) {
-    const token = useCookie('sanctum.token.cookie');
-    try {
-        await useFetch('http://localhost:8001/api/vehicles/images', {
-            method: 'POST',
-            credentials: 'include',
-            watch: false,
-            body: formData,
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Accept': 'application/json',
-            },
-        });
+import {useCookie} from "#app/composables/cookie";
+import {useFetch} from "#app/composables/fetch";
 
-        return { success: true };
-    } catch (error) {
-        console.error('Upload error:', error);
-        return { success: false };
+export function useApiImage(formData: FormData) {
+
+    let headers: any = {};
+
+    const token = useCookie('sanctum.token.cookie');
+
+    if (token) {
+        headers['Authorization'] = `Bearer ${token.value}`;
     }
+
+    const apiUrl = useRuntimeConfig().public.apiBase;
+
+    return useFetch<JSON>(apiUrl + 'api/vehicles/images', {
+        method: 'POST',
+        credentials: 'include',
+        body: formData,
+        headers: {
+            ...headers,
+            'Accept': 'application/json',
+        },
+    });
 }

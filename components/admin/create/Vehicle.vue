@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import {ref} from 'vue';
 import {useApiService} from "~/composables/useApiService";
+import type {Car} from "~/types/Car";
+import {useSnackbar} from "vue3-snackbar";
+import {useRegisterStore} from "~/stores/register";
 
 const snackbar = useSnackbar();
 const register = useRegisterStore();
@@ -19,7 +22,7 @@ const carInfo = ref<Car>({
   price: '29000',
   is_new: true,
   is_featured: false,
-  license_plate: '123123',
+  license_plate: '',
   renavam: '123123',
   description: '123123'
 });

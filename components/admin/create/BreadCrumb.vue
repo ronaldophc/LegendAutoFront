@@ -1,6 +1,7 @@
 <!-- nuxt/components/admin/create/BreadCrumb.vue -->
 <script setup lang="ts">
 import { useRegisterStore } from '~/stores/register';
+import {ref} from "#imports";
 
 const register = useRegisterStore();
 const isSmallScreen = ref(window.innerWidth < 900);

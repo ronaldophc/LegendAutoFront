@@ -1,4 +1,6 @@
 import type {UseFetchOptions} from "#app";
+import {useCookie} from "#app/composables/cookie";
+import {useFetch} from "#app/composables/fetch";
 
 export function useApi<T>(path: string, options: UseFetchOptions<T> = {}) {
 

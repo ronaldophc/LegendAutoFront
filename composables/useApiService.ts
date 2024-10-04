@@ -1,5 +1,6 @@
-// composables/useApiService.ts
 import { useApi } from '~/composables/useApi';
+import type {Car} from "~/types/Car";
+import {useRegisterStore} from "~/stores/register";
 
 export async function useApiService(info: Car, type: string, storeId: number) {
     try {

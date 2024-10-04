@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import {useSnackbar} from "vue3-snackbar";
+
 const snackbar = useSnackbar();
 
 const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];

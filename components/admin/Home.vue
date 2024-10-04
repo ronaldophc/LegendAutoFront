@@ -1,5 +1,7 @@
 <script setup lang="ts">
 
+import {useApi} from "~/composables/useApi";
+
 const cars = ref([]);
 
 onMounted(async () => {
@@ -8,7 +10,6 @@ onMounted(async () => {
   });
   const data = response.data.value.data;
   cars.value = data.data;
-  console.log(cars.value)
 });
 
 function carName(car) {

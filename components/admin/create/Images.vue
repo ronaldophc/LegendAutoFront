@@ -1,9 +1,9 @@
 <!--suppress TypeScriptValidateTypes -->
 <script setup lang="ts">
 import {ref} from 'vue';
-import {useApi} from '~/composables/useApi';
 import {useApiImage} from '~/composables/useApiImage';
 import {useRegisterStore} from '~/stores/register';
+import {useRouter} from "#vue-router";
 
 const register = useRegisterStore();
 const router = useRouter();
@@ -51,12 +51,16 @@ function insertImages(files: any[]) {
   });
 }
 
+
 async function handleSubmit() {
   const vehicleId = register.vehicleId; // Replace with the actual vehicle ID
   for (const image of images.value) {
     let formData = new FormData();
 
+    const is_cover = coverImageIndex.value === images.value.indexOf(image);
+
     formData.append('image', image);
+    formData.append('is_cover', is_cover);
     formData.append('vehicle_id', vehicleId.toString());
     await useApiImage(formData);
   }

@@ -1,3 +1,26 @@
+<script lang="ts" setup>
+
+const { login } = useSanctumAuth();
+
+const formEmail = ref('');
+const formPassword = ref('');
+const errorMessage = ref('');
+
+async function onLogin() {
+  const userCredentials = {
+    email: formEmail.value,
+    password: formPassword.value,
+  };
+  errorMessage.value = ''; // Limpa a mensagem de erro em caso de sucesso
+  try {
+    await login(userCredentials);
+  } catch (error) {
+    errorMessage.value = 'Login ou senha incorretos. Tente novamente.'; // Define a mensagem de erro
+  }
+}
+
+</script>
+
 <template>
 
   <!-- Logo -->
@@ -49,31 +72,3 @@
 
 </template>
 
-<script lang="ts" setup>
-definePageMeta({
-  sanctum: {
-    excluded: true,
-    guestOnly: true
-  }
-});
-
-const { login } = useSanctumAuth();
-
-const formEmail = ref('');
-const formPassword = ref('');
-const errorMessage = ref('');
-
-async function onLogin() {
-  const userCredentials = {
-    email: formEmail.value,
-    password: formPassword.value,
-  };
-  errorMessage.value = ''; // Limpa a mensagem de erro em caso de sucesso
-  try {
-    const response = await login(userCredentials);
-  } catch (error) {
-    errorMessage.value = 'Login ou senha incorretos. Tente novamente.'; // Define a mensagem de erro
-  }
-}
-
-</script>

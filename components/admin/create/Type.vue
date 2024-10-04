@@ -1,6 +1,7 @@
 <!-- nuxt/components/admin/create/Type.vue -->
 <script setup lang="ts">
 import { useRegisterStore } from '~/stores/register';
+import {useRouter} from "#vue-router";
 
 const register = useRegisterStore();
 const router = useRouter();
