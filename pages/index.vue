@@ -13,5 +13,3 @@ definePageMeta({
     <NuxtLink to="/meusite/login">Login Admin</NuxtLink>
   </UContainer>
 </template>
-
-<style scoped></style>

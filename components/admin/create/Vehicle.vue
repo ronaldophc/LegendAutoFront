@@ -1,67 +1,51 @@
 <script setup lang="ts">
-
-import {useApiService} from "~/composables/useApiService";
-import type {Car} from "~/types/Car";
-
+import type { Vehicle } from "~/types/Vehicle";
+import { useBreadCrumbStore } from "~/stores/breadCrumb";
+const breadCrumb = useBreadCrumbStore();
 const snackbar = useSnackbar();
 const register = useRegisterStore();
 
-const carInfo = ref<Car>({
-  model: 'Hb Active',
-  manufacturer: 'Peugeot',
-  fuel_type: 'Flex',
-  color: 'Branco',
-  steering_type: 'Elétrico',
-  transmission: 'Manual',
-  doors: '0',
-  manufacture_year: '2013',
-  model_year: '2014',
-  current_km: '12312',
-  price: '29000',
-  is_new: true,
-  is_featured: false,
-  license_plate: '',
-  renavam: '123123',
-  description: '123123'
-});
+// Constants
+let INIT_CAR_INFO: Vehicle = {model: 'Hb Active', manufacturer: 'Peugeot', fuel_type: 'Flex', color: 'Branco', steering_type: 'Elétrico', transmission: 'Manual', doors: '0', manufacture_year: '2013', model_year: '2014', current_km: '12312', price: '29000', is_new: true, is_featured: false, license_plate: '', renavam: '123123', description: '123123'};
 
+// Reactive variables
+const carInfo = ref<Vehicle>(INIT_CAR_INFO);
 const errors = ref<Record<string, string[]>>({});
 
-function verifyErrors() {
+// Helper functions
+function addErrorClassToFields() {
   for (const field in errors.value) {
-    if (!errors.value.hasOwnProperty(field)) {
-      continue;
-    }
-    const inputElement = document.getElementById(field);
-    if (inputElement) {
-      inputElement.classList.add('error-border');
+    if (errors.value.hasOwnProperty(field)) {
+      const inputElement = document.getElementById(field);
+      if (inputElement) {
+        inputElement.classList.add('error-border');
+      }
     }
   }
 }
 
-function setLinks() {
-  register.links[1].active = false;
-  register.links[2].active = true;
-}
-
-
-async function nextStep() {
-  const response = await useApiService(carInfo.value, register.vehicleType, 1);
-
+async function handleNextStep() {
+  const response = await useRegisterCar(carInfo.value, register.vehicleType, 1);
   if (!response.success) {
-    errors.value = response.errors;
-    verifyErrors();
+    errors.value = response['errors'];
+    addErrorClassToFields();
     return;
   }
+  proceedToNextStep();
+}
 
+function proceedToNextStep() {
   register.setVehicleInfo(carInfo.value);
-  setLinks();
+  breadCrumb.setActiveLink(3);
+  showSuccessSnackbar();
+}
+
+function showSuccessSnackbar() {
   snackbar.add({
     type: 'success',
     text: 'Veiculo cadastrado com sucesso',
   });
 }
-
 </script>
 
 <template>
@@ -161,7 +145,7 @@ async function nextStep() {
         <span v-if="errors.description" class="text-sm text-red-500">{{ errors.description[0] }}</span>
       </div>
       <div class="flex flex-col md:col-span-2 mt-5 items-center justify-center w-full">
-        <button @click="nextStep"
+        <button @click="handleNextStep"
                 class="admin-create_button my-2 rounded w-full border py-2 px-5 text-lg font-semibold shadow">
           Salvar
         </button>

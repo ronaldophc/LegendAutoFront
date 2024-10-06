@@ -27,6 +27,7 @@ const showForm = () => {
 const showHours = () => {
   selectedComponent.value = 'hours';
 };
+
 </script>
 
 <template>

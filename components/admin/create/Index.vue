@@ -1,34 +1,15 @@
 <script setup lang="ts">
+import { useBreadCrumbStore } from "~/stores/breadCrumb";
 
-const register = useRegisterStore();
-
-const links = [{
-  id: 1,
-  label: 'Tipo de veículo',
-  icon: 'i-material-symbols:counter-1-outline',
-  active: true,
-}, {
-  id: 2,
-  label: 'Informações do veículo',
-  icon: 'i-material-symbols:counter-2-outline',
-  active: false,
-}, {
-  id: 3,
-  label: 'Carregar fotos do veículo',
-  icon: 'i-material-symbols:counter-3-outline',
-  active: false,
-}];
-
-register.setLinks(links);
-
+const breadCrumb = useBreadCrumbStore();
 </script>
 
 <template>
-  <AdminCreateBreadCrumb/>
+  <AdminCreateBreadCrumb />
 
-  <AdminCreateType v-if="register.links[0].active === true"/>
+  <AdminCreateType v-if="breadCrumb.activeLink.id == '1'"/>
 
-  <AdminCreateVehicle v-if="register.links[1].active === true"/>
+  <AdminCreateVehicle v-if="breadCrumb.activeLink.id == '2'"/>
 
-  <AdminCreateImages v-if="register.links[2].active === true"/>
+  <AdminCreateImages v-if="breadCrumb.activeLink.id == '3'"/>
 </template>

@@ -27,7 +27,7 @@ export async function useApi<T>(path: string, options: UseFetchOptions<T> = {}) 
     const token = useCookie("XSRF-TOKEN");
 
     if(!token.value){
-        await useBaseApi("/sanctum/csrf-cookie");
+        await useBaseApi("sanctum/csrf-cookie");
     }
 
     return useBaseApi(path, options);

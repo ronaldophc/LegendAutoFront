@@ -1,5 +1,8 @@
 <script setup lang="ts">
 
+import {useBreadCrumbStore} from "~/stores/breadCrumb";
+
+const breadCrumb = useBreadCrumbStore();
 const {logout} = useSanctumAuth();
 const router = useRouter();
 const isMenuOpen = ref(false);
@@ -15,6 +18,11 @@ async function logoutfunc() {
 function toggleMenu() {
   isMenuOpen.value = !isMenuOpen.value;
 }
+
+function resetBreadCrumb() {
+  breadCrumb.setActiveLink(1);
+}
+
 </script>
 
 <template>
@@ -49,6 +57,7 @@ function toggleMenu() {
             </li>
             <li>
               <NuxtLink to="/meusite/create"
+                        @click="resetBreadCrumb"
                         class="flex items-center px-3 py-2 rounded-2xl">Cadastrar
               </NuxtLink>
             </li>
@@ -89,7 +98,8 @@ function toggleMenu() {
                     Home
                   </NuxtLink>
                   <NuxtLink to="/meusite/create" class="admin-header_link flex items-center px-3 py-2 rounded-2xl"
-                            @click.native="isMenuOpen = false">
+                            @click.native="isMenuOpen = false"
+                            @click="resetBreadCrumb">
                     Cadastrar
                   </NuxtLink>
                   <NuxtLink to="/meusite/settings" class="admin-header_link flex items-center px-3 py-2 rounded-2xl"

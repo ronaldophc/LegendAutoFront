@@ -1,74 +1,69 @@
 <script setup lang="ts">
+import {Ref, ref} from 'vue';
 
-const { login } = useSanctumAuth();
+const {login} = useSanctumAuth();
 
-const formEmail = ref('');
-const formPassword = ref('');
-const errorMessage = ref('');
+const formEmail: Ref<string> = ref('');
+const formPassword: Ref<string> = ref('');
+const errorMessage: Ref<string> = ref('');
+import logoSrc from '~/assets/images/logo.png';
 
-async function onLogin() {
-  const userCredentials = {
-    email: formEmail.value,
-    password: formPassword.value,
-  };
-  errorMessage.value = ''; // Limpa a mensagem de erro em caso de sucesso
-  try {
-    await login(userCredentials);
-  } catch (error) {
-    errorMessage.value = 'Login ou senha incorretos. Tente novamente.'; // Define a mensagem de erro
-  }
+function getUserCredentials(email: string, password: string): UserCredentials {
+  return {email, password};
 }
 
+async function handleLogin() {
+  const userCredentials = getUserCredentials(formEmail.value, formPassword.value);
+  try {
+    await login(userCredentials);
+    errorMessage.value = '';
+  } catch (error) {
+    errorMessage.value = 'Login ou senha incorretos. Tente novamente.';
+  }
+}
 </script>
 
 <template>
-
   <!-- Logo -->
-  <div class="mb-4">
-    <img src="../../assets/images/logo.png" alt="Logo"/>
+  <div class="logo-container mb-4">
+    <img :src="logoSrc" alt="Logo"/>
   </div>
-
-  <!-- Mensagem de Bem-vindo -->
-  <div class="w-full mt-8 text-2xl font-semibold lg:mt-0">
+  <!-- Welcome Message -->
+  <div class="welcome-message w-full mt-8 text-2xl font-semibold lg:mt-0">
     <div class="relative flex py-5 items-center">
       <hr class="admin-login_divider flex-grow border-t">
       <span class="admin-login_welcome flex-shrink mx-4 text-3xl">Bem-vindo</span>
       <hr class="admin-login_divider flex-grow border-t">
     </div>
   </div>
-  <p class="text-xl text-gray-400 text-center">
+  <p class="instruction-text text-xl text-gray-400 text-center">
     Preencha com seus dados para prosseguir
   </p>
-
-  <div v-if="errorMessage" class="text-red-500 text-center mb-4">
+  <div v-if="errorMessage" class="error-message text-red-500 text-center mb-4">
     {{ errorMessage }}
   </div>
-
-  <!-- Formulário -->
+  <!-- Form -->
   <form class="admin-login_form w-full max-w-xs">
-    <!-- Campo de Login -->
-    <div class="mb-4">
-      <label class="mb-2 block text-sm font-bold" for="username"> Email </label>
+    <!-- Email Field -->
+    <div class="field-container mb-4">
+      <label class="label mb-2 block text-sm font-bold" for="email"> Email </label>
       <input
-          class="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight shadow focus:outline-none"
-          id="username" type="text" placeholder="Email" v-model="formEmail"/>
+          class="input focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight shadow focus:outline-none"
+          id="email" type="text" placeholder="Email" v-model="formEmail"/>
     </div>
-
-    <!-- Campo de Senha -->
-    <div class="mb-6">
-      <label class="mb-2 block text-sm font-bold" for="password"> Senha </label>
+    <!-- Password Field -->
+    <div class="field-container mb-6">
+      <label class="label mb-2 block text-sm font-bold" for="password"> Senha </label>
       <input
-          class="focus:shadow-outline mb-3 w-full appearance-none rounded border px-3 py-2 leading-tight shadow focus:outline-none"
+          class="input focus:shadow-outline mb-3 w-full appearance-none rounded border px-3 py-2 leading-tight shadow focus:outline-none"
           id="password" type="password" placeholder="******" v-model="formPassword"/>
     </div>
-
-    <!-- Botão de Login -->
+    <!-- Login Button -->
     <button
-        class="w-full focus:shadow-outline rounded px-4 py-2 font-bold focus:outline-none border"
+        class="login-button w-full focus:shadow-outline rounded px-4 py-2 font-bold focus:outline-none border"
         type="button"
-        @click="onLogin">Entrar
+        @click="handleLogin()">Entrar
     </button>
   </form>
-
 </template>
 

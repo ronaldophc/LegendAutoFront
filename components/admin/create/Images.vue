@@ -57,7 +57,7 @@ async function handleSubmit() {
     formData.append('image', image);
     formData.append('is_cover', is_cover);
     formData.append('vehicle_id', vehicleId.toString());
-    await useApiImage(formData);
+    await useImageApi(formData);
   }
   await router.push('/meusite');
 }
