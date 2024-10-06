@@ -23,9 +23,7 @@ function toggleMenu() {
         class="admin-header_container flex flex-wrap justify-between items-center mx-auto max-w-screen-xl py-1">
       <div class="admin-header_section flex items-center">
         <UIcon name="i-heroicons:user-solid" class="admin-header_icon w-5 h-5 me-1"/>
-        <span class="text-lg admin-header_title-left">
-                    Administrativo
-                </span>
+        <span class="text-lg admin-header_title-left">Administrativo</span>
       </div>
 
       <a @click="logoutfunc" class="admin-header_logout text-lg hover:cursor-pointer flex items-center ">
@@ -86,16 +84,20 @@ function toggleMenu() {
 
               <div class="flex flex-col flex-1">
                 <div class="flex flex-col gap-4">
-                  <NuxtLink to="/meusite" class="admin-header_link flex items-center px-3 py-2 rounded-2xl" @click.native="isMenuOpen = false">
+                  <NuxtLink to="/meusite" class="admin-header_link flex items-center px-3 py-2 rounded-2xl"
+                            @click.native="isMenuOpen = false">
                     Home
                   </NuxtLink>
-                  <NuxtLink to="/meusite/create" class="admin-header_link flex items-center px-3 py-2 rounded-2xl" @click.native="isMenuOpen = false">
+                  <NuxtLink to="/meusite/create" class="admin-header_link flex items-center px-3 py-2 rounded-2xl"
+                            @click.native="isMenuOpen = false">
                     Cadastrar
                   </NuxtLink>
-                  <NuxtLink to="/meusite/settings" class="admin-header_link flex items-center px-3 py-2 rounded-2xl" @click.native="isMenuOpen = false">
+                  <NuxtLink to="/meusite/settings" class="admin-header_link flex items-center px-3 py-2 rounded-2xl"
+                            @click.native="isMenuOpen = false">
                     Configurações
                   </NuxtLink>
-                  <NuxtLink to="/meusite/settings" class="admin-header_link flex items-center px-3 py-2 rounded-2xl" @click.native="isMenuOpen = false">
+                  <NuxtLink to="/meusite/settings" class="admin-header_link flex items-center px-3 py-2 rounded-2xl"
+                            @click.native="isMenuOpen = false">
                     Ver site
                   </NuxtLink>
                 </div>

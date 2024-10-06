@@ -1,6 +1,6 @@
 <!-- layouts/admin.vue -->
 <template>
-  <div class="min-h-screen flex flex-col">
+  <div class="min-h-screen flex flex-col" v-bind="$attrs">
     <AdminHeader/>
     <slot />
     <NuxtSnackbar />
@@ -9,4 +9,9 @@
 
 <script setup lang="ts">
 import AdminHeader from '~/components/admin/AdminHeader.vue';
+import { defineComponent } from 'vue';
+
+defineComponent({
+  inheritAttrs: false,
+});
 </script>
