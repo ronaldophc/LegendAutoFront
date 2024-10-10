@@ -1,79 +1,74 @@
 <script setup lang="ts">
+const API_URL = 'api/stores/1';
+const STORE_NAME = 'Auto Legend';
 
 const snackbar = useSnackbar();
+const storeData = {
+  address: ref(''),
+  phoneComercial: ref(''),
+  phoneWhats: ref(''),
+  email: ref(''),
+  instagram: ref(''),
+  tiktok: ref(''),
+  facebook: ref(''),
+  mapsLink: ref(''),
+};
 
-const address = ref('');
-const phoneComercial = ref('');
-const phoneWhats = ref('');
-const email = ref('');
-const instagram = ref('');
-const tiktok = ref('');
-const facebook = ref('');
-const mapsLink = ref('');
-
-onMounted(async () => {
+async function fetchStoreData() {
   try {
-    const stores = await useApi('api/stores/1', {
-      method: 'GET',
-    });
-
+    const stores = await useApi(API_URL, { method: 'GET' });
     const data = stores.data._value.data;
-
-    address.value = data.address;
-    phoneComercial.value = data.phone;
-    phoneWhats.value = data.whatsapp;
-    email.value = data.email;
-    instagram.value = data.instagram;
-    tiktok.value = data.tiktok;
-    facebook.value = data.facebook;
-    mapsLink.value = data.google_maps;
-
-  } catch (e) {
-    console.error("onMounted error: ", e);
+    storeData.address.value = data.address;
+    storeData.phoneComercial.value = data.phone;
+    storeData.phoneWhats.value = data.whatsapp;
+    storeData.email.value = data.email;
+    storeData.instagram.value = data.instagram;
+    storeData.tiktok.value = data.tiktok;
+    storeData.facebook.value = data.facebook;
+    storeData.mapsLink.value = data.google_maps;
+  } catch (error) {
+    console.error("onMounted error: ", error);
   }
+}
 
-});
+onMounted(fetchStoreData);
 
 async function onSave() {
-
   try {
-    const response = await useApi('api/stores/1', {
+    const requestBody = {
+      address: storeData.address.value,
+      phone: storeData.phoneComercial.value,
+      whatsapp: storeData.phoneWhats.value,
+      email: storeData.email.value,
+      instagram: storeData.instagram.value,
+      tiktok: storeData.tiktok.value,
+      facebook: storeData.facebook.value,
+      google_maps: storeData.mapsLink.value,
+      name: STORE_NAME,
+    };
+
+    const response = await useApi(API_URL, {
       method: 'PUT',
-      body: JSON.stringify({
-        address: address.value,
-        phone: phoneComercial.value,
-        whatsapp: phoneWhats.value,
-        email: email.value,
-        instagram: instagram.value,
-        tiktok: tiktok.value,
-        facebook: facebook.value,
-        google_maps: mapsLink.value,
-        name: 'Auto Legend',
-      }),
+      body: JSON.stringify(requestBody),
     });
 
-    if(response.status.value !== 'success') {
-      snackbar.add({
-        type: 'error',
-        text: 'Erro ao atualizar informações.',
-      });
-      return;
-    }
+    const snackbarMessage = {
+      type: response.status.value === 'success' ? 'success' : 'error',
+      text: response.status.value === 'success'
+          ? 'Informações atualizadas com sucesso.'
+          : 'Erro ao atualizar informações.',
+    };
 
-    snackbar.add({
-      type: 'success',
-      text: 'Informações atualizadas com sucesso.',
-    });
+    snackbar.add(snackbarMessage);
 
-  } catch (e) {
+  } catch (error) {
     snackbar.add({
       type: 'error',
       text: 'Erro ao atualizar informações.',
     });
-    console.error(e);
+    console.error(error);
   }
 }
-
 </script>
 
 <template>
@@ -84,7 +79,7 @@ async function onSave() {
     <div class="flex flex-col gap-4">
       <div class="relative w-full flex justify-center">
         <input type="text"
-               v-model="address"
+               v-model="storeData.address.value"
                class="px-2.5 pb-2.5 pt-4 w-[90vw] w-full text-sm rounded-lg border focus:outline-none focus:ring-0 peer"
                id="address"
                placeholder="Avenida Manoel Ribas - 554"/>
@@ -96,7 +91,7 @@ async function onSave() {
 
       <div class="relative w-full flex justify-center">
         <input type="text"
-               v-model="phoneComercial"
+               v-model="storeData.phoneComercial.value"
                class="px-2.5 pb-2.5 pt-4 w-[90vw] w-full text-sm rounded-lg border focus:outline-none focus:ring-0 peer"
                id="phone_comercial"
                placeholder="+55 (**) ****-****"/>
@@ -108,7 +103,7 @@ async function onSave() {
 
       <div class="relative w-full flex justify-center">
         <input type="text"
-               v-model="phoneWhats"
+               v-model="storeData.phoneWhats.value"
                class="px-2.5 pb-2.5 pt-4 w-[90vw] w-full text-sm rounded-lg border focus:outline-none focus:ring-0 peer"
                id="phone_whats"
                placeholder="+55 (**) ****-****"/>
@@ -120,7 +115,7 @@ async function onSave() {
 
       <div class="relative w-full flex justify-center">
         <input type="text"
-               v-model="email"
+               v-model="storeData.email.value"
                class="px-2.5 pb-2.5 pt-4 w-[90vw] w-full text-sm rounded-lg border focus:outline-none focus:ring-0 peer"
                id="email"
                placeholder="exemplo@gmail.com"/>
@@ -132,7 +127,7 @@ async function onSave() {
 
       <div class="relative w-full flex justify-center">
         <input type="text"
-               v-model="instagram"
+               v-model="storeData.instagram.value"
                class="px-2.5 pb-2.5 pt-4 w-[90vw] w-full text-sm rounded-lg border focus:outline-none focus:ring-0 peer"
                id="instagram"
                placeholder="https://www.instagram.com/exemplo"/>
@@ -144,7 +139,7 @@ async function onSave() {
 
       <div class="relative w-full flex justify-center">
         <input type="text"
-               v-model="tiktok"
+               v-model="storeData.tiktok.value"
                class="px-2.5 pb-2.5 pt-4 w-[90vw] w-full text-sm rounded-lg border focus:outline-none focus:ring-0 peer"
                id="tiktok"
                placeholder="https://www.tiktok.com/@exemplo"/>
@@ -156,7 +151,7 @@ async function onSave() {
 
       <div class="relative w-full flex justify-center">
         <input type="text"
-               v-model="facebook"
+               v-model="storeData.facebook.value"
                class="px-2.5 pb-2.5 pt-4 w-[90vw] w-full text-sm rounded-lg border focus:outline-none focus:ring-0 peer"
                id="facebook"
                placeholder="https://www.facebook.com/exemplo"/>
@@ -168,7 +163,7 @@ async function onSave() {
 
       <div class="relative w-full flex justify-center">
         <input type="text"
-               v-model="mapsLink"
+               v-model="storeData.mapsLink.value"
                class="px-2.5 pb-2.5 pt-4 w-[90vw] w-full text-sm rounded-lg border focus:outline-none focus:ring-0 peer"
                id="maps_link"
                placeholder="https://maps.app.goo.gl/KpcrmYkn4HaZYNkm9"/>

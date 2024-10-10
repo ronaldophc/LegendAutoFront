@@ -5,12 +5,13 @@ export default <Partial<Config>> {
         'docs/content/**/*.md'
     ],
     theme: {
-        extend: {
-          screens: {
-            'lg-custom': '1000px',
-          },
+      extend: {
+        screens: {
+          'lg-custom': '1000px',
+          'ssm': '321px',
         },
       },
-      variants: {},
-      plugins: [],
+    },
+    variants: {},
+    plugins: [],
 }

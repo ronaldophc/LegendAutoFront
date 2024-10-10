@@ -7,9 +7,9 @@ const breadCrumb = useBreadCrumbStore();
 <template>
   <AdminCreateBreadCrumb />
 
-  <AdminCreateType v-if="breadCrumb.activeLink.id == '1'"/>
+  <AdminCreateType v-if="breadCrumb.activeLink.id === 1" />
 
-  <AdminCreateVehicle v-if="breadCrumb.activeLink.id == '2'"/>
+  <AdminCreateVehicle v-if="breadCrumb.activeLink.id === 2" />
 
-  <AdminCreateImages v-if="breadCrumb.activeLink.id == '3'"/>
+  <AdminCreateImages v-if="breadCrumb.activeLink.id === 3" />
 </template>

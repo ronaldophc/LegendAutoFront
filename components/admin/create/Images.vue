@@ -1,72 +1,64 @@
 <script setup lang="ts">
-
-const register = useRegisterStore();
+const registerStore = useRegisterStore(); // Renamed for better understanding
 const router = useRouter();
-const images = ref([]);
-const isDragging = ref(false);
+const files = ref([]); // Renamed for better understanding
+const isDraggingOver = ref(false); // Renamed for better understanding
 const previewImages = ref<string[]>([]);
 const coverImageIndex = ref<number | null>(null);
+const DESTINATION_ROUTE = '/meusite'; // Extracted constant
 
 function handleCoverSelection(index: number) {
-  if (coverImageIndex.value === index) {
-    coverImageIndex.value = null; // Desseleciona se já estiver selecionado
-    return;
-  }
-  coverImageIndex.value = index; // Seleciona a nova imagem como capa
+  coverImageIndex.value = coverImageIndex.value === index ? null : index;
 }
 
 function handleDragOver(event: DragEvent) {
   event.preventDefault();
-  isDragging.value = true;
+  isDraggingOver.value = true;
 }
 
 function handleDragLeave() {
-  isDragging.value = false;
+  isDraggingOver.value = false;
 }
 
 function handleDrop(event: DragEvent) {
   event.preventDefault();
-  isDragging.value = false;
-
-  const files = Array.from(event.dataTransfer?.files || []);
-  insertImages(files);
+  isDraggingOver.value = false;
+  processFiles(Array.from(event.dataTransfer?.files || []));
 }
 
 function handleFileChange(event: Event) {
-  const files = Array.from((event.target as HTMLInputElement).files || []);
-  insertImages(files);
+  processFiles(Array.from((event.target as HTMLInputElement).files || []));
 }
 
-function insertImages(files: any[]) {
-  files.forEach(file => {
+function processFiles(newFiles: File[]) { // Extracted Function
+  newFiles.forEach(file => {
     if (file.type.startsWith('image/')) {
-      images.value.push(file);
-      previewImages.value.push(URL.createObjectURL(file)); // Para exibir a imagem carregada
+      files.value.push(file);
+      previewImages.value.push(URL.createObjectURL(file));
     }
   });
 }
 
-
 async function handleSubmit() {
-  const vehicleId = register.vehicleId; // Replace with the actual vehicle ID
-  for (const image of images.value) {
-    let formData = new FormData();
-
-    const is_cover = coverImageIndex.value === images.value.indexOf(image);
-
-    formData.append('image', image);
-    formData.append('is_cover', is_cover);
-    formData.append('vehicle_id', vehicleId.toString());
-    await useImageApi(formData);
+  const vehicleId = registerStore.vehicleId; // Use registerStore for better understanding
+  for (const file of files.value) {
+    await uploadImage(file, coverImageIndex.value === files.value.indexOf(file), vehicleId);
   }
-  await router.push('/meusite');
+  await router.push(DESTINATION_ROUTE);
 }
 
+async function uploadImage(file: File, isCover: boolean, vehicleId: number) { // Extracted Function
+  let formData = new FormData();
+  formData.append('image', file);
+  formData.append('is_cover', isCover.toString());
+  formData.append('vehicle_id', vehicleId.toString());
+  await useImageApi(formData);
+}
 </script>
 
 <template>
   <div
-      class="admin-create_images shadow-lg pb-5 text-3xl flex flex-col md:flex-row justify-center items-center w-full px-5">
+    class="admin-create_images shadow-lg pb-5 text-3xl flex flex-col md:flex-row justify-center items-center w-full px-5">
 
     <div class="flex flex-1 md:w-1/2 mt-3 justify-center items-center">
       <UCard>
@@ -79,21 +71,22 @@ async function handleSubmit() {
 
         <div class="flex items-center justify-center w-full">
           <label for="dropzone-file"
-                 class="admin-create_label flex flex-col items-center justify-center w-full h-64 rounded-lg cursor-pointer"
-                 :class="{ 'dragging': isDragging }" @dragover="handleDragOver" @dragleave="handleDragLeave"
-                 @drop="handleDrop">
+            class="admin-create_label flex flex-col items-center justify-center w-full h-64 rounded-lg cursor-pointer"
+            :class="{ 'dragging': isDraggingOver }" @dragover="handleDragOver" @dragleave="handleDragLeave"
+            @drop="handleDrop">
             <div class="flex flex-col items-center justify-center pt-5 pb-6">
-              <UIcon name="i-ic:outline-cloud-upload" class="text-5xl text-gray-500"/>
+              <UIcon name="i-ic:outline-cloud-upload" class="text-5xl text-gray-500" />
 
               <p class="mb-2 text-sm text-gray-500 dark:text-gray-400 text-center">
                 <span class="font-semibold">
                   Clique para carregar
                 </span>
-                ou arraste e solte a imagem</p>
+                ou arraste e solte a imagem
+              </p>
 
               <p class="text-xs text-gray-500 dark:text-gray-400">PNG, JPG ou WEBP</p>
             </div>
-            <input id="dropzone-file" type="file" class="hidden" multiple @change="handleFileChange"/>
+            <input id="dropzone-file" type="file" class="hidden" multiple @change="handleFileChange" />
           </label>
         </div>
 
@@ -108,16 +101,16 @@ async function handleSubmit() {
         <!-- <UIcon v-if="preview" class="w-20 h-20" name="i-material-symbols:image-outline"></UIcon> -->
         <div v-for="(preview, index) in previewImages" :key="index" class="">
           <UCard class="flex flex-col">
-            <img :src="preview" alt="Preview" class="object-contain h-40 w-full"/>
+            <img :src="preview" alt="Preview" class="object-contain h-40 w-full" />
 
             <template #footer>
               <div class="flex justify-between items-center">
                 <div class="flex items-center">
-                  <input type="checkbox" :checked="coverImageIndex === index" @change="handleCoverSelection(index)"/>
+                  <input type="checkbox" :checked="coverImageIndex === index" @change="handleCoverSelection(index)" />
                   <label class="ml-2 text-xl">Capa</label>
                 </div>
                 <UIcon name="i-material-symbols:delete-outline" class="text-red-500 cursor-pointer"
-                       @click="previewImages.splice(index, 1)"/>
+                  @click="previewImages.splice(index, 1)" />
               </div>
             </template>
           </UCard>
