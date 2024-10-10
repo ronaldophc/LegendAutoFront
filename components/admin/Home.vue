@@ -26,7 +26,38 @@ async function fetchCarImage(car) {
   return car_default;
 }
 
+const fallbackCars = [
+  {
+    id: 1,
+    name: 'Carro Exemplo 1',
+    model_year: 2020,
+    price: 50000,
+    current_km: 10000,
+    type: 'CAR',
+    image_url: 'https://via.placeholder.com/150'
+  },
+  {
+    id: 2,
+    name: 'Carro Exemplo 2',
+    model_year: 2019,
+    price: 45000,
+    current_km: 15000,
+    type: 'CAR',
+    image_url: 'https://via.placeholder.com/150'
+  },
+  {
+    id: 3,
+    name: 'Moto Exemplo 1',
+    model_year: 2021,
+    price: 30000,
+    current_km: 5000,
+    type: 'MOTORCYCLE',
+    image_url: 'https://via.placeholder.com/150'
+  }
+];
+
 async function requestCars<T>(url: string, options: UseFetchOptions<T> = {}) {
+  try {
   const response = await useFetch(url, {
     credentials: 'include',
     params: {
@@ -50,6 +81,9 @@ async function requestCars<T>(url: string, options: UseFetchOptions<T> = {}) {
   nextUrl.value = data.next_page_url;
   prevUrl.value = data.prev_page_url;
   cars.value = data.data;
+  } catch (error) {
+    cars.value = fallbackCars;
+  }
 
   for (const car of cars.value) {
     car.image_url = await fetchCarImage(car);
@@ -78,7 +112,8 @@ async function handleOrderChange(criteria: string) {
 }
 
 function carName(car) {
-  return `${car.manufacturer} ${car.model}`;
+  // return `${car.manufacturer} ${car.model}`;
+  return car.name;
 }
 
 async function deleteCar(car) {
@@ -157,7 +192,7 @@ if (process.client) {
             <div class="grid grid-cols-1 xl:grid-cols-2 gap-2">
               <!-- Repetir este bloco para cada veículo -->
               <div v-for="car in cars" :key="car.id" class="bg-white p-1 shadow rounded-lg flex items-center">
-                <div class="flex items-center  w-2/3">
+                <div class="flex items-center w-2/3">
                   <img :src="car.image_url" alt="Imagem do Veículo" class="w-20 h-20 mr-4 rounded-lg">
                   <div>
                     <h3 class="lg:text-lg font-bold">{{ carName(car) }}</h3>
