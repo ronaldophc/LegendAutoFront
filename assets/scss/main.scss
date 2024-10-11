@@ -181,7 +181,17 @@ select {
   font-size: 16px;
   font-family: "Nunito" !important;
   color: $black-color;
+}
 
+.button {
+  color: #fff;
+  background-color: darken($primary-color, 5%);
+  border-color: darken($primary-color, 10%);
+
+  &:hover {
+    background-color: $primary-color;
+    border-color: darken($primary-color, 5%);
+  }
 }
 
 .admin-home {
@@ -239,37 +249,10 @@ select {
         color: $primary-color;
       }
     }
-
   }
-
-  &_button {
-    color: #fff;
-    background-color: darken($primary-color, 5%);
-    border-color: darken($primary-color, 10%);
-
-    &:hover {
-      background-color: $primary-color;
-      border-color: darken($primary-color, 5%);
-    }
-  }
-
 }
 
 .admin-login {
-
-  &_form {
-    button {
-
-      color: #fff;
-      background-color: darken($primary-color, 5%);
-      border-color: darken($primary-color, 10%);
-
-      &:hover {
-        background-color: $primary-color;
-        border-color: darken($primary-color, 5%);
-      }
-    }
-  }
 
   &_image {
     background-color: darken($primary-color, 5%);
@@ -284,20 +267,9 @@ select {
     color: darken($primary-color, 5%); // Define a cor do texto de boas-vindas
   }
 
-
 }
 
 .admin-settings {
-
-  &_button {
-    background-color: $primary-color;
-    color: #fff;
-    border: none;
-
-    &:hover {
-      background-color: darken($primary-color, 5%);
-    }
-  }
 
   &_body {
     background-color: #fff;
@@ -337,8 +309,6 @@ select {
       color: rgb(107 114 128);
       background-color: #fff;
     }
-
-
   }
 }
 

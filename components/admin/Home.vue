@@ -207,7 +207,7 @@ if (process.client) {
                 <div class="md:flex flex-col items-center justify-center w-1/3">
                   <span class="lg:text-xl lg:font-bold font-semibold flex justify-center items-center">R$ {{ car.price }}</span>
                   <div class="flex flex-row justify-center items-center">
-                    <button class="bg-blue-500 text-white px-2 lg:px-4 py-2 ml-4 rounded">Editar</button>
+                    <button class="button px-2 lg:px-4 py-2 ml-4 rounded">Editar</button>
                     <UIcon name="i-material-symbols:delete-outline" class="text-red-500 cursor-pointer p-3 m-2" @click="deleteCar(car)" />
                   </div>
                 </div>

@@ -91,7 +91,7 @@ async function uploadImage(file: File, isCover: boolean, vehicleId: number) { //
         </div>
 
         <template #footer>
-          <button @click="handleSubmit" class="admin-create_button p-2 rounded-lg">Enviar imagens</button>
+          <button @click="handleSubmit" class="button p-2 rounded-lg">Enviar imagens</button>
         </template>
       </UCard>
     </div>

@@ -146,7 +146,7 @@ function showSuccessSnackbar() {
       </div>
       <div class="flex flex-col md:col-span-2 mt-5 items-center justify-center w-full">
         <button @click="handleNextStep"
-                class="admin-create_button my-2 rounded w-full border py-2 px-5 text-lg font-semibold shadow">
+                class="button my-2 rounded w-full border py-2 px-5 text-lg font-semibold shadow">
           Salvar
         </button>
       </div>

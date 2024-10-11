@@ -73,14 +73,14 @@ async function onSave() {
 
 <template>
   <div class="admin-settings_form mx-auto flex w-full max-w-sm flex-col">
-    <div class="mx-auto my-10 flex font-semibold text-2xl">
+    <div class="mx-auto my-5 flex font-semibold text-2xl">
       Alterar informações
     </div>
     <div class="flex flex-col gap-4">
       <div class="relative w-full flex justify-center">
         <input type="text"
                v-model="storeData.address.value"
-               class="px-2.5 pb-2.5 pt-4 w-[90vw] w-full text-sm rounded-lg border focus:outline-none focus:ring-0 peer"
+               class="px-2.5 pb-2.5 pt-4 w-full text-sm rounded-lg border focus:outline-none focus:ring-0 peer"
                id="address"
                placeholder="Avenida Manoel Ribas - 554"/>
         <label for="address"
@@ -92,7 +92,7 @@ async function onSave() {
       <div class="relative w-full flex justify-center">
         <input type="text"
                v-model="storeData.phoneComercial.value"
-               class="px-2.5 pb-2.5 pt-4 w-[90vw] w-full text-sm rounded-lg border focus:outline-none focus:ring-0 peer"
+               class="px-2.5 pb-2.5 pt-4 w-full text-sm rounded-lg border focus:outline-none focus:ring-0 peer"
                id="phone_comercial"
                placeholder="+55 (**) ****-****"/>
         <label for="phone_comercial"
@@ -104,7 +104,7 @@ async function onSave() {
       <div class="relative w-full flex justify-center">
         <input type="text"
                v-model="storeData.phoneWhats.value"
-               class="px-2.5 pb-2.5 pt-4 w-[90vw] w-full text-sm rounded-lg border focus:outline-none focus:ring-0 peer"
+               class="px-2.5 pb-2.5 pt-4 w-full text-sm rounded-lg border focus:outline-none focus:ring-0 peer"
                id="phone_whats"
                placeholder="+55 (**) ****-****"/>
         <label for="phone_whats"
@@ -116,7 +116,7 @@ async function onSave() {
       <div class="relative w-full flex justify-center">
         <input type="text"
                v-model="storeData.email.value"
-               class="px-2.5 pb-2.5 pt-4 w-[90vw] w-full text-sm rounded-lg border focus:outline-none focus:ring-0 peer"
+               class="px-2.5 pb-2.5 pt-4 w-full text-sm rounded-lg border focus:outline-none focus:ring-0 peer"
                id="email"
                placeholder="exemplo@gmail.com"/>
         <label for="email"
@@ -128,7 +128,7 @@ async function onSave() {
       <div class="relative w-full flex justify-center">
         <input type="text"
                v-model="storeData.instagram.value"
-               class="px-2.5 pb-2.5 pt-4 w-[90vw] w-full text-sm rounded-lg border focus:outline-none focus:ring-0 peer"
+               class="px-2.5 pb-2.5 pt-4 w-full text-sm rounded-lg border focus:outline-none focus:ring-0 peer"
                id="instagram"
                placeholder="https://www.instagram.com/exemplo"/>
         <label for="instagram"
@@ -140,7 +140,7 @@ async function onSave() {
       <div class="relative w-full flex justify-center">
         <input type="text"
                v-model="storeData.tiktok.value"
-               class="px-2.5 pb-2.5 pt-4 w-[90vw] w-full text-sm rounded-lg border focus:outline-none focus:ring-0 peer"
+               class="px-2.5 pb-2.5 pt-4 w-full text-sm rounded-lg border focus:outline-none focus:ring-0 peer"
                id="tiktok"
                placeholder="https://www.tiktok.com/@exemplo"/>
         <label for="tiktok"
@@ -152,7 +152,7 @@ async function onSave() {
       <div class="relative w-full flex justify-center">
         <input type="text"
                v-model="storeData.facebook.value"
-               class="px-2.5 pb-2.5 pt-4 w-[90vw] w-full text-sm rounded-lg border focus:outline-none focus:ring-0 peer"
+               class="px-2.5 pb-2.5 pt-4 w-full text-sm rounded-lg border focus:outline-none focus:ring-0 peer"
                id="facebook"
                placeholder="https://www.facebook.com/exemplo"/>
         <label for="facebook"
@@ -164,7 +164,7 @@ async function onSave() {
       <div class="relative w-full flex justify-center">
         <input type="text"
                v-model="storeData.mapsLink.value"
-               class="px-2.5 pb-2.5 pt-4 w-[90vw] w-full text-sm rounded-lg border focus:outline-none focus:ring-0 peer"
+               class="px-2.5 pb-2.5 pt-4 w-full text-sm rounded-lg border focus:outline-none focus:ring-0 peer"
                id="maps_link"
                placeholder="https://maps.app.goo.gl/KpcrmYkn4HaZYNkm9"/>
         <label for="maps_link"
@@ -174,7 +174,7 @@ async function onSave() {
       </div>
 
       <button
-          class="admin-settings_button my-2 rounded w-full border py-2 px-5 text-lg font-semibold shadow"
+          class="button my-2 rounded w-full border py-2 px-5 text-lg font-semibold shadow"
           @click="onSave">
         Salvar
       </button>

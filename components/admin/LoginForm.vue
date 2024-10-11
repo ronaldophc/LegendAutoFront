@@ -60,7 +60,7 @@ async function handleLogin() {
     </div>
     <!-- Login Button -->
     <button
-        class="login-button w-full focus:shadow-outline rounded px-4 py-2 font-bold focus:outline-none border"
+        class="button w-full focus:shadow-outline rounded px-4 py-2 font-bold focus:outline-none border"
         type="button"
         @click="handleLogin()">Entrar
     </button>
