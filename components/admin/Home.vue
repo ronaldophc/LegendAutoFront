@@ -8,6 +8,7 @@ const config = useRuntimeConfig().public;
 const API_ENDPOINT = config.apiBase + 'api/vehicles';
 const nextUrl = ref();
 const prevUrl = ref();
+const current_page = ref(1);
 const search = ref();
 
 const yearRange = ref([2000, 2025]);
@@ -57,30 +58,34 @@ const fallbackCars = [
 ];
 
 async function requestCars<T>(url: string, options: UseFetchOptions<T> = {}) {
+  if(!url) {
+    return;
+  }
   try {
-  const response = await useFetch(url, {
-    credentials: 'include',
-    params: {
-      year_min: yearRange.value[0],
-      year_max: yearRange.value[1],
-      price_min: priceRange.value[0],
-      price_max: priceRange.value[1],
-      km_min: kmRange.value[0],
-      km_max: kmRange.value[1],
-      type: vehicleType.value,
-      per_page: 10,
-      ...options.params,
-    },
-    headers: {
-      ...options?.headers,
-      'Accept': 'application/json',
-    },
-  });
+    const response = await useFetch(url, {
+      credentials: 'include',
+      params: {
+        year_min: yearRange.value[0],
+        year_max: yearRange.value[1],
+        price_min: priceRange.value[0],
+        price_max: priceRange.value[1],
+        km_min: kmRange.value[0],
+        km_max: kmRange.value[1],
+        type: vehicleType.value,
+        per_page: 10,
+        ...options.params,
+      },
+      headers: {
+        ...options?.headers,
+        'Accept': 'application/json',
+      },
+    });
 
-  const data = response.data.value.data;
-  nextUrl.value = data.next_page_url;
-  prevUrl.value = data.prev_page_url;
-  cars.value = data.data;
+    const data = response.data.value.data;
+    current_page.value = data.current_page;
+    nextUrl.value = data.next_page_url;
+    prevUrl.value = data.prev_page_url;
+    cars.value = data.data;
   } catch (error) {
     cars.value = fallbackCars;
   }
@@ -112,8 +117,8 @@ async function handleOrderChange(criteria: string) {
 }
 
 function carName(car) {
-  // return `${car.manufacturer} ${car.model}`;
-  return car.name;
+  return `${car.manufacturer} ${car.model}`;
+  // return car.name;
 }
 
 async function deleteCar(car) {
@@ -156,21 +161,21 @@ if (process.client) {
 </script>
 
 <template>
-  <div class="min-h-screen bg-gray-100">
+  <div class="admin-home min-h-screen">
     <main class="p-3 mx-auto py-8">
       <div class="flex" :class="[isSmallScreen ? 'flex-col' : 'flex-row']">
         <!-- Sidebar de filtros -->
-        <div v-if="isSmallScreen" class="flex flex-row justify-between md:px-4">
+        <div v-if="isSmallScreen" class="flex flex-row justify-between md:px-2">
           <button @click="toggleFilter" class="bg-white text-md p-2 rounded-lg shadow my-2">Filtros</button>
-          <AdminHomeDropDown @order-changed="handleOrderChange" />
+          <AdminHomeOrderDropdown @order-changed="handleOrderChange" />
         </div>
         <AdminFilters :showFilters="showFilters" :vehicleType="vehicleType" :yearRange="yearRange"
           :priceRange="priceRange" :kmRange="kmRange" :API_ENDPOINT="API_ENDPOINT"
           @update:vehicleType="vehicleType = $event" @update:yearRange="yearRange = $event"
-          @update:priceRange="priceRange = $event" @update:kmRange="kmRange = $event" @requestCars="requestCars" class="mb-2"/>
+          @update:priceRange="priceRange = $event" @update:kmRange="kmRange = $event" @requestCars="requestCars" class="mb-2 mx-2"/>
 
         <!-- Conteúdo Principal -->
-        <section class="md:px-4 w-full">
+        <section class="md:px-2 w-full">
           <div class="flex flex-col gap-2">
             <form class="flex w-full flex-col ssm:flex-row items-center justify-center gap-2 ssm:gap-0">
               <div class="flex flex-row items-center justify-center w-full">
@@ -180,12 +185,10 @@ if (process.client) {
                     <UIcon name="i-ic:twotone-search" class="m-auto"></UIcon>
                   </button>
                 </div>
-                <button class="flex items-center justify-center m-2">
-                  <UIcon class="w-5 h-5" name="i-material-symbols-light:directory-sync" />
-                </button>
+                  <UIcon @click="requestCars(API_ENDPOINT + '?page=1')" class="w-5 h-5 flex items-center justify-center m-2 hover:cursor-pointer" name="i-material-symbols-light:directory-sync" />
               </div>
               <div class="flex justify-end w-1/3" v-if="!isSmallScreen">
-                <AdminHomeDropDown @order-changed="handleOrderChange" />
+                <AdminHomeOrderDropdown @order-changed="handleOrderChange" />
               </div>
             </form>
             <!-- Cartão de Veículo -->
@@ -202,19 +205,19 @@ if (process.client) {
                   </div>
                 </div>
                 <div class="md:flex flex-col items-center justify-center w-1/3">
-                  <span class="lg:text-xl lg:font-bold font-semibold flex justify-center items-center">R$ {{ car.price
-                    }}</span>
-                  <div class="flex md:flex-row flex-col justify-center items-center">
+                  <span class="lg:text-xl lg:font-bold font-semibold flex justify-center items-center">R$ {{ car.price }}</span>
+                  <div class="flex flex-row justify-center items-center">
                     <button class="bg-blue-500 text-white px-2 lg:px-4 py-2 ml-4 rounded">Editar</button>
-                    <button @click="deleteCar(car)" class="text-red-500 ml-2">Excluir</button>
+                    <UIcon name="i-material-symbols:delete-outline" class="text-red-500 cursor-pointer p-3 m-2" @click="deleteCar(car)" />
                   </div>
                 </div>
               </div>
               <!-- Fim do bloco de veículo -->
             </div>
             <!-- Paginação -->
-            <div class="mt-6 flex justify-center">
+            <div class="mt-6 flex justify-center items-center gap-2">
               <button @click="requestCars(prevUrl)" class="p-2 border rounded mx-1">Anterior</button>
+              <span>{{current_page}}</span>
               <button @click="requestCars(nextUrl)" class="p-2 border rounded mx-1">Próxima</button>
             </div>
           </div>

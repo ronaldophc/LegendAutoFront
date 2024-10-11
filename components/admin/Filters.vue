@@ -1,12 +1,12 @@
 <template>
-  <aside class="md:w-2/5 xl:w-1/5 block bg-white p-4 shadow rounded-lg" :class="{'hidden': !showFilters}">
+  <aside class="xl:w-1/5 block bg-white p-4 shadow rounded-lg" :class="{'hidden': !showFilters}">
     <h2 class="text-xl font-bold mb-4">Filtros</h2>
     <div class="mb-4">
       <h3 class="font-semibold mb-2">Tipo de veículo</h3>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
-        <button @click="updateVehicleType('')" :class="buttonClass('')" class="px-4 py-2 rounded flex items-center justify-center">TODOS</button>
-        <button @click="updateVehicleType('CAR')" :class="buttonClass('CAR')" class="px-4 py-2 rounded flex items-center justify-center">CARRO</button>
-        <button @click="updateVehicleType('MOTORCYCLE')" :class="buttonClass('MOTORCYCLE')" class="px-4 py-2 rounded flex items-center justify-center">MOTO</button>
+        <button @click="updateVehicleType('')" :class="buttonClass('')" class="px-4 py-2 rounded text-sm flex items-center justify-center">TODOS</button>
+        <button @click="updateVehicleType('CAR')" :class="buttonClass('CAR')" class="px-4 py-2 rounded text-sm flex items-center justify-center">CARRO</button>
+        <button @click="updateVehicleType('MOTORCYCLE')" :class="buttonClass('MOTORCYCLE')" class="px-4 py-2 rounded text-sm flex items-center justify-center">MOTO</button>
       </div>
     </div>
     <div class="mb-4">

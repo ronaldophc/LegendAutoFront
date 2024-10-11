@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, defineEmits } from 'vue';
 
-const isOpen = ref(false);
 const dropDown = ref('Ordenar');
 const emit = defineEmits(['order-changed']);
 
