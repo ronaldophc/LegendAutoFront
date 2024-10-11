@@ -90,7 +90,7 @@ function showSuccessSnackbar() {
         <span v-if="errors.transmission" class="text-sm text-red-500">{{ errors.transmission[0] }}</span>
       </div>
       <div class="doors flex flex-col">
-        <label for="doors" class="mb-2 font-bold">Número de Portas</label>
+        <label for="doors" class="mb-2 font-bold">Portas</label>
         <input type="number" min="0" v-model="carInfo.doors" id="doors"
                class="px-2.5 pb-2.5 pt-4 w-full text-md rounded-lg border focus:outline-none"/>
         <span v-if="errors.doors" class="text-sm text-red-500">{{ errors.doors[0] }}</span>

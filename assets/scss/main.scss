@@ -196,6 +196,12 @@ select {
 
 .admin-home {
   background-color: #f3f4f6;
+
+  &_input {
+    &::placeholder {
+      color: transparent;
+    }
+  }
 }
 
 

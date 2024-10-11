@@ -199,15 +199,14 @@ if (process.client) {
                   <img :src="car.image_url" alt="Imagem do Veículo" class="w-20 h-20 mr-4 rounded-lg">
                   <div>
                     <h3 class="lg:text-lg font-bold">{{ carName(car) }}</h3>
-                    <p class="text-sm text-gray-600">Ano: {{ car.model_year }} | {{ car.current_km }} KM | {{
-                      car.id
-                    }}</p>
+                    <p class="text-sm text-gray-600">Ano: {{ car.model_year }} | {{ car.current_km }} KM | {{ car.id }}</p>
                   </div>
                 </div>
                 <div class="md:flex flex-col items-center justify-center w-1/3">
                   <span class="lg:text-xl lg:font-bold font-semibold flex justify-center items-center">R$ {{ car.price }}</span>
                   <div class="flex flex-row justify-center items-center">
-                    <button class="button px-2 lg:px-4 py-2 ml-4 rounded">Editar</button>
+                    <AdminHomeEditModal :car="car" />
+
                     <UIcon name="i-material-symbols:delete-outline" class="text-red-500 cursor-pointer p-3 m-2" @click="deleteCar(car)" />
                   </div>
                 </div>
