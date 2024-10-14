@@ -16,17 +16,6 @@ const priceRange = ref([0, 100000]);
 const kmRange = ref([0, 200000]);
 const vehicleType = ref('');
 
-async function fetchCarImage(car) {
-  const url = `api/vehicles/images/${car.id}`
-  const response = await useApi(url);
-
-  if (response.status.value === 'success') {
-    return config.apiBase + response.data.value.data.image_url;
-  }
-
-  return car_default;
-}
-
 const fallbackCars = [
   {
     id: 1,
@@ -58,7 +47,7 @@ const fallbackCars = [
 ];
 
 async function requestCars<T>(url: string, options: UseFetchOptions<T> = {}) {
-  if(!url) {
+  if (!url) {
     return;
   }
   try {
@@ -91,7 +80,11 @@ async function requestCars<T>(url: string, options: UseFetchOptions<T> = {}) {
   }
 
   for (const car of cars.value) {
-    car.image_url = await fetchCarImage(car);
+    if (car.cover_photo) {
+      car.image_url = config.apiBase + car.cover_photo.image_url
+      continue;
+    }
+    car.image_url = car_default
   }
 }
 
@@ -103,10 +96,6 @@ async function handleSearch(query: string) {
       }
     });
 }
-
-onMounted(async () => {
-  await requestCars(API_ENDPOINT + '?page=1');
-});
 
 async function handleOrderChange(criteria: string) {
   await requestCars(API_ENDPOINT + '?page=1', {
@@ -154,27 +143,33 @@ if (process.client) {
   onMounted(() => {
     window.addEventListener('resize', updateScreenSize);
   });
-  onUnmounted(() => {
-    window.removeEventListener('resize', updateScreenSize);
-  });
 }
+
+function toReais(price: number) {
+  price = Math.round(price);
+  return price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+}
+
+
+
 </script>
 
 <template>
   <div class="admin-home min-h-screen">
     <main class="p-3 mx-auto py-8">
       <div class="flex" :class="[isSmallScreen ? 'flex-col' : 'flex-row']">
-        <!-- Sidebar de filtros -->
+        
         <div v-if="isSmallScreen" class="flex flex-row justify-between md:px-2">
           <button @click="toggleFilter" class="bg-white text-md p-2 rounded-lg shadow my-2">Filtros</button>
-          <AdminHomeOrderDropdown @order-changed="handleOrderChange" />
+          <AdminHomeOrderDropdown @order-changed="handleOrderChange" class="p-2 my-2"/>
         </div>
         <AdminFilters :showFilters="showFilters" :vehicleType="vehicleType" :yearRange="yearRange"
           :priceRange="priceRange" :kmRange="kmRange" :API_ENDPOINT="API_ENDPOINT"
           @update:vehicleType="vehicleType = $event" @update:yearRange="yearRange = $event"
-          @update:priceRange="priceRange = $event" @update:kmRange="kmRange = $event" @requestCars="requestCars" class="mb-2 mx-2"/>
+          @update:priceRange="priceRange = $event" @update:kmRange="kmRange = $event" @requestCars="requestCars"
+          class="mb-2 mx-2" />
 
-        <!-- Conteúdo Principal -->
+        
         <section class="md:px-2 w-full">
           <div class="flex flex-col gap-2">
             <form class="flex w-full flex-col ssm:flex-row items-center justify-center gap-2 ssm:gap-0">
@@ -185,10 +180,12 @@ if (process.client) {
                     <UIcon name="i-ic:twotone-search" class="m-auto"></UIcon>
                   </button>
                 </div>
-                  <UIcon @click="requestCars(API_ENDPOINT + '?page=1')" class="w-5 h-5 flex items-center justify-center m-2 hover:cursor-pointer" name="i-material-symbols-light:directory-sync" />
+                <UIcon @click="requestCars(API_ENDPOINT + '?page=1')"
+                  class="w-5 h-5 flex items-center justify-center m-2 hover:cursor-pointer"
+                  name="i-material-symbols-light:directory-sync" />
               </div>
               <div class="flex justify-end w-1/3" v-if="!isSmallScreen">
-                <AdminHomeOrderDropdown @order-changed="handleOrderChange" />
+                <AdminHomeOrderDropdown @order-changed="handleOrderChange" class="p-2"/>
               </div>
             </form>
             <!-- Cartão de Veículo -->
@@ -199,24 +196,27 @@ if (process.client) {
                   <img :src="car.image_url" alt="Imagem do Veículo" class="w-20 h-20 mr-4 rounded-lg">
                   <div>
                     <h3 class="lg:text-lg font-bold">{{ carName(car) }}</h3>
-                    <p class="text-sm text-gray-600">Ano: {{ car.model_year }} | {{ car.current_km }} KM | {{ car.id }}</p>
+                    <p class="text-sm text-gray-600">Ano: {{ car.model_year }} | {{ car.current_km }} KM | {{ car.id }}
+                    </p>
                   </div>
                 </div>
                 <div class="md:flex flex-col items-center justify-center w-1/3">
-                  <span class="lg:text-xl lg:font-bold font-semibold flex justify-center items-center">R$ {{ car.price }}</span>
+                  <span class="lg:text-xl lg:font-bold font-semibold flex justify-center items-center">{{
+                    toReais(car.price) }}</span>
                   <div class="flex flex-row justify-center items-center">
                     <AdminHomeEditModal :car="car" />
 
-                    <UIcon name="i-material-symbols:delete-outline" class="text-red-500 cursor-pointer p-3 m-2" @click="deleteCar(car)" />
+                    <UIcon name="i-material-symbols:delete-outline" class="text-red-500 cursor-pointer p-3 m-2"
+                      @click="deleteCar(car)" />
                   </div>
                 </div>
               </div>
-              <!-- Fim do bloco de veículo -->
+              
             </div>
-            <!-- Paginação -->
+            
             <div class="mt-6 flex justify-center items-center gap-2">
               <button @click="requestCars(prevUrl)" class="p-2 border rounded mx-1">Anterior</button>
-              <span>{{current_page}}</span>
+              <span>{{ current_page }}</span>
               <button @click="requestCars(nextUrl)" class="p-2 border rounded mx-1">Próxima</button>
             </div>
           </div>
