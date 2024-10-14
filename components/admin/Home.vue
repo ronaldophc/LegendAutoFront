@@ -16,6 +16,11 @@ const priceRange = ref([0, 100000]);
 const kmRange = ref([0, 200000]);
 const vehicleType = ref('');
 
+const BREAKPOINT = 1025;
+const isSmallScreen = ref(false);
+const isFilterOpen = ref(false);
+const showFilters = ref(!isSmallScreen.value || isFilterOpen);
+
 const fallbackCars = [
   {
     id: 1,
@@ -119,11 +124,6 @@ async function deleteCar(car) {
   }
 }
 
-const BREAKPOINT = 1025;
-const isSmallScreen = ref(false);
-const isFilterOpen = ref(false);
-const showFilters = ref(!isSmallScreen.value || isFilterOpen);
-
 const updateShowFilters = () => {
   showFilters.value = !isSmallScreen.value || isFilterOpen.value;
 };
@@ -139,18 +139,29 @@ function toggleFilter() {
 }
 
 if (process.client) {
-  updateScreenSize();
   onMounted(() => {
+    updateScreenSize();
     window.addEventListener('resize', updateScreenSize);
   });
+  onUnmounted(() => {
+    window.removeEventListener('resize', updateScreenSize);
+  });
 }
+
+onMounted(() => {
+  updateScreenSize();
+  window.addEventListener('resize', updateScreenSize);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('resize', updateScreenSize);
+});
+
 
 function toReais(price: number) {
   price = Math.round(price);
   return price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 }
-
-
 
 </script>
 
@@ -158,10 +169,10 @@ function toReais(price: number) {
   <div class="admin-home min-h-screen">
     <main class="p-3 mx-auto py-8">
       <div class="flex" :class="[isSmallScreen ? 'flex-col' : 'flex-row']">
-        
+
         <div v-if="isSmallScreen" class="flex flex-row justify-between md:px-2">
           <button @click="toggleFilter" class="bg-white text-md p-2 rounded-lg shadow my-2">Filtros</button>
-          <AdminHomeOrderDropdown @order-changed="handleOrderChange" class="p-2 my-2"/>
+          <AdminHomeOrderDropdown @order-changed="handleOrderChange" class="p-2 my-2" />
         </div>
         <AdminFilters :showFilters="showFilters" :vehicleType="vehicleType" :yearRange="yearRange"
           :priceRange="priceRange" :kmRange="kmRange" :API_ENDPOINT="API_ENDPOINT"
@@ -169,7 +180,6 @@ function toReais(price: number) {
           @update:priceRange="priceRange = $event" @update:kmRange="kmRange = $event" @requestCars="requestCars"
           class="mb-2 mx-2" />
 
-        
         <section class="md:px-2 w-full">
           <div class="flex flex-col gap-2">
             <form class="flex w-full flex-col ssm:flex-row items-center justify-center gap-2 ssm:gap-0">
@@ -185,7 +195,7 @@ function toReais(price: number) {
                   name="i-material-symbols-light:directory-sync" />
               </div>
               <div class="flex justify-end w-1/3" v-if="!isSmallScreen">
-                <AdminHomeOrderDropdown @order-changed="handleOrderChange" class="p-2"/>
+                <AdminHomeOrderDropdown @order-changed="handleOrderChange" class="p-2" />
               </div>
             </form>
             <!-- Cartão de Veículo -->
@@ -211,9 +221,9 @@ function toReais(price: number) {
                   </div>
                 </div>
               </div>
-              
+
             </div>
-            
+
             <div class="mt-6 flex justify-center items-center gap-2">
               <button @click="requestCars(prevUrl)" class="p-2 border rounded mx-1">Anterior</button>
               <span>{{ current_page }}</span>
