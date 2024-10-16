@@ -23,7 +23,7 @@ const fieldsToDisplay = ref([
   'current_km',
   'renavam']);
 
-const updatedCar = ref({ ...props.car });
+const updatedCar = ref({...props.car});
 
 function fieldLabel(field: string) {
   const labels = {
@@ -63,30 +63,30 @@ function saveChanges() {
   <UModal v-model="isOpen">
     <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
       <div class="flex flex-row">
-        <UIcon name="i-tabler:tool" class="m-auto w-full h-10" />
+        <UIcon name="i-tabler:tool" class="m-auto w-full h-10"/>
         <UIcon name="i-material-symbols:cancel-rounded" class="m-auto w-10 h-10 cursor-pointer"
-          @click="isOpen = false" />
+               @click="isOpen = false"/>
       </div>
 
       <div class="grid grid-cols-2 gap-1">
         <AdminHomeEditCarInput v-for="field in fieldsToDisplay" :key="field" :field="fieldLabel(field)"
-          :errors="errors[field]" :value="car?.[field]" @update-value="updateCarField(field, $event)" />
+                               :errors="errors[field]" :value="car?.[field]"
+                               @update-value="updateCarField(field, $event)"/>
       </div>
       <div class="flex flex-col sm:items-center sm:justify-center mt-5">
         <UCheckbox class="text-md sm:items-center sm:justify-center" label="Novidade" help="Aparecer como novidade"
-          v-model="car.is_new" id="is_new" />
+                   v-model="car.is_new" id="is_new"/>
         <UCheckbox class="text-md sm:items-center sm:justify-center" label="Destaque" help="Aparecer como destaque"
-          v-model="car.is_featured" id="is_featured" />
+                   v-model="car.is_featured" id="is_featured"/>
       </div>
       <div class="description flex flex-col">
         <label for="description" class="mb-2 font-bold">Descrição</label>
         <textarea v-model="car.description" id="description"
-          class="px-2.5 pb-2.5 pt-4 w-full text-md rounded-lg border focus:outline-none"></textarea>
+                  class="px-2.5 pb-2.5 pt-4 w-full text-md rounded-lg border focus:outline-none"></textarea>
         <span v-if="errors.description" class="text-sm text-red-500">{{ errors.description[0] }}</span>
       </div>
-      <template #footer>
-        <button @click="saveChanges" class="button px-2 lg:px-4 py-2 ml-4 rounded">Salvar</button>
-      </template>
+      <button @click="saveChanges" class="button px-2 lg:px-4 py-2 my-2 rounded">Salvar</button>
+      <AdminHomeEditImages :vehicle="car"/>
     </UCard>
   </UModal>
 </template>

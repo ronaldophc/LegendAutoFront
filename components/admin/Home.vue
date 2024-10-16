@@ -138,18 +138,11 @@ function toggleFilter() {
   updateShowFilters();
 }
 
-if (process.client) {
-  onMounted(() => {
-    updateScreenSize();
-    window.addEventListener('resize', updateScreenSize);
-  });
-  onUnmounted(() => {
-    window.removeEventListener('resize', updateScreenSize);
-  });
-}
-
-onMounted(() => {
+onMounted( () => {
   updateScreenSize();
+  setTimeout(() => {
+    requestCars(API_ENDPOINT + '?page=1');
+  }, 40);
   window.addEventListener('resize', updateScreenSize);
 });
 

@@ -1,11 +1,11 @@
 <script setup lang="ts">
-const registerStore = useRegisterStore(); // Renamed for better understanding
+const registerStore = useRegisterStore();
 const router = useRouter();
-const files = ref([]); // Renamed for better understanding
-const isDraggingOver = ref(false); // Renamed for better understanding
+const files = ref([]);
+const isDraggingOver = ref(false);
 const previewImages = ref<string[]>([]);
 const coverImageIndex = ref<number | null>(null);
-const DESTINATION_ROUTE = '/meusite'; // Extracted constant
+const DESTINATION_ROUTE = '/meusite';
 
 function handleCoverSelection(index: number) {
   coverImageIndex.value = coverImageIndex.value === index ? null : index;
@@ -30,7 +30,7 @@ function handleFileChange(event: Event) {
   processFiles(Array.from((event.target as HTMLInputElement).files || []));
 }
 
-function processFiles(newFiles: File[]) { // Extracted Function
+function processFiles(newFiles: File[]) {
   newFiles.forEach(file => {
     if (file.type.startsWith('image/')) {
       files.value.push(file);
@@ -40,14 +40,14 @@ function processFiles(newFiles: File[]) { // Extracted Function
 }
 
 async function handleSubmit() {
-  const vehicleId = registerStore.vehicleId; // Use registerStore for better understanding
+  const vehicleId = registerStore.vehicleId;
   for (const file of files.value) {
     await uploadImage(file, coverImageIndex.value === files.value.indexOf(file), vehicleId);
   }
   await router.push(DESTINATION_ROUTE);
 }
 
-async function uploadImage(file: File, isCover: boolean, vehicleId: number) { // Extracted Function
+async function uploadImage(file: File, isCover: boolean, vehicleId: number) {
   let formData = new FormData();
   formData.append('image', file);
   formData.append('is_cover', isCover.toString());
