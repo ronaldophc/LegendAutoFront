@@ -13,7 +13,7 @@ export default defineNuxtConfig({
   ],
 
   sanctum: {
-      baseUrl: 'http://localhost:8001',
+      baseUrl: 'http://67.207.82.252',
       mode: 'cookie',
       redirectIfAuthenticated: false,
       redirectIfUnauthenticated: false,
@@ -55,7 +55,7 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
       public: {
-          apiBase: 'http://localhost:8001/',
+          apiBase: 'http://67.207.82.252/',
       }
   },
 

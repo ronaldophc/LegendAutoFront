@@ -16,7 +16,7 @@ const priceRange = ref([0, 100000]);
 const kmRange = ref([0, 200000]);
 const vehicleType = ref('');
 
-const BREAKPOINT = 1025;
+const BREAKPOINT = 770;
 const isSmallScreen = ref(false);
 const isFilterOpen = ref(false);
 const showFilters = ref(!isSmallScreen.value || isFilterOpen);
@@ -156,6 +156,19 @@ function toReais(price: number) {
   return price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 }
 
+function getInfos(car): string {
+  let infos: String = '';
+  if (car.model_year) {
+    infos += `Ano: ${car.model_year} | `;
+  }
+  if (car.current_km) {
+    infos += `KM: ${car.current_km} | `;
+  }
+  if (car.color) {
+    infos += `Cor: ${car.color}`;
+  }
+  return infos;
+}
 </script>
 
 <template>
@@ -192,25 +205,56 @@ function toReais(price: number) {
               </div>
             </form>
             <!-- Cartão de Veículo -->
-            <div class="grid grid-cols-1 xl:grid-cols-2 gap-2">
+            <div v-if="isSmallScreen" class="grid gap-2">
               <!-- Repetir este bloco para cada veículo -->
-              <div v-for="car in cars" :key="car.id" class="bg-white p-1 shadow rounded-lg flex items-center">
-                <div class="flex items-center w-2/3">
-                  <img :src="car.image_url" alt="Imagem do Veículo" class="w-20 h-20 mr-4 rounded-lg">
-                  <div>
-                    <h3 class="lg:text-lg font-bold">{{ carName(car) }}</h3>
-                    <p class="text-sm text-gray-600">Ano: {{ car.model_year }} | {{ car.current_km }} KM | {{ car.id }}
-                    </p>
+              <div v-for="car in cars" :key="car.id"  class="max-w-sm bg-white rounded-lg shadow-md overflow-hidden">
+                <!-- Foto do carro -->
+                <img class="w-full h-52" :src="car.image_url" alt="Carro">
+
+                <!-- Informações do carro -->
+                <div class="p-4">
+                  <h2 class="text-xl font-semibold text-gray-800">Nome do Carro</h2>
+                  <p class="text-gray-600">Km rodados: 25.000 km</p>
+                  <p class="text-gray-600">Ano: 2020</p>
+                  <p class="text-gray-600">Cor: Preto</p>
+                  <p class="text-xl font-bold text-green-500">R$ 75.000</p>
+
+                  <!-- Botões de ação -->
+                  <div class="flex justify-between mt-4">
+                    <button class="px-4 py-2 bg-blue-500 text-white text-sm font-medium rounded hover:bg-blue-600">
+                      Editar
+                    </button>
+                    <button class="px-4 py-2 bg-red-500 text-white text-sm font-medium rounded hover:bg-red-600">
+                      Excluir
+                    </button>
                   </div>
                 </div>
-                <div class="md:flex flex-col items-center justify-center w-1/3">
-                  <span class="lg:text-xl lg:font-bold font-semibold flex justify-center items-center">{{
-                    toReais(car.price) }}</span>
-                  <div class="flex flex-row justify-center items-center">
-                    <AdminHomeEditModal :car="car" />
+              </div>
 
-                    <UIcon name="i-material-symbols:delete-outline" class="text-red-500 cursor-pointer p-3 m-2"
-                      @click="deleteCar(car)" />
+            </div>
+
+            <div v-if="!isSmallScreen" class="grid grid-cols-1 xl:grid-cols-2 gap-2">
+              <!-- Repetir este bloco para cada veículo -->
+              <div v-for="car in cars" :key="car.id" class="flex bg-white rounded-lg shadow-md overflow-hidden mb-4">
+                <!-- Foto do carro -->
+                <img class="w-2/6 h-auto object-cover rounded-lg" :src="car.image_url" alt="Carro">
+
+                <!-- Informações do carro -->
+                <div class="w-4/6 p-4 flex flex-col justify-between">
+                  <div>
+                    <h2 class="text-xl font-semibold text-gray-800">{{ carName(car) }}</h2>
+                    <p class="text-gray-600">Km: {{ car.current_km }} km</p>
+                    <p class="text-gray-600">Ano: {{ car.model_year }}</p>
+                    <p class="text-gray-600">Cor: {{ car.color }}</p>
+                    <p class="text-xl font-bold text-green-500 mt-2">{{ toReais(car.price) }}</p>
+                  </div>
+
+                  <!-- Botões de ação -->
+                  <div class="flex justify-end space-x-4 mt-4">
+                    <AdminHomeEditModal :car="car" />
+                    <button @click="deleteCar(car)" class="px-4 py-2 bg-red-500 text-white text-sm font-medium rounded hover:bg-red-600">
+                      Excluir
+                    </button>
                   </div>
                 </div>
               </div>
@@ -223,6 +267,8 @@ function toReais(price: number) {
               <button @click="requestCars(nextUrl)" class="p-2 border rounded mx-1">Próxima</button>
             </div>
           </div>
+
+
         </section>
       </div>
     </main>
