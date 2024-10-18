@@ -1,37 +1,18 @@
 <script setup lang="ts">
 import Vehicle from "~/components/admin/create/Vehicle.vue";
-import car_default from '~/assets/images/default_car.png';
+
+const config = useRuntimeConfig().public;
 
 const props = defineProps({
   vehicle: Vehicle
 });
 
-
 const router = useRouter();
-// const files = ref([]);
 const files = ref<(File | string)[]>([]);
 const isDraggingOver = ref(false);
-const previewImages = ref<string[]>([]);
-const coverImageIndex = ref<number | null>(null);
-const DESTINATION_ROUTE = '/meusite';
+const previewImages = ref<File[]>([]);
 
-onMounted(() => {
-  setTimeout(async () => {
-    const response = await useApi(`api/vehicles/${props.vehicle.id}/images`);
-    let data = response.data.value.data;
-    data.forEach(image => {
-      previewImages.value.push(image.image_url);
-      files.value.push(image.image_url); // Store the URL for existing images
-      console.log(previewImages)
-    });
-  }, 50);
-});
-
-
-function handleCoverSelection(index: number) {
-  coverImageIndex.value = coverImageIndex.value === index ? null : index;
-}
-
+// Funções para estilizar
 function handleDragOver(event: DragEvent) {
   event.preventDefault();
   isDraggingOver.value = true;
@@ -41,59 +22,108 @@ function handleDragLeave() {
   isDraggingOver.value = false;
 }
 
-function handleDrop(event: DragEvent) {
-  event.preventDefault();
-  isDraggingOver.value = false;
-  processFiles(Array.from(event.dataTransfer?.files || []));
+// Função para carregar imagens ao carregar a pagina
+onMounted(() => {
+  setTimeout(async () => {
+    await getImages();
+  }, 50);
+});
+
+// Funcao para pegar as imagens do veiculo via API
+async function getImages() {
+  const {id} = props.vehicle;
+  const response = await useApi(`api/vehicles/${id}/images`);
+  let data = response.data.value.data;
+  previewImages.value = [];
+  data.forEach(image => {
+    previewImages.value.push(image);
+  });
 }
 
-function handleFileChange(event: Event) {
-  processFiles(Array.from((event.target as HTMLInputElement).files || []));
-}
-
-function processFiles(newFiles: File[]) {
-  newFiles.forEach(file => {
-    if (file.type.startsWith('image/')) {
-      files.value.push(file);
-      previewImages.value.push(URL.createObjectURL(file));
+// Função para selecionar a imagem como capa
+function handleCoverSelection(image: File) {
+  previewImages.value.forEach(file => {
+    if(file === image) {
+      const is_cover = !file["is_cover"];
+      file["is_cover"] = is_cover;
+      useApi(`api/vehicles/images/${image.id}`, {method: 'PUT', body: {is_cover: is_cover}});
+      return;
+    }
+    if (file["is_cover"]) {
+      useApi(`api/vehicles/images/${file.id}`, {method: 'PUT', body: {is_cover: false}});
+      file["is_cover"] = false;
     }
   });
 }
 
-function removeImage(index: number) {
-  files.value.splice(index, 1);
-  previewImages.value.splice(index, 1);
-  if (coverImageIndex.value === index) {
-    coverImageIndex.value = null;
-  } else if (coverImageIndex.value && coverImageIndex.value > index) {
-    coverImageIndex.value--;
-  }
-}
-
-async function handleSubmit() {
-  const vehicleId = props.vehicle.id;
-  for (const file of files.value) {
-    if (typeof file === 'string') {
-      // Skip existing images
-      continue;
+// Adicionar as novas imagens que foram soltas no campo de imagens e adicionar nas arrays
+function processFiles(newFiles: File[]) {
+  newFiles.forEach(file => {
+    if (file.type.startsWith('image/')) {
+      files.value.push(file);
     }
-    await uploadImage(file, coverImageIndex.value === files.value.indexOf(file), vehicleId);
-  }
-  await router.push(DESTINATION_ROUTE);
+  });
 }
 
+// Ao soltar uma imagem no campo, chama a função de processar os arquivos
+function handleDrop(event: DragEvent) {
+  event.preventDefault();
+  isDraggingOver.value = false;
+  handleSubmit();
+}
+
+// Ao selecionar imagens no campo, chama a função de processar os arquivos
+function handleFileChange(event: Event) {
+  handleSubmit();
+}
+
+// Subir as imagens para a API, esvaziar a array de imagens e chamar a função de pegar as imagens
+async function handleSubmit() {
+  processFiles(Array.from((event.target as HTMLInputElement).files || []));
+  const {id} = props.vehicle;
+  const vehicleId: number = id;
+  for (const file of files.value) {
+    const {is_cover} = file;
+    await uploadImage(file, is_cover, vehicleId);
+  }
+  files.value = [];
+  await getImages();
+}
+
+// Subir uma imagem via API
 async function uploadImage(file: File, isCover: boolean, vehicleId: number) {
   let formData = new FormData();
   formData.append('image', file);
-  formData.append('is_cover', isCover.toString());
-  formData.append('vehicle_id', vehicleId.toString());
-  await useImageApi(formData);
+  formData.append('is_cover', isCover);
+  formData.append('vehicle_id', vehicleId);
+  await useImageApi(formData as FormData);
 }
-</script>
 
-// Apagou a imagem, apaga do banco e faz a requisição de novo
-// Carregou imagem, upa no banco e faz a requisição de novo
-// Mudou a capa, ja altera no banco tambem
+// Remover a imagem das arrays e do banco
+function removeImage(image: File) {
+  const index = previewImages.value.indexOf(image);
+  previewImages.value.splice(index, 1);
+  const {id} = image;
+  deleteImage(id);
+}
+
+// Requisição para deletar a imagem via API
+async function deleteImage(imageId: number) {
+  await useApi(`api/vehicles/images/${imageId}`, {method: 'DELETE'});
+}
+
+// Funcao para pegar a Url completa da imagem
+function getImageUrl(image: File) {
+  const {image_url} = image;
+  return config.apiBase + image_url;
+}
+
+function isImageCover(image: File) {
+  const {is_cover} = image;
+  return is_cover;
+}
+
+</script>
 
 <template>
   <div
@@ -127,23 +157,21 @@ async function uploadImage(file: File, isCover: boolean, vehicleId: number) {
           <input id="dropzone-file" type="file" class="hidden" multiple @change="handleFileChange"/>
         </label>
       </div>
-
-      <button @click="handleSubmit" class="button text-2xl p-1 mt-3 rounded-lg">Enviar imagens</button>
     </UCard>
 
     <div class="flex flex-nowrap overflow-x-auto w-full gap-2">
       <!--      {{ previewImages }}-->
-      <div v-for="(preview, index) in previewImages" :key="index" class="mb-1">
+      <div v-for="(image, index) in previewImages" :key="index" class="mb-1">
         <UCard class="flex flex-col" :ui="{body: {padding: 'px-2 py-3 sm:p-3'}}">
-          <img :src="'http://localhost:8001/' + preview" alt="Preview" class="object-contain w-40 h-40"/>
+          <img :src="getImageUrl(image)" alt="Preview" class="object-contain h-40"/>
 
           <div class="flex justify-between items-center">
             <div class="flex items-center">
-              <input type="checkbox" :checked="coverImageIndex === index" @change="handleCoverSelection(index)"/>
+              <input type="checkbox" :checked="isImageCover(image) == 1" @change="handleCoverSelection(image)"/>
               <label class="ml-2 text-xl">Capa</label>
             </div>
             <UIcon name="i-material-symbols:delete-outline" class="text-red-500 cursor-pointer"
-                   @click="previewImages.splice(index, 1)"/>
+                   @click="removeImage(image)"/>
           </div>
         </UCard>
       </div>

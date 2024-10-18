@@ -5,7 +5,6 @@ export const useRegisterStore = defineStore('register', {
     state: () => ({
         vehicleType: '',
         vehicleInfo: {} as Vehicle,
-        vehiclePhotos: [] as File[],
         vehicleId: 0,
         links: [] as Array<{ id: number; label: string; icon: string; active: boolean }>,
         vehicleLinks: ref([
@@ -36,14 +35,14 @@ export const useRegisterStore = defineStore('register', {
         setVehicleInfo(info: Vehicle) {
             this.vehicleInfo = info;
         },
-        setVehiclePhotos(photos: File[]) {
-            this.vehiclePhotos = Array.from(photos);
-        },
-        setLinks(links: Array<{ id: number; label: string; icon: string; active: boolean }>) {
-            this.links = links;
-        },
         setVehicleId(id: number) {
             this.vehicleId = id;
+        },
+        getType() {
+            if (this.vehicleType == 'motorcycle') {
+                return 'Moto';
+            }
+            return 'Carro';
         }
     },
 });

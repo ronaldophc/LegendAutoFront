@@ -171,7 +171,7 @@ function toReais(price: number) {
           :priceRange="priceRange" :kmRange="kmRange" :API_ENDPOINT="API_ENDPOINT"
           @update:vehicleType="vehicleType = $event" @update:yearRange="yearRange = $event"
           @update:priceRange="priceRange = $event" @update:kmRange="kmRange = $event" @requestCars="requestCars"
-          class="mb-2 mx-2" />
+          class="mb-2" />
 
         <section class="md:px-2 w-full">
           <div class="flex flex-col gap-2">

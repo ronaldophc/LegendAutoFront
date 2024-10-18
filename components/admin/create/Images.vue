@@ -54,12 +54,23 @@ async function uploadImage(file: File, isCover: boolean, vehicleId: number) {
   formData.append('vehicle_id', vehicleId.toString());
   await useImageApi(formData);
 }
+
+function carName(): string {
+  const manufacturer = registerStore.vehicleInfo.manufacturer;
+  const model = registerStore.vehicleInfo.model;
+  return `${manufacturer} ${model}`;
+  // return car.name;
+}
+
 </script>
 
 <template>
+  <div class="text-center">
+    <h1 class="text-2xl">{{ carName( )}}</h1>
+    <p class="text-lg text-gray-600">Tipo: {{ registerStore.getType() }} | Ano: {{ registerStore.vehicleInfo.model_year }} | {{ registerStore.vehicleInfo.current_km }} KM | {{ registerStore.vehicleInfo.color }}</p>
+  </div>
   <div
-    class="admin-create_images shadow-lg pb-5 text-3xl flex flex-col md:flex-row justify-center items-center w-full px-5">
-
+    class="admin-create_images shadow-lg pb-5 text-3xl flex flex-col md:flex-row px-5">
     <div class="flex flex-1 md:w-1/2 mt-3 justify-center items-center">
       <UCard>
         <template #header>
@@ -96,9 +107,8 @@ async function uploadImage(file: File, isCover: boolean, vehicleId: number) {
       </UCard>
     </div>
 
-    <div class="flex flex-1 md:w-1/2 mt-2 ms-2 md:mt-0">
+    <div class="flex flex-1 md:w-1/2 mt-2 ms-2 md:mt-0 items-center justify-center">
       <div class="max-h-[28rem] overflow-y-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        <!-- <UIcon v-if="preview" class="w-20 h-20" name="i-material-symbols:image-outline"></UIcon> -->
         <div v-for="(preview, index) in previewImages" :key="index" class="">
           <UCard class="flex flex-col">
             <img :src="preview" alt="Preview" class="object-contain h-40 w-full" />
