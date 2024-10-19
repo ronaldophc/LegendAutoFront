@@ -13,7 +13,7 @@ export default defineNuxtConfig({
     ],
 
     sanctum: {
-        baseUrl: 'https://laravel-auto-9a429ee799c5.herokuapp.com',
+        baseUrl: 'http://www.akaindex.com.br',
         mode: 'cookie',
         redirectIfAuthenticated: false,
         redirectIfUnauthenticated: false,
@@ -55,7 +55,7 @@ export default defineNuxtConfig({
 
     runtimeConfig: {
         public: {
-            apiBase: 'https://laravel-auto-9a429ee799c5.herokuapp.com/',
+            apiBase: 'http://www.akaindex.com.br/',
         }
     },
 
