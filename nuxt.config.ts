@@ -15,8 +15,8 @@ export default defineNuxtConfig({
     sanctum: {
         baseUrl: 'https://api.akaindex.com.br',
         mode: 'cookie',
-        redirectIfAuthenticated: false,
-        redirectIfUnauthenticated: false,
+        redirectIfAuthenticated: true,
+        redirectIfUnauthenticated: true,
         endpoints: {
             login: '/api/users/login',
             logout: '/api/users/logout',
