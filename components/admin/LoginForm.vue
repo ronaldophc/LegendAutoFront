@@ -57,7 +57,7 @@ async function handleLogin() {
       <label class="label mb-2 block text-sm font-bold" for="password"> Senha </label>
       <input
           class="input focus:shadow-outline mb-3 w-full appearance-none rounded border px-3 py-2 leading-tight shadow focus:outline-none"
-          id="password" type="password" placeholder="******" v-model="formPassword"/>
+          id="password" type="password" placeholder="******" v-model="formPassword" autocomplete/>
     </div>
     <!-- Login Button -->
     <button
