@@ -13,7 +13,7 @@ export default defineNuxtConfig({
   ],
 
   sanctum: {
-      baseUrl: 'http://67.207.82.252',
+      baseUrl: 'https://laravel-auto-9a429ee799c5.herokuapp.com',
       mode: 'cookie',
       redirectIfAuthenticated: false,
       redirectIfUnauthenticated: false,
@@ -55,7 +55,7 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
       public: {
-          apiBase: 'http://67.207.82.252/',
+          apiBase: 'https://laravel-auto-9a429ee799c5.herokuapp.com/',
       }
   },
 
