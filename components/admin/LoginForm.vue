@@ -18,6 +18,7 @@ async function handleLogin() {
     await login(userCredentials);
     errorMessage.value = '';
   } catch (error) {
+    console.log(error);
     errorMessage.value = 'Login ou senha incorretos. Tente novamente.';
   }
 }
