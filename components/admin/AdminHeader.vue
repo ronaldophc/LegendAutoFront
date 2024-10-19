@@ -9,10 +9,7 @@ const isMenuOpen = ref(false);
 
 async function logoutfunc() {
   try {
-    await useApi('api/users/logout', {
-      method: 'POST'
-    });
-    await router.push('/meusite/login');
+    await logout();
   } catch (error) {
     await router.push('/meusite/login');
   }

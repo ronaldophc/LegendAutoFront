@@ -1,67 +1,67 @@
 import {defineNuxtConfig} from 'nuxt/config'
 
 export default defineNuxtConfig({
-  devtools: {enabled: true},
+    devtools: {enabled: true},
 
-  modules: [
-      'nuxt-auth-sanctum',
-      '@nuxt/ui',
-      '@nuxt/icon',
-      '@nuxtjs/tailwindcss',
-      'nuxt-snackbar',
-      '@pinia/nuxt',
-  ],
+    modules: [
+        'nuxt-auth-sanctum',
+        '@nuxt/ui',
+        '@nuxt/icon',
+        '@nuxtjs/tailwindcss',
+        'nuxt-snackbar',
+        '@pinia/nuxt',
+    ],
 
-  sanctum: {
-      baseUrl: 'https://laravel-auto-9a429ee799c5.herokuapp.com',
-      mode: 'cookie',
-      redirectIfAuthenticated: false,
-      redirectIfUnauthenticated: false,
-      endpoints: {
-          login: '/api/users/login',
-          logout: '/api/users/logout',
-          user: '/api/user',
-      },
-      redirect: {
-          keepRequestedRoute: false,
-          onLogin: '/meusite',
-          onLogout: '/meusite/login',
-          onAuthOnly: '/meusite/login',
-          onGuestOnly: '/',
-      },
-      client: {
-          initialRequest: true,
-      },
-      globalMiddleware: {
-          enabled: true,
-          allow404WithoutAuth: false
-      }
-  },
+    sanctum: {
+        baseUrl: 'https://laravel-auto-9a429ee799c5.herokuapp.com',
+        mode: 'cookie',
+        redirectIfAuthenticated: false,
+        redirectIfUnauthenticated: false,
+        endpoints: {
+            login: '/api/users/login',
+            logout: '/api/users/logout',
+            user: '/api/user',
+        },
+        redirect: {
+            keepRequestedRoute: false,
+            onLogin: '/meusite',
+            onLogout: '/meusite/login',
+            onAuthOnly: '/meusite/login',
+            onGuestOnly: '/',
+        },
+        client: {
+            initialRequest: true,
+        },
+        globalMiddleware: {
+            enabled: true,
+            allow404WithoutAuth: false
+        }
+    },
 
-  colorMode: {
-      preference: 'light'
-  },
+    colorMode: {
+        preference: 'light'
+    },
 
-  css: [
-      '~/assets/scss/main.scss'
-  ],
+    css: [
+        '~/assets/scss/main.scss'
+    ],
 
-  snackbar: {
-      bottom: true,
-      bottom: true,
-      left: true,
-      duration: 5000
-  },
+    snackbar: {
+        bottom: true,
+        bottom: true,
+        left: true,
+        duration: 5000
+    },
 
-  runtimeConfig: {
-      public: {
-          apiBase: 'https://laravel-auto-9a429ee799c5.herokuapp.com/',
-      }
-  },
+    runtimeConfig: {
+        public: {
+            apiBase: 'https://laravel-auto-9a429ee799c5.herokuapp.com/',
+        }
+    },
 
-  pinia: {
-      storesDirs: ['./stores/**']
-  },
+    pinia: {
+        storesDirs: ['./stores/**']
+    },
 
-  compatibilityDate: '2024-10-09'
+    compatibilityDate: '2024-10-09'
 })

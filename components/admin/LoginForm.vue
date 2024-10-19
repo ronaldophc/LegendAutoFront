@@ -2,7 +2,6 @@
 import {Ref, ref} from 'vue';
 
 const {login} = useSanctumAuth();
-const router = useRouter();
 
 const formEmail: Ref<string> = ref('');
 const formPassword: Ref<string> = ref('');
@@ -16,11 +15,7 @@ function getUserCredentials(email: string, password: string): UserCredentials {
 async function handleLogin() {
   const userCredentials = getUserCredentials(formEmail.value, formPassword.value);
   try {
-    await useApi('api/users/login', {
-      method: 'POST',
-      body: JSON.stringify(userCredentials)
-    })
-    await router.push('/meusite');
+    await login(userCredentials);
     errorMessage.value = '';
   } catch (error) {
     errorMessage.value = 'Login ou senha incorretos. Tente novamente.';
