@@ -1,7 +1,7 @@
 <!-- layouts/admin.vue -->
 <template>
   <div class="min-h-screen flex flex-col" v-bind="$attrs">
-    <AdminHeader/>
+    <AdminHeader />
     <slot />
     <NuxtSnackbar />
   </div>

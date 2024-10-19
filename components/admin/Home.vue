@@ -112,7 +112,6 @@ async function handleOrderChange(criteria: string) {
 
 function carName(car) {
   return `${car.manufacturer} ${car.model}`;
-  // return car.name;
 }
 
 async function deleteCar(car) {
@@ -213,11 +212,11 @@ function getInfos(car): string {
 
                 <!-- Informações do carro -->
                 <div class="p-4">
-                  <h2 class="text-xl font-semibold text-gray-800">Nome do Carro</h2>
-                  <p class="text-gray-600">Km rodados: 25.000 km</p>
-                  <p class="text-gray-600">Ano: 2020</p>
-                  <p class="text-gray-600">Cor: Preto</p>
-                  <p class="text-xl font-bold text-green-500">R$ 75.000</p>
+                  <h2 class="text-xl font-semibold text-gray-800">{{ carName(car) }}</h2>
+                  <p class="text-gray-600">Km: {{ car.current_km }} km</p>
+                  <p class="text-gray-600">Ano: {{ car.model_year }}</p>
+                  <p class="text-gray-600">Cor: {{ car.color }}</p>
+                  <p class="text-xl font-bold text-green-500">{{ toReais(car.price) }}</p>
 
                   <!-- Botões de ação -->
                   <div class="flex justify-between mt-4">
