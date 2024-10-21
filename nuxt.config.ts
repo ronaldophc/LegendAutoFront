@@ -13,7 +13,7 @@ export default defineNuxtConfig({
     ],
 
     sanctum: {
-        baseUrl: process.env.NUXT_SANCTUM_BASE_URL,
+        baseUrl: process.env.NUXT_PUBLIC_SANCTUM_BASE_URL || 'https://api.akaindex.com.br',
         mode: 'cookie',
         redirectIfAuthenticated: true,
         redirectIfUnauthenticated: true,
@@ -55,7 +55,7 @@ export default defineNuxtConfig({
 
     runtimeConfig: {
         public: {
-            apiBase: process.env.NUXT_RUNTIME_CONFIG_PUBLIC_API_BASE,
+            apiBase: process.env.NUXT_PUBLIC_RUNTIME_CONFIG_PUBLIC_API_BASE || 'https://api.akaindex.com.br/',
         }
     },
 
