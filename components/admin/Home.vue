@@ -204,9 +204,9 @@ function getInfos(car): string {
               </div>
             </form>
             <!-- Cartão de Veículo -->
-            <div v-if="isSmallScreen" class="grid gap-2">
+            <div v-if="isSmallScreen" class="grid gap-2 flex justify-center">
               <!-- Repetir este bloco para cada veículo -->
-              <div v-for="car in cars" :key="car.id"  class="max-w-sm bg-white rounded-lg shadow-md overflow-hidden">
+              <div v-for="car in cars" :key="car.id"  class="w-80 bg-white rounded-lg shadow-md overflow-hidden">
                 <!-- Foto do carro -->
                 <img class="w-full h-52" :src="car.image_url" alt="Carro">
 
@@ -220,9 +220,7 @@ function getInfos(car): string {
 
                   <!-- Botões de ação -->
                   <div class="flex justify-between mt-4">
-                    <button class="px-4 py-2 bg-blue-500 text-white text-sm font-medium rounded hover:bg-blue-600">
-                      Editar
-                    </button>
+                    <AdminHomeEditModal :car="car" />
                     <button class="px-4 py-2 bg-red-500 text-white text-sm font-medium rounded hover:bg-red-600">
                       Excluir
                     </button>
@@ -232,11 +230,11 @@ function getInfos(car): string {
 
             </div>
 
-            <div v-if="!isSmallScreen" class="grid grid-cols-1 xl:grid-cols-2 gap-2">
+            <div v-if="!isSmallScreen" class="grid grid-cols-1 lg-custom:grid-cols-2 xl:grid-cols-3 3xl:grid-cols-4 gap-2">
               <!-- Repetir este bloco para cada veículo -->
               <div v-for="car in cars" :key="car.id" class="flex bg-white rounded-lg shadow-md overflow-hidden mb-4">
                 <!-- Foto do carro -->
-                <img class="w-2/6 h-auto object-cover rounded-lg" :src="car.image_url" alt="Carro">
+                <img class="w-2/6 h-auto object-cover max-w-64 rounded-lg" :src="car.image_url" alt="Carro">
 
                 <!-- Informações do carro -->
                 <div class="w-4/6 p-4 flex flex-col justify-between">

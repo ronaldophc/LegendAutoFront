@@ -4,6 +4,7 @@ const props = defineProps<{
   field: String,
   value: string | number | boolean,
   errors: string,
+  fieldName: String
 }>();
 
 const emit = defineEmits(['update-value']);
@@ -18,7 +19,7 @@ const updateParent = (event: Event) => {
   <div :class="field + ' flex flex-col'">
     <label for="field" class="mb-1 font-semibold text-sm">{{field}}</label>
     <input type="text"
-           id="field"
+           :id="fieldName"
            :value="value"
            class="px-1.5 pb-1.5 pt-2 w-full text-md rounded-lg border focus:outline-none"
            @input="updateParent"/>

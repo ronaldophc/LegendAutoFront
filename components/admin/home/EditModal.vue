@@ -51,17 +51,36 @@ function updateCarField(field: string, value: any) {
   updatedCar.value[field] = value;
 }
 
-function saveChanges() {
+async function saveChanges() {
+  const response = await useApi(`api/vehicles/${updatedCar.value.id}`, {
+    method: 'PUT',
+    body: JSON.stringify(updatedCar.value)
+  });
 
-  console.log('Carro atualizado:', updatedCar.value);
+  if (response.status.value == 'error') {
+    errors.value = response.error.value.data.errors;
+    addErrorClassToFields();
+    return;
+  }
+}
+
+function addErrorClassToFields() {
+  for (const field in errors.value) {
+    if (errors.value.hasOwnProperty(field)) {
+      const inputElement = document.getElementById(field);
+      if (inputElement) {
+        inputElement.classList.add('error-border');
+      }
+    }
+  }
 }
 </script>
 
 <template>
-  <button @click="isOpen = true" class="button px-2 lg:px-4 py-2 ml-4 rounded">Editar</button>
+  <button @click="isOpen = true" class="button px-2 lg:px-4 py-2 rounded">Editar</button>
   <UModal v-model="isOpen">
-    <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
-      <form>
+    <UCard >
+      <form @submit.prevent="saveChanges()">
 
         <div class="flex flex-row">
           <UIcon name="i-tabler:tool" class="m-auto w-full h-10"/>
@@ -70,14 +89,18 @@ function saveChanges() {
         </div>
 
         <div class="grid grid-cols-2 gap-1">
-          <AdminHomeEditCarInput v-for="field in fieldsToDisplay" :key="field" :field="fieldLabel(field)"
-                                 :errors="errors[field]" :value="car?.[field]"
+          <AdminHomeEditCarInput v-for="field in fieldsToDisplay"
+                                 :key="field"
+                                 :field="fieldLabel(field)"
+                                 :fieldName="field"
+                                 :errors="errors[field]"
+                                 :value="car?.[field]"
                                  @update-value="updateCarField(field, $event)"/>
         </div>
-        <div class="flex flex-col sm:items-center sm:justify-center mt-5">
-          <UCheckbox class="text-md sm:items-center sm:justify-center" label="Novidade" help="Aparecer como novidade"
+        <div class="flex flex-col my-3">
+          <UCheckbox class="text-md" label="Novidade" help="Mostrar como novidade"
                      v-model="car.is_new" id="is_new"/>
-          <UCheckbox class="text-md sm:items-center sm:justify-center" label="Destaque" help="Aparecer como destaque"
+          <UCheckbox class="text-md" label="Destaque" help="Mostrar como destaque"
                      v-model="car.is_featured" id="is_featured"/>
         </div>
         <div class="description flex flex-col">
@@ -86,7 +109,7 @@ function saveChanges() {
                     class="px-2.5 pb-2.5 pt-4 w-full text-md rounded-lg border focus:outline-none"></textarea>
           <span v-if="errors.description" class="text-sm text-red-500">{{ errors.description[0] }}</span>
         </div>
-        <button @click="saveChanges" class="button px-2 lg:px-4 py-2 my-2 rounded">Salvar</button>
+        <button  class="button px-2 lg:px-4 py-2 my-2 rounded">Salvar</button>
       </form>
 
       <AdminHomeEditImages :vehicle="car"/>
