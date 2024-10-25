@@ -66,7 +66,7 @@ function carName(): string {
 
 <template>
   <div class="text-center">
-    <h1 class="text-2xl">{{ carName( )}}</h1>
+    <h1 class="text-2xl">{{ carName()}}</h1>
     <p class="text-lg text-gray-600">Tipo: {{ registerStore.getType() }} | Ano: {{ registerStore.vehicleInfo.model_year }} | {{ registerStore.vehicleInfo.current_km }} KM | {{ registerStore.vehicleInfo.color }}</p>
   </div>
   <div

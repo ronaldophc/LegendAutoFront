@@ -13,12 +13,18 @@ const updateParent = (event: Event) => {
   emit('update-value', (event.target as HTMLInputElement).value);
 };
 
+function getType(field: string) {
+  if (field === 'price') {
+    return 'number';
+  }
+  return 'text';
+}
 </script>
 
 <template>
   <div :class="field + ' flex flex-col'">
     <label for="field" class="mb-1 font-semibold text-sm">{{field}}</label>
-    <input type="text"
+    <input :type="getType(fieldName)"
            :id="fieldName"
            :value="value"
            class="px-1.5 pb-1.5 pt-2 w-full text-md rounded-lg border focus:outline-none"

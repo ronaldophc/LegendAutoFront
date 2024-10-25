@@ -24,7 +24,9 @@ export const useBreadCrumbStore = defineStore('breadCrumbStore', () => {
         }
     ]);
 
-    const activeLink = computed(() => vehicleLinks.value.find(link => link.active));
+    function getActiveLink() {
+        return vehicleLinks.value.find(link => link.active).id;
+    }
 
     function setActiveLink(id: number) {
         vehicleLinks.value.forEach(link => {
@@ -34,7 +36,7 @@ export const useBreadCrumbStore = defineStore('breadCrumbStore', () => {
 
     return {
         vehicleLinks,
-        activeLink,
+        getActiveLink,
         setActiveLink,
     };
 });

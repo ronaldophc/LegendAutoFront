@@ -1,7 +1,9 @@
 import {defineNuxtConfig} from 'nuxt/config'
 
 export default defineNuxtConfig({
-    devtools: {enabled: true},
+    devtools: {enabled: false},
+
+    ssr: false,
 
     modules: [
         'nuxt-auth-sanctum',
@@ -13,7 +15,7 @@ export default defineNuxtConfig({
     ],
 
     sanctum: {
-        baseUrl: process.env.NUXT_PUBLIC_SANCTUM_BASE_URL || 'https://api.akaindex.com.br',
+        baseUrl: process.env.NUXT_PUBLIC_SANCTUM_BASE_URL || 'http://localhost:8001',
         mode: 'cookie',
         redirectIfAuthenticated: true,
         redirectIfUnauthenticated: true,
@@ -55,7 +57,7 @@ export default defineNuxtConfig({
 
     runtimeConfig: {
         public: {
-            apiBase: process.env.NUXT_PUBLIC_RUNTIME_CONFIG_PUBLIC_API_BASE || 'https://api.akaindex.com.br/',
+            apiBase: process.env.NUXT_PUBLIC_RUNTIME_CONFIG_PUBLIC_API_BASE || 'http://localhost:8001/',
         }
     },
 

@@ -5,11 +5,26 @@ const breadCrumb = useBreadCrumbStore();
 const snackbar = useSnackbar();
 const register = useRegisterStore();
 
-// Constants
-let INIT_CAR_INFO: Vehicle = {model: 'Hb Active', manufacturer: 'Peugeot', fuel_type: 'Flex', color: 'Branco', steering_type: 'Elétrico', transmission: 'Manual', doors: '0', manufacture_year: '2013', model_year: '2014', current_km: '12312', price: '29000', is_new: true, is_featured: false, license_plate: '', renavam: '123123', description: '123123'};
-
 // Reactive variables
-const carInfo = ref<Vehicle>(INIT_CAR_INFO);
+const carInfo = ref<Vehicle>({
+  model: '',
+  manufacturer: '',
+  fuel_type: '',
+  color: '',
+  steering_type: '',
+  transmission: '',
+  doors: 0,
+  manufacture_year: 0,
+  model_year: 0,
+  current_km: 0,
+  price: 0,
+  license_plate: '',
+  renavam: '',
+  is_new: false,
+  is_featured: false,
+  description: '',
+});
+
 const errors = ref<Record<string, string[]>>({});
 
 // Helper functions

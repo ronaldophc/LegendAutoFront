@@ -6,7 +6,7 @@ const breadCrumb = useBreadCrumbStore();
 const register = useRegisterStore();
 const router = useRouter();
 
-async function selectType(type: string) {
+function selectType(type: string) {
   register.setVehicleType(type);
   breadCrumb.setActiveLink(2);
 }

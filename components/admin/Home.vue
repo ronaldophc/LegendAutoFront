@@ -11,45 +11,22 @@ const prevUrl = ref();
 const current_page = ref(1);
 const search = ref();
 
-const yearRange = ref([2000, 2025]);
-const priceRange = ref([0, 100000]);
-const kmRange = ref([0, 200000]);
+let params = ref(
+  {
+    year_min: null,
+    year_max: null,
+    price_min: null,
+    price_max: null,
+    km_min: null,
+    km_max: null,
+  }
+);
 const vehicleType = ref('');
 
 const BREAKPOINT = 770;
 const isSmallScreen = ref(false);
 const isFilterOpen = ref(false);
 const showFilters = ref(!isSmallScreen.value || isFilterOpen);
-
-const fallbackCars = [
-  {
-    id: 1,
-    name: 'Carro Exemplo 1',
-    model_year: 2020,
-    price: 50000,
-    current_km: 10000,
-    type: 'CAR',
-    image_url: 'https://via.placeholder.com/150'
-  },
-  {
-    id: 2,
-    name: 'Carro Exemplo 2',
-    model_year: 2019,
-    price: 45000,
-    current_km: 15000,
-    type: 'CAR',
-    image_url: 'https://via.placeholder.com/150'
-  },
-  {
-    id: 3,
-    name: 'Moto Exemplo 1',
-    model_year: 2021,
-    price: 30000,
-    current_km: 5000,
-    type: 'MOTORCYCLE',
-    image_url: 'https://via.placeholder.com/150'
-  }
-];
 
 async function requestCars<T>(url: string, options: UseFetchOptions<T> = {}) {
   if (!url) {
@@ -59,12 +36,7 @@ async function requestCars<T>(url: string, options: UseFetchOptions<T> = {}) {
     const response = await useFetch(url, {
       credentials: 'include',
       params: {
-        year_min: yearRange.value[0],
-        year_max: yearRange.value[1],
-        price_min: priceRange.value[0],
-        price_max: priceRange.value[1],
-        km_min: kmRange.value[0],
-        km_max: kmRange.value[1],
+        ...params.value,
         type: vehicleType.value,
         per_page: 10,
         ...options.params,
@@ -81,7 +53,6 @@ async function requestCars<T>(url: string, options: UseFetchOptions<T> = {}) {
     prevUrl.value = data.prev_page_url;
     cars.value = data.data;
   } catch (error) {
-    cars.value = fallbackCars;
   }
 
   for (const car of cars.value) {
@@ -179,11 +150,8 @@ function getInfos(car): string {
           <button @click="toggleFilter" class="bg-white text-md p-2 rounded-lg shadow my-2">Filtros</button>
           <AdminHomeOrderDropdown @order-changed="handleOrderChange" class="p-2 my-2" />
         </div>
-        <AdminFilters :showFilters="showFilters" :vehicleType="vehicleType" :yearRange="yearRange"
-          :priceRange="priceRange" :kmRange="kmRange" :API_ENDPOINT="API_ENDPOINT"
-          @update:vehicleType="vehicleType = $event" @update:yearRange="yearRange = $event"
-          @update:priceRange="priceRange = $event" @update:kmRange="kmRange = $event" @requestCars="requestCars"
-          class="mb-2" />
+        <AdminFilters :showFilters="showFilters" :vehicleType="vehicleType" :params="params" :API_ENDPOINT="API_ENDPOINT"
+          @update:params="params = $event" @requestCars="requestCars" class="mb-2" />
 
         <section class="md:px-2 w-full">
           <div class="flex flex-col gap-2">
@@ -248,7 +216,7 @@ function getInfos(car): string {
 
                   <!-- Botões de ação -->
                   <div class="flex justify-end space-x-4 mt-4">
-                    <AdminHomeEditModal :car="car" />
+                    <AdminHomeEditModal :vehicle="car" />
                     <button @click="deleteCar(car)" class="px-4 py-2 bg-red-500 text-white text-sm font-medium rounded hover:bg-red-600">
                       Excluir
                     </button>

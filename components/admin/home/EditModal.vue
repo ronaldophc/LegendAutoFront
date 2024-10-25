@@ -3,7 +3,7 @@
 import Vehicle from "~/components/admin/create/Vehicle.vue";
 
 const props = defineProps({
-  car: Vehicle
+  vehicle: Vehicle
 });
 
 const isOpen = ref(false);
@@ -21,9 +21,10 @@ const fieldsToDisplay = ref([
   'color',
   'price',
   'current_km',
-  'renavam']);
+  'renavam'
+]);
 
-const updatedCar = ref({...props.car});
+const updatedCar = ref({...props.vehicle});
 
 function fieldLabel(field: string) {
   const labels = {
@@ -74,6 +75,8 @@ function addErrorClassToFields() {
     }
   }
 }
+
+
 </script>
 
 <template>
@@ -94,25 +97,25 @@ function addErrorClassToFields() {
                                  :field="fieldLabel(field)"
                                  :fieldName="field"
                                  :errors="errors[field]"
-                                 :value="car?.[field]"
+                                 :value="vehicle?.[field]"
                                  @update-value="updateCarField(field, $event)"/>
         </div>
         <div class="flex flex-col my-3">
           <UCheckbox class="text-md" label="Novidade" help="Mostrar como novidade"
-                     v-model="car.is_new" id="is_new"/>
+                     v-model="vehicle.is_new" id="is_new"/>
           <UCheckbox class="text-md" label="Destaque" help="Mostrar como destaque"
-                     v-model="car.is_featured" id="is_featured"/>
+                     v-model="vehicle.is_featured" id="is_featured"/>
         </div>
         <div class="description flex flex-col">
           <label for="description" class="mb-2 font-bold">Descrição</label>
-          <textarea v-model="car.description" id="description"
+          <textarea v-model="vehicle.description" id="description"
                     class="px-2.5 pb-2.5 pt-4 w-full text-md rounded-lg border focus:outline-none"></textarea>
           <span v-if="errors.description" class="text-sm text-red-500">{{ errors.description[0] }}</span>
         </div>
         <button  class="button px-2 lg:px-4 py-2 my-2 rounded">Salvar</button>
       </form>
 
-      <AdminHomeEditImages :vehicle="car"/>
+      <AdminHomeEditImages :vehicle="vehicle"/>
     </UCard>
   </UModal>
 </template>

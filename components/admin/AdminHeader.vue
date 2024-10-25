@@ -19,7 +19,8 @@ function toggleMenu() {
   isMenuOpen.value = !isMenuOpen.value;
 }
 
-function resetBreadCrumb() {
+async function resetBreadCrumb(route: string) {
+  await router.push(route);
   breadCrumb.setActiveLink(1);
 }
 
@@ -56,8 +57,7 @@ function resetBreadCrumb() {
               </NuxtLink>
             </li>
             <li>
-              <NuxtLink to="/meusite/create"
-                        @click="resetBreadCrumb"
+              <NuxtLink @click="resetBreadCrumb('/meusite/create')"
                         class="flex items-center px-3 py-2 rounded-2xl">Cadastrar
               </NuxtLink>
             </li>
@@ -97,9 +97,8 @@ function resetBreadCrumb() {
                             @click.native="isMenuOpen = false">
                     Home
                   </NuxtLink>
-                  <NuxtLink to="/meusite/create" class="admin-header_link flex items-center px-3 py-2 rounded-2xl"
-                            @click.native="isMenuOpen = false"
-                            @click="resetBreadCrumb">
+                  <NuxtLink @click="resetBreadCrumb('/meusite/create')" class="admin-header_link flex items-center px-3 py-2 rounded-2xl"
+                            @click.native="isMenuOpen = false">
                     Cadastrar
                   </NuxtLink>
                   <NuxtLink to="/meusite/settings" class="admin-header_link flex items-center px-3 py-2 rounded-2xl"
