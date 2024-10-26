@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import AdminHeader from '~/components/admin/AdminHeader.vue';
+import AdminHeader from '~/components/admin/Header.vue';
 import { defineComponent } from 'vue';
 
 defineComponent({

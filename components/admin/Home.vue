@@ -126,19 +126,6 @@ function toReais(price: number) {
   return price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 }
 
-function getInfos(car): string {
-  let infos: String = '';
-  if (car.model_year) {
-    infos += `Ano: ${car.model_year} | `;
-  }
-  if (car.current_km) {
-    infos += `KM: ${car.current_km} | `;
-  }
-  if (car.color) {
-    infos += `Cor: ${car.color}`;
-  }
-  return infos;
-}
 </script>
 
 <template>
@@ -188,7 +175,7 @@ function getInfos(car): string {
 
                   <!-- Botões de ação -->
                   <div class="flex justify-between mt-4">
-                    <AdminHomeEditModal :car="car" />
+                    <AdminHomeEditModal :vehicle="car" @update-cars="requestCars(API_ENDPOINT + '?page=1')"/>
                     <button class="px-4 py-2 bg-red-500 text-white text-sm font-medium rounded hover:bg-red-600">
                       Excluir
                     </button>
@@ -216,7 +203,7 @@ function getInfos(car): string {
 
                   <!-- Botões de ação -->
                   <div class="flex justify-end space-x-4 mt-4">
-                    <AdminHomeEditModal :vehicle="car" />
+                    <AdminHomeEditModal :vehicle="car" @update-cars="requestCars(API_ENDPOINT + '?page=1')"/>
                     <button @click="deleteCar(car)" class="px-4 py-2 bg-red-500 text-white text-sm font-medium rounded hover:bg-red-600">
                       Excluir
                     </button>

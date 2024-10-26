@@ -194,6 +194,8 @@ select {
   }
 }
 
+//------------------------------------------------------------------ADMIN CSS--------------------------------------------------------------------//
+
 .admin-home {
   background-color: #f3f4f6;
 
@@ -335,16 +337,37 @@ select {
 
     a {
       color: $light-color;
-
-      &:hover {
-        background-color: rgba($hover-color, 0.25);
-      }
     }
   }
 
   &_link {
     &:hover {
       background-color: rgba($hover-color, 0.25);
+    }
+  }
+}
+
+//------------------------------------------------------------------DEFAULT CSS--------------------------------------------------------------------//
+
+.default-header {
+  &_top {
+    background-color: $primary-color;
+  }
+
+  &_top,
+  &_title-left {
+    color: #fff;
+  }
+
+  &_link {
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+
+    &:hover {
+      background-color: rgba($primary-color, 0.5);
+      border-radius: 1rem;
     }
   }
 }

@@ -12,6 +12,7 @@ const storeData = {
   tiktok: ref(''),
   facebook: ref(''),
   mapsLink: ref(''),
+  hours: ref(''),
 };
 
 async function fetchStoreData() {
@@ -26,6 +27,7 @@ async function fetchStoreData() {
     storeData.tiktok.value = data.tiktok;
     storeData.facebook.value = data.facebook;
     storeData.mapsLink.value = data.google_maps;
+    storeData.hours.value = data.hours;
   } catch (error) {
     console.error("onMounted error: ", error);
   }
@@ -34,7 +36,6 @@ async function fetchStoreData() {
 onMounted(fetchStoreData);
 
 async function onSave() {
-  try {
     const requestBody = {
       address: storeData.address.value,
       phone: storeData.phoneComercial.value,
@@ -44,6 +45,7 @@ async function onSave() {
       tiktok: storeData.tiktok.value,
       facebook: storeData.facebook.value,
       google_maps: storeData.mapsLink.value,
+      hours: storeData.hours.value,
       name: STORE_NAME,
     };
 
@@ -51,23 +53,19 @@ async function onSave() {
       method: 'PUT',
       body: JSON.stringify(requestBody),
     });
+    if (response.status.value === 'success') {
+      snackbar.add({
+        type: 'success',
+        text: 'Informações atualizadas com sucesso.',
+      });
+      return;
+    }
 
-    const snackbarMessage = {
-      type: response.status.value === 'success' ? 'success' : 'error',
-      text: response.status.value === 'success'
-          ? 'Informações atualizadas com sucesso.'
-          : 'Erro ao atualizar informações.',
-    };
-
-    snackbar.add(snackbarMessage);
-
-  } catch (error) {
     snackbar.add({
       type: 'error',
       text: 'Erro ao atualizar informações.',
     });
-    console.error(error);
-  }
+
 }
 </script>
 
@@ -170,6 +168,18 @@ async function onSave() {
         <label for="maps_link"
                class="admin-settings_label hover:cursor-text absolute text-sm duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] mx-5 md:mx-2.5 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">
           Google Maps link
+        </label>
+      </div>
+
+      <div class="relative w-full flex justify-center">
+        <input type="text"
+               v-model="storeData.hours.value"
+               class="px-2.5 pb-2.5 pt-4 w-full text-sm rounded-lg border focus:outline-none focus:ring-0 peer"
+               id="hours"
+               placeholder="08:00 - 17:00"/>
+        <label for="hours"
+               class="admin-settings_label hover:cursor-text absolute text-sm duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] mx-5 md:mx-2.5 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">
+          Horário de atendimento
         </label>
       </div>
 

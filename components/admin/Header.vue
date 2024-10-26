@@ -53,12 +53,12 @@ async function resetBreadCrumb(route: string) {
           <ul class="flex-row justify-end w-full text-lg hidden md:flex">
             <li>
               <NuxtLink to="/meusite"
-                        class="flex px-3 py-2 rounded-2xl">Home
+                        class="admin-header_link flex px-3 py-2 rounded-2xl">Home
               </NuxtLink>
             </li>
             <li>
               <NuxtLink @click="resetBreadCrumb('/meusite/create')"
-                        class="flex items-center px-3 py-2 rounded-2xl">Cadastrar
+                        class="admin-header_link flex items-center px-3 py-2 rounded-2xl">Cadastrar
               </NuxtLink>
             </li>
             <li>
@@ -69,7 +69,7 @@ async function resetBreadCrumb(route: string) {
             </li>
             <li>
               <NuxtLink to="/meusite/settings"
-                        class="flex items-center px-3 py-2 rounded-2xl">Ver site
+                        class="admin-header_link flex items-center px-3 py-2 rounded-2xl">Ver site
               </NuxtLink>
             </li>
           </ul>

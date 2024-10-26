@@ -6,7 +6,7 @@ const config = useRuntimeConfig().public;
 const props = defineProps({
   vehicle: Vehicle
 });
-
+const snackbar = useSnackbar();
 const router = useRouter();
 const files = ref<(File | string)[]>([]);
 const isDraggingOver = ref(false);
@@ -35,6 +35,7 @@ async function getImages() {
   const response = await useApi(`api/vehicles/${id}/images`);
   let data = response.data.value.data;
   previewImages.value = [];
+
   data.forEach(image => {
     previewImages.value.push(image);
   });
@@ -43,16 +44,31 @@ async function getImages() {
 // Função para selecionar a imagem como capa
 function handleCoverSelection(image: File) {
   previewImages.value.forEach(file => {
+    const { id } = image;
+
     if(file === image) {
       const is_cover = !file["is_cover"];
       file["is_cover"] = is_cover;
-      useApi(`api/vehicles/images/${image.id}`, {method: 'PUT', body: {is_cover: is_cover}});
+
+      useApi(`api/vehicles/images/${id}`,
+          {
+            method: 'PUT',
+            body: { is_cover: is_cover }
+          });
       return;
     }
+
     if (file["is_cover"]) {
-      useApi(`api/vehicles/images/${file.id}`, {method: 'PUT', body: {is_cover: false}});
+      const { id } = file;
+
+      useApi(`api/vehicles/images/${id}`, {
+        method: 'PUT',
+        body: { is_cover: false }
+      });
+
       file["is_cover"] = false;
     }
+
   });
 }
 
@@ -69,16 +85,16 @@ function processFiles(newFiles: File[]) {
 function handleDrop(event: DragEvent) {
   event.preventDefault();
   isDraggingOver.value = false;
-  handleSubmit();
+  handleSubmit(event);
 }
 
 // Ao selecionar imagens no campo, chama a função de processar os arquivos
 function handleFileChange(event: Event) {
-  handleSubmit();
+  handleSubmit(event);
 }
 
 // Subir as imagens para a API, esvaziar a array de imagens e chamar a função de pegar as imagens
-async function handleSubmit() {
+async function handleSubmit(event: Event) {
   processFiles(Array.from((event.target as HTMLInputElement).files || []));
   const {id} = props.vehicle;
   const vehicleId: number = id;
@@ -96,7 +112,20 @@ async function uploadImage(file: File, isCover: boolean, vehicleId: number) {
   formData.append('image', file);
   formData.append('is_cover', isCover);
   formData.append('vehicle_id', vehicleId);
-  await useImageApi(formData as FormData);
+  const response = await useImageApi(formData as FormData);
+
+  if (response.status.value === 'success') {
+    snackbar.add({
+      type: 'success',
+      text: 'Imagem adicionada com sucesso',
+    });
+    return;
+  }
+
+  snackbar.add({
+    type: 'error',
+    text: 'Erro ao adicionar imagem',
+  });
 }
 
 // Remover a imagem das arrays e do banco
@@ -119,7 +148,7 @@ function getImageUrl(image: File) {
 }
 
 function isImageCover(image: File) {
-  const {is_cover} = image;
+  const { is_cover } = image;
   return is_cover;
 }
 

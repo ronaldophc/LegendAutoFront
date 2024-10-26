@@ -24,6 +24,11 @@ const buttonClass = (type) => {
 const requestCars = (endpoint) => {
   emits('requestCars', endpoint);
 };
+
+function toReais(price: number) {
+  price = Math.round(price);
+  return price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+}
 </script>
 
 <template>

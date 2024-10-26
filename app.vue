@@ -7,6 +7,7 @@
   <NuxtLayout>
     <NuxtPage />
   </NuxtLayout>
+  <USlideovers />
 </template>
 
 <style scoped>

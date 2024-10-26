@@ -5,7 +5,7 @@ import Vehicle from "~/components/admin/create/Vehicle.vue";
 const props = defineProps({
   vehicle: Vehicle
 });
-
+const snackbar = useSnackbar();
 const isOpen = ref(false);
 const errors = ref<Record<string, string[]>>({});
 const fieldsToDisplay = ref([
@@ -61,9 +61,20 @@ async function saveChanges() {
   if (response.status.value == 'error') {
     errors.value = response.error.value.data.errors;
     addErrorClassToFields();
+    snackbar.add({
+      type: 'error',
+      text: 'Erro ao atualizar veiculo',
+    });
     return;
   }
+  snackbar.add({
+    type: 'success',
+    text: 'Veículo atualizado com sucesso',
+  });
+  emit('update-cars')
 }
+
+const emit = defineEmits(['update-cars']);
 
 function addErrorClassToFields() {
   for (const field in errors.value) {
@@ -75,7 +86,6 @@ function addErrorClassToFields() {
     }
   }
 }
-
 
 </script>
 
@@ -112,12 +122,10 @@ function addErrorClassToFields() {
                     class="px-2.5 pb-2.5 pt-4 w-full text-md rounded-lg border focus:outline-none"></textarea>
           <span v-if="errors.description" class="text-sm text-red-500">{{ errors.description[0] }}</span>
         </div>
-        <button  class="button px-2 lg:px-4 py-2 my-2 rounded">Salvar</button>
+        <button class="button px-2 lg:px-4 py-2 my-2 rounded">Salvar</button>
       </form>
 
       <AdminHomeEditImages :vehicle="vehicle"/>
     </UCard>
   </UModal>
 </template>
-
-<style scoped></style>
