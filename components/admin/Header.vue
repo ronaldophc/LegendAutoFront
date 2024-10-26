@@ -42,80 +42,67 @@ async function resetBreadCrumb(route: string) {
       </a>
     </UContainer>
   </nav>
-  <nav class="admin-header_bottom py-3">
+  <nav class="admin-header_bottom py-2">
     <UContainer>
-      <div class="max-w-screen-xl mx-auto text-lg font-semibold">
         <div class="flex w-full items-center justify-between">
           <a href="#">
-            <img src="../../assets/images/logo_white.png" alt="">
+            <img src="../../assets/images/logo-white.png" alt="">
           </a>
 
           <ul class="flex-row justify-end w-full text-lg hidden md:flex">
             <li>
-              <NuxtLink to="/meusite"
-                        class="admin-header_link flex px-3 py-2 rounded-2xl">Home
-              </NuxtLink>
+              <NuxtLink to="/meusite" class="admin-header_link">Home</NuxtLink>
             </li>
             <li>
-              <NuxtLink @click="resetBreadCrumb('/meusite/create')"
-                        class="admin-header_link flex items-center px-3 py-2 rounded-2xl">Cadastrar
-              </NuxtLink>
+              <NuxtLink @click="resetBreadCrumb('/meusite/create')" class="admin-header_link">Cadastrar</NuxtLink>
             </li>
             <li>
-              <NuxtLink to="/meusite/settings"
-                        class="admin-header_link flex items-center px-3 py-2 rounded-2xl">
-                Configurações
-              </NuxtLink>
+              <NuxtLink to="/meusite/settings" class="admin-header_link">Configurações</NuxtLink>
             </li>
             <li>
-              <NuxtLink to="/meusite/settings"
-                        class="admin-header_link flex items-center px-3 py-2 rounded-2xl">Ver site
-              </NuxtLink>
+              <NuxtLink to="/meusite/settings" class="admin-header_link">Ver site</NuxtLink>
             </li>
           </ul>
 
-          <button @click="toggleMenu" class="md:hidden flex items-center justify-center">
+          <button @click="toggleMenu" class="md:hidden">
             <UIcon name="i-heroicons:list-bullet" class="w-10 h-12 bg-white"/>
           </button>
+
 
           <USlideover v-model="isMenuOpen">
             <UCard class="flex flex-col flex-1"
                    :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100' }">
               <template #header>
-                <div class="flex items-center justify-between">
+                <div class="flex justify-between">
                   <a href="#">
                     <img src="../../assets/images/logo.png" class="w-24">
                   </a>
-                  <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1"
-                           @click="isMenuOpen = false"/>
+                  <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="w-10 h-10" @click="isMenuOpen = false"/>
                 </div>
               </template>
 
-              <div class="flex flex-col flex-1">
-                <div class="flex flex-col gap-4">
-                  <NuxtLink to="/meusite" class="admin-header_link flex items-center px-3 py-2 rounded-2xl"
-                            @click.native="isMenuOpen = false">
-                    Home
-                  </NuxtLink>
-                  <NuxtLink @click="resetBreadCrumb('/meusite/create')" class="admin-header_link flex items-center px-3 py-2 rounded-2xl"
-                            @click.native="isMenuOpen = false">
-                    Cadastrar
-                  </NuxtLink>
-                  <NuxtLink to="/meusite/settings" class="admin-header_link flex items-center px-3 py-2 rounded-2xl"
-                            @click.native="isMenuOpen = false">
-                    Configurações
-                  </NuxtLink>
-                  <NuxtLink to="/meusite/settings" class="admin-header_link flex items-center px-3 py-2 rounded-2xl"
-                            @click.native="isMenuOpen = false">
-                    Ver site
-                  </NuxtLink>
-                </div>
+              <div class="flex flex-col gap-4">
+                <NuxtLink to="/meusite" class="admin-header_link" @click.native="isMenuOpen = false">
+                  <UIcon name="i-material-symbols:home-outline" class="w-5 h-5"/>
+                  Home
+                </NuxtLink>
+                <NuxtLink @click="resetBreadCrumb('/meusite/create')" class="admin-header_link" @click.native="isMenuOpen = false">
+                  <UIcon name="i-material-symbols:directions-car-outline" class="w-5 h-5"/>
+                  Cadastrar
+                </NuxtLink>
+                <NuxtLink to="/meusite/settings" class="admin-header_link" @click.native="isMenuOpen = false">
+                  <UIcon name="i-heroicons:cog-6-tooth" class="w-5 h-5"/>
+                  Configurações
+                </NuxtLink>
+                <NuxtLink to="/meusite/settings" class="admin-header_link" @click.native="isMenuOpen = false">
+                  <UIcon name="i-material-symbols:computer-outline" class="w-5 h-5"/>
+                  Ver site
+                </NuxtLink>
               </div>
             </UCard>
           </USlideover>
 
         </div>
-      </div>
     </UContainer>
   </nav>
 </template>

@@ -3,18 +3,18 @@
 </script>
 
 <template>
-  <ul class="flex-row justify-end w-full text-lg hidden md:flex">
+  <ul class="justify-end w-full text-lg hidden md:flex items-center">
     <li>
       <NuxtLink to="/" class="default-header_link">Home</NuxtLink>
     </li>
     <li>
-      <NuxtLink to="/" class="default-header_link">Cadastrar</NuxtLink>
+      <NuxtLink to="/estoque" class="default-header_link">Estoque</NuxtLink>
     </li>
     <li>
-      <NuxtLink to="/" class="default-header_link">Configurações</NuxtLink>
+      <NuxtLink to="/sobre" class="default-header_link">Sobre</NuxtLink>
     </li>
     <li>
-      <NuxtLink to="/" class="default-header_link">Ver site</NuxtLink>
+      <NuxtLink to="/contato" class="default-header_link">Contato</NuxtLink>
     </li>
   </ul>
 </template>

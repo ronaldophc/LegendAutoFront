@@ -341,8 +341,15 @@ select {
   }
 
   &_link {
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    gap: 5px;
+
     &:hover {
       background-color: rgba($hover-color, 0.25);
+      border-radius: 1rem;
     }
   }
 }
@@ -364,10 +371,19 @@ select {
     display: flex;
     align-items: center;
     padding: 0.5rem 0.75rem;
-
+    gap: 5px;
     &:hover {
       background-color: rgba($primary-color, 0.5);
       border-radius: 1rem;
     }
   }
+}
+
+.default-footer {
+  color: #fff;
+  &_divider {
+    border-color: rgba(gray, 0.5); // Define a cor da borda
+    border-width: 0.1rem; // Define a largura da borda
+  }
+
 }

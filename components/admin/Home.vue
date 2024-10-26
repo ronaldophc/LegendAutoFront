@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import car_default from '~/assets/images/default_car.png';
+import car_default from 'assets/images/default-car.png';
 import type { UseFetchOptions } from "#app";
 import { ref, onMounted, onUnmounted } from 'vue';
 
