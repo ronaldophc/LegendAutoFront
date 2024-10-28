@@ -3,9 +3,6 @@
 </script>
 
 <template>
-<h1>Home</h1>
+  <DefaultCarousel class="hidden sm:flex"/>
+  <DefaultCarouselMobile class="flex sm:hidden"/>
 </template>
-
-<style scoped>
-
-</style>

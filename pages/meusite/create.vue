@@ -4,7 +4,6 @@ import {AdminCreateImages, AdminCreateType, AdminCreateVehicle} from "#component
 
 definePageMeta({
   layout: 'admin',
-
 });
 import { useBreadCrumbStore } from "~/stores/breadCrumb";
 

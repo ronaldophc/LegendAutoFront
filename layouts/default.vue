@@ -1,8 +1,12 @@
 <template>
-  <div>
-    <DefaultHeader />
-    <slot />
-    <DefaultFooter />
-    <NuxtSnackbar />
+  <div class="flex flex-col min-h-screen">
+    <DefaultHeader/>
+    <div class="flex-grow">
+      <slot/>
+    </div>
+    <DefaultFooter/>
+    <NuxtSnackbar/>
   </div>
 </template>
+<script setup>
+</script>

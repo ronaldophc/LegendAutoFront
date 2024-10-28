@@ -10,4 +10,5 @@ definePageMeta({
 </script>
 
 <template>
+  <Default />
 </template>

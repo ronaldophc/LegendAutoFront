@@ -1,8 +1,9 @@
 <script setup lang="ts">
 
 definePageMeta({
+  layout: 'login',
   sanctum: {
-    guestOnly: true
+    excluded: true
   }
 });
 

@@ -17,8 +17,6 @@ export default defineNuxtConfig({
     sanctum: {
         baseUrl: process.env.NUXT_PUBLIC_SANCTUM_BASE_URL || 'http://localhost:8001',
         mode: 'cookie',
-        redirectIfAuthenticated: true,
-        redirectIfUnauthenticated: true,
         endpoints: {
             login: '/api/users/login',
             logout: '/api/users/logout',

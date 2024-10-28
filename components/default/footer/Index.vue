@@ -4,7 +4,7 @@ import logoSrc from "assets/images/logo-white.png";
 </script>
 
 <template>
-  <footer class="default-footer bg-black flex flex-col items-center fixed bottom-0 w-full">
+  <footer class="default-footer bg-black flex flex-col items-center bottom-0 w-full">
     <div class="flex py-3 items-end w-[90vw]">
       <hr class="default-footer_divider flex-grow border-t">
       <img :src="logoSrc" alt="Logo" class="px-5"/>
