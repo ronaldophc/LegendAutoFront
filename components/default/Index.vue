@@ -5,4 +5,5 @@
 <template>
   <DefaultCarousel class="hidden sm:flex"/>
   <DefaultCarouselMobile class="flex sm:hidden"/>
+  <DefaultCategoriesFeatured />
 </template>

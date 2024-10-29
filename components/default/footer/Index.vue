@@ -1,6 +1,10 @@
 <script setup lang="ts">
 
 import logoSrc from "assets/images/logo-white.png";
+import {useStore} from "~/stores/store";
+
+const store = await useStore().getStore();
+
 </script>
 
 <template>
@@ -13,25 +17,28 @@ import logoSrc from "assets/images/logo-white.png";
     <div class="w-[90vw] md:w-[50vw] mb-3">
       <div class="grid grid-cols-2 gap-5 md:flex md:flex-row justify-between">
         <div class="flex flex-col text-white">
-          <span class="text-white">MAPA DO SITE</span>
+          <span class="text-white font-bold">MAPA DO SITE</span>
           <NuxtLink to="/about">Sobre</NuxtLink>
           <NuxtLink to="/stock">Estoque</NuxtLink>
           <NuxtLink to="/contact">Contato</NuxtLink>
         </div>
         <div class="flex flex-col text-white">
-          <span class="text-white">TELEFONES</span>
-          <span class="text-white">(42) 99999-9999</span>
-          <span class="text-white">(42) 99999-9999</span>
+          <span class="text-white font-bold">TELEFONES</span>
+          <span class="text-white">{{ store.phone }}</span>
         </div>
+
         <div class="flex flex-col text-white">
-          <span class="text-white">REDES SOCIAIS</span>
+          <span class="text-white font-bold">REDES SOCIAIS</span>
           <div class="flex gap-2">
-            <a><UIcon name="i-ic:baseline-facebook" class="w-10 h-10 bg-white"></UIcon></a>
-            <a><UIcon name="i-mdi:instagram" class="w-10 h-10 bg-white"></UIcon></a>
-            <a><UIcon name="i-ic:baseline-tiktok" class="w-10 h-10 bg-white"></UIcon></a>
+            <a :href="store.facebook" target="_blank"><UIcon name="i-ic:baseline-facebook" class="w-10 h-10 bg-white"></UIcon></a>
+            <a :href="store.instagram" target="_blank"><UIcon name="i-mdi:instagram" class="w-10 h-10 bg-white"></UIcon></a>
+            <a :href="store.tiktok" target="_blank"><UIcon name="i-ic:baseline-tiktok" class="w-10 h-10 bg-white"></UIcon></a>
           </div>
         </div>
       </div>
+    </div>
+    <div class="flex flex-col text-white">
+      <span class="flex text-white items-center font-semibold"><UIcon name="i-material-symbols:location-on-rounded" class="bg-white"/>{{ store.address }}</span>
     </div>
     <hr class="default-footer_divider w-[90vw] border-t">
     <div class="text-white py-3 flex w-[90vw] gap-2 md:justify-between md:w-[50vw]">

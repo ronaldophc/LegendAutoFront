@@ -3,6 +3,7 @@ const API_URL = 'api/stores/1';
 const STORE_NAME = 'Auto Legend';
 
 const snackbar = useSnackbar();
+
 const storeData = {
   address: ref(''),
   phoneComercial: ref(''),

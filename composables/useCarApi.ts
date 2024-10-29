@@ -23,6 +23,32 @@ function handleApiResponse(response: any) {
     return {success: true};
 }
 
+export async function getNewVehicles() {
+    try {
+        const response = await useApi(VEHICLE_API_ENDPOINT, {
+            params: {
+                'is_new': true,
+            }
+        });
+        return response.data.value;
+    } catch (error) {
+        return [];
+    }
+}
+
+export async function getFeaturedVehicles() {
+    try {
+        const response = await useApi(VEHICLE_API_ENDPOINT, {
+            params: {
+                'is_new': true,
+            }
+        });
+        return response.data.value.data;
+    } catch (error) {
+        return [];
+    }
+}
+
 export async function useRegisterCar(info: Vehicle, type: string, storeId: number) {
     try {
         const requestBody = createRequestBody(type, info, storeId);
@@ -32,7 +58,6 @@ export async function useRegisterCar(info: Vehicle, type: string, storeId: numbe
         });
         return handleApiResponse(response);
     } catch (error) {
-        console.log('Error registering car', error);
         return {success: false, errors: {}};
     }
 }

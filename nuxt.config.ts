@@ -1,7 +1,7 @@
 import {defineNuxtConfig} from 'nuxt/config'
 
 export default defineNuxtConfig({
-    devtools: {enabled: false},
+    devtools: {enabled: true},
 
     ssr: false,
 
@@ -30,7 +30,7 @@ export default defineNuxtConfig({
             onGuestOnly: '/meusite',
         },
         client: {
-            initialRequest: true,
+            initialRequest: false,
         },
         globalMiddleware: {
             enabled: true,
