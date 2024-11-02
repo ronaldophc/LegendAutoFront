@@ -3,7 +3,7 @@ import {defineNuxtConfig} from 'nuxt/config'
 export default defineNuxtConfig({
     devtools: {enabled: true},
 
-    ssr: false,
+    ssr: true,
 
     modules: [
         'nuxt-auth-sanctum',
@@ -30,7 +30,7 @@ export default defineNuxtConfig({
             onGuestOnly: '/meusite',
         },
         client: {
-            initialRequest: false,
+            initialRequest: true,
         },
         globalMiddleware: {
             enabled: true,
