@@ -12,7 +12,6 @@ function toggleMenu() {
   })
 }
 
-
 </script>
 
 <template>

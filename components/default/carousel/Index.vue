@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import banner1 from 'assets/images/banner1.jpg';
 import banner2 from 'assets/images/banner2.jpg';
+
 const banners = [
-    banner1,
-    banner2,
+  banner1,
+  banner2,
 ]
 
 const carouselRef = ref()
@@ -22,9 +23,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <UCarousel ref="carouselRef" v-slot="{ item }" :items="banners" :ui="{ item: 'basis-full' }" class="w-full max-h-[60vh] overflow-hidden">
-    <div class="w-full object-cover overflow-hidden">
-      <img :src="item" alt="" class="w-full" draggable="false">
-    </div>
+  <UCarousel ref="carouselRef" v-slot="{ item }" :items="banners" :ui="{ item: 'basis-full' }" class="w-full overflow-hidden">
+    <img :src="item" alt="" class="w-full h-full" draggable="false">
   </UCarousel>
 </template>

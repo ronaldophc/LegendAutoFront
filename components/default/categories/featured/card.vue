@@ -27,8 +27,8 @@ function toReais(price: number) {
     </div>
     <div class="px-6 py-4">
       <div class="font-bold text-xl mb-2">{{vehicleName()}}</div>
-      <p class="text-gray-700 text-base flex items-center"><UIcon name="i-ion:speedometer me-1"/>{{ vehicle.current_km }} km</p>
-      <p class="text-gray-700 text-base flex items-center"><UIcon name="i-material-symbols:calendar-month-outline-sharp me-1" /> {{ vehicle.model_year }} / {{ vehicle.manufacture_year}}</p>
+      <p class="text-gray-700 text-base flex items-center"><UIcon name="i-ion:speedometer" class="me-1"/>{{ vehicle.current_km }} km</p>
+      <p class="text-gray-700 text-base flex items-center"><UIcon name="i-material-symbols:calendar-month-outline-sharp" class="me-1"/> {{ vehicle.model_year }} / {{ vehicle.manufacture_year}}</p>
       <p class="text-xl font-bold text-green-500">{{ toReais(vehicle.price) }}</p>
     </div>
     <div class="px-6 p2-4 pb-2">
