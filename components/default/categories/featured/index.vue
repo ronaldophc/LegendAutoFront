@@ -3,10 +3,9 @@ const featuredVehicles = await getFeaturedVehicles();
 </script>
 
 <template>
-  <div class="md:mx-10">
-    <h1 class="text-3xl font-bold text-gray-800 m-5 text-center">Veículos em Destaque</h1>
-    <div class="grid grid-cols-auto gap-5 m-5">
-      <DefaultCategoriesFeaturedCard v-for="vehicle in featuredVehicles" :vehicle="vehicle" class="rounded-lg shadow-xl"/>
+  <div class="md:mx-10 bg-white rounded-lg m-5 p-5">
+    <div class="grid grid-cols-auto gap-5">
+      <DefaultCategoriesFeaturedCard v-for="vehicle in featuredVehicles" :vehicle="vehicle" class="rounded-lg shadow-xl border border-gray-200"/>
     </div>
   </div>
 </template>

@@ -26,14 +26,9 @@ const store = await useStore().getStore();
           <span class="text-white font-bold">TELEFONES</span>
           <span class="text-white">{{ store.phone }}</span>
         </div>
-
         <div class="flex flex-col text-white">
           <span class="text-white font-bold">REDES SOCIAIS</span>
-          <div class="flex gap-2">
-            <a :href="store.facebook" target="_blank"><UIcon name="i-ic:baseline-facebook" class="w-10 h-10 bg-white"></UIcon></a>
-            <a :href="store.instagram" target="_blank"><UIcon name="i-mdi:instagram" class="w-10 h-10 bg-white"></UIcon></a>
-            <a :href="store.tiktok" target="_blank"><UIcon name="i-ic:baseline-tiktok" class="w-10 h-10 bg-white"></UIcon></a>
-          </div>
+          <DefaultCommonsSocial :facebook="store.facebook" :instagram="store.instagram" :tiktok="store.tiktok" :background-color="'bg-white'"/>
         </div>
       </div>
     </div>
