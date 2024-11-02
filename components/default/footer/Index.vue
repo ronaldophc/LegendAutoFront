@@ -32,8 +32,8 @@ const store = await useStore().getStore();
         </div>
       </div>
     </div>
-    <div class="flex flex-col text-white">
-      <span class="flex text-white items-center font-semibold"><UIcon name="i-material-symbols:location-on-rounded" class="bg-white"/>{{ store.address }}</span>
+    <div class="flex flex-col text-white ms-5">
+      <span class="flex text-white items-center font-semibold"><UIcon name="i-material-symbols:location-on-rounded" class="bg-white me-2"/>{{ store.address }}</span>
     </div>
     <hr class="default-footer_divider w-[90vw] border-t">
     <div class="text-white py-3 flex w-[90vw] gap-2 md:justify-between md:w-[50vw]">

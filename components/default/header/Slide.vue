@@ -30,10 +30,9 @@ const props = defineProps<{
         </NuxtLink>
         <NuxtLink to="#" class="default-header_link" @click.native="onClose">
           <UIcon name="i-heroicons:information-circle" class="w-5 h-5"/>
-
           Sobre
         </NuxtLink>
-        <NuxtLink to="#" class="default-header_link" @click.native="onClose">
+        <NuxtLink to="/contact" class="default-header_link" @click.native="onClose">
           <UIcon name="i-heroicons:map" class="w-5 h-5"/>
           Contato
         </NuxtLink>

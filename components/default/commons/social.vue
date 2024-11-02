@@ -9,7 +9,7 @@ const props = defineProps<{
 </script>
 
 <template>
-  <div class="flex justify-center gap-2">
+  <div class="flex gap-2">
     <a v-if="facebook" :href="facebook" target="_blank">
       <UIcon name="i-ic:baseline-facebook" :class="backgroundColor" class="w-10 h-10"></UIcon>
     </a>
