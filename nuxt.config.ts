@@ -1,9 +1,9 @@
 import {defineNuxtConfig} from 'nuxt/config'
 
 export default defineNuxtConfig({
-    devtools: {enabled: true},
+    devtools: {enabled: false},
 
-    ssr: true,
+    ssr: false,
 
     modules: [
         'nuxt-auth-sanctum',
