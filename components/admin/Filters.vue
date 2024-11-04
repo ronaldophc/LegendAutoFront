@@ -1,28 +1,25 @@
 <script setup lang="ts">
-import { defineProps, defineEmits } from 'vue';
 
 const props = defineProps({
-  params: [],
+  params: Object,
   showFilters: Boolean,
-  vehicleType: String,
-  API_ENDPOINT: String
 });
 
-const emits = defineEmits(['update:vehicleType', 'update:params', 'requestCars']);
+const emits = defineEmits(['update:vehicleType', 'update:params', 'requestVehicles']);
 
 const updateVehicleType = (type) => {
-  emits('update:vehicleType', type);
+  props.params.type = type;
 };
 
 const buttonClass = (type) => {
   return {
-    'button': props.vehicleType === type,
-    'bg-gray-200': props.vehicleType !== type
+    'button': props.params.type === type,
+    'bg-gray-200': props.params.type !== type
   };
 };
 
-const requestCars = (endpoint) => {
-  emits('requestCars', endpoint);
+const requestVehicles = () => {
+  emits('requestVehicles');
 };
 
 function toReais(price: number) {
@@ -75,6 +72,6 @@ function toReais(price: number) {
         <input id="km_max" type="number" v-model="params.km_max" placeholder="KM Máximo" class="w-full p-2 border-l" min="0">
       </div>
     </div>
-    <button class="button mb-2 rounded shadow px-4 py-2 w-full" @click="requestCars(API_ENDPOINT)">Filtrar</button>
+    <button class="button mb-2 rounded shadow px-4 py-2 w-full" @click="requestVehicles()">Filtrar</button>
   </aside>
 </template>

@@ -4,7 +4,7 @@ import { useCurrencyInput } from 'vue-currency-input';
 import type { CurrencyInputOptions } from 'vue-currency-input';
 
 const props = defineProps<{
-  modelValue: number;
+  modelValue: Number;
   options: CurrencyInputOptions;
 }>();
 

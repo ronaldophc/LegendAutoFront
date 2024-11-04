@@ -24,7 +24,11 @@ const store = await useStore().getStore();
           <p class="text-white font-bold">Horário de funcionamento:</p>
           <p class="text-white font-bold">{{store.hours}}</p>
         </div>
-        <DefaultCommonsSocial :facebook="store.facebook" :instagram="store.instagram" :tiktok="store.tiktok" :background-color="'bg-black'"/>
+        <div>
+          <DefaultCommonsSocial v-if="store.facebook" :link="store.facebook" :icon="'i-ic:baseline-facebook'" :background-color="'bg-black'"/>
+          <DefaultCommonsSocial v-if="store.instagram" :link="store.instagram" :icon="'i-mdi:instagram'" :background-color="'bg-black'"/>
+          <DefaultCommonsSocial v-if="store.tiktok" :link="store.tiktok" :icon="'i-ic:baseline-tiktok'" :background-color="'bg-black'"/>
+        </div>
       </div>
     </div>
   </UContainer>

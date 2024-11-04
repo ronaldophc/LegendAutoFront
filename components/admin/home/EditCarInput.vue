@@ -15,6 +15,9 @@ const updateParent = (event: Event) => {
 };
 
 function getType(field: string) {
+  if(field === 'model_year' || field === 'manufacture_year' || field === 'doors' || field === 'current_km') {
+    return 'number';
+  }
   return field === 'price' ? 'text' : 'text';
 }
 

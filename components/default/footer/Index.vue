@@ -28,7 +28,11 @@ const store = await useStore().getStore();
         </div>
         <div class="flex flex-col text-white">
           <span class="text-white font-bold">REDES SOCIAIS</span>
-          <DefaultCommonsSocial :facebook="store.facebook" :instagram="store.instagram" :tiktok="store.tiktok" :background-color="'bg-white'"/>
+          <div class="flex gap-2">
+            <DefaultCommonsSocial v-if="store.facebook" :link="store.facebook" :icon="'i-ic:baseline-facebook'" :background-color="'bg-white'"/>
+            <DefaultCommonsSocial v-if="store.instagram" :link="store.instagram" :icon="'i-mdi:instagram'" :background-color="'bg-white'"/>
+            <DefaultCommonsSocial v-if="store.tiktok" :link="store.tiktok" :icon="'i-ic:baseline-tiktok'" :background-color="'bg-white'"/>
+          </div>
         </div>
       </div>
     </div>

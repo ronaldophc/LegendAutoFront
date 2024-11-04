@@ -8,10 +8,10 @@
       <NuxtLink to="/" class="default-header_link">Home</NuxtLink>
     </li>
     <li>
-      <NuxtLink to="/estoque" class="default-header_link">Estoque</NuxtLink>
+      <NuxtLink to="/stock" class="default-header_link">Estoque</NuxtLink>
     </li>
     <li>
-      <NuxtLink to="/sobre" class="default-header_link">Sobre</NuxtLink>
+      <NuxtLink to="/about" class="default-header_link">Sobre</NuxtLink>
     </li>
     <li>
       <NuxtLink to="/contact" class="default-header_link">Contato</NuxtLink>

@@ -112,13 +112,13 @@ function addErrorClassToFields() {
         </div>
         <div class="flex flex-col my-3">
           <UCheckbox class="text-md" label="Novidade" help="Mostrar como novidade"
-                     v-model="vehicle.is_new" id="is_new"/>
+                     v-model="updatedCar.is_new" id="is_new"/>
           <UCheckbox class="text-md" label="Destaque" help="Mostrar como destaque"
-                     v-model="vehicle.is_featured" id="is_featured"/>
+                     v-model="updatedCar.is_featured" id="is_featured"/>
         </div>
         <div class="description flex flex-col">
           <label for="description" class="mb-2 font-bold">Descrição</label>
-          <textarea v-model="vehicle.description" id="description"
+          <textarea v-model="updatedCar.description" id="description"
                     class="px-2.5 pb-2.5 pt-4 w-full text-md rounded-lg border focus:outline-none"></textarea>
           <span v-if="errors.description" class="text-sm text-red-500">{{ errors.description[0] }}</span>
         </div>
