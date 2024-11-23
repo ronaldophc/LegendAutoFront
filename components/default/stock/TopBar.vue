@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <div class="flex m-5 justify-between">
+  <div class="default-topbar flex m-5 justify-between">
     <div class="bg-white flex justify-center rounded-lg shadow-lg me-2 w-full md:w-1/2 lg:w-1/3">
       <input type="text" placeholder="Pesquisar veículo" class="p-4 w-full bg-transparent">
       <button class="flex p-2 bg-purple-500 rounded-r-lg shadow-lgc">

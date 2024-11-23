@@ -87,11 +87,6 @@ onMounted(() => {
   }, 40);
   window.addEventListener('resize', updateScreenSize);
 });
-//
-// onUnmounted(() => {
-//   window.removeEventListener('resize', updateScreenSize);
-// });
-
 
 function toReais(price: number) {
   price = Math.round(price);

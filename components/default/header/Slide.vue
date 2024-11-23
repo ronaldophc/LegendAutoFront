@@ -28,7 +28,7 @@ const props = defineProps<{
           <UIcon name="i-material-symbols:directions-car-outline" class="w-5 h-5"/>
           Estoque
         </NuxtLink>
-        <NuxtLink to="#" class="default-header_link" @click.native="onClose">
+        <NuxtLink to="/about" class="default-header_link" @click.native="onClose">
           <UIcon name="i-heroicons:information-circle" class="w-5 h-5"/>
           Sobre
         </NuxtLink>

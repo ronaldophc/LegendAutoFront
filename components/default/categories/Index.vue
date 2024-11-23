@@ -5,7 +5,7 @@ import {getHomeVehicles} from "~/composables/useCarApi";
 const props = defineProps<{
   is_new: boolean;
   is_featured: boolean;
-  title: String,
+  title?: String,
 }>();
 
 const {data} = await getHomeVehicles({

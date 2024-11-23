@@ -85,7 +85,6 @@ video {
   padding: 0;
   border: 0;
   font-size: 100%;
-  font: inherit;
   vertical-align: baseline;
 }
 
@@ -179,7 +178,7 @@ select {
 * {
   left: 0;
   font-size: 16px;
-  font-family: "Nunito" !important;
+  font-family: "Nunito";
   color: $black-color;
 }
 
@@ -356,34 +355,44 @@ select {
 
 //------------------------------------------------------------------DEFAULT CSS--------------------------------------------------------------------//
 
-.default-header {
-  &_top {
-    background-color: $primary-color;
+.default {
+  &-header {
+    &_top {
+      background-color: $primary-color;
+    }
+
+    &_top,
+    &_title-left {
+      color: #fff;
+    }
+
+    &_link {
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      padding: 0.5rem 0.75rem;
+      gap: 5px;
+      &:hover {
+        background-color: rgba($primary-color, 0.5);
+        border-radius: 1rem;
+      }
+    }
   }
 
-  &_top,
-  &_title-left {
+  &-footer {
     color: #fff;
+    &_divider {
+      border-color: rgba(gray, 0.5); // Define a cor da borda
+      border-width: 0.1rem; // Define a largura da borda
+    }
+
   }
 
-  &_link {
-    text-transform: uppercase;
-    display: flex;
-    align-items: center;
-    padding: 0.5rem 0.75rem;
-    gap: 5px;
-    &:hover {
-      background-color: rgba($primary-color, 0.5);
-      border-radius: 1rem;
+  &-about {
+    &_font {
+      font-family: "Poppins", serif !important;
     }
   }
 }
 
-.default-footer {
-  color: #fff;
-  &_divider {
-    border-color: rgba(gray, 0.5); // Define a cor da borda
-    border-width: 0.1rem; // Define a largura da borda
-  }
 
-}
