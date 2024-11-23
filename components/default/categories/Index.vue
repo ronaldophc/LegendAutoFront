@@ -15,9 +15,11 @@ const {data} = await getHomeVehicles({
 </script>
 
 <template>
-  <div class="md:mx-10 bg-white rounded-lg m-5 p-5 border border-purple-500" v-if="data">
-    <h1 v-if="title" class="text-3xl font-bold text-purple-500">{{title}}</h1>
-    <hr v-if="title" class="flex-grow border-t m-3 border-purple-500">
+  <div class="default-categories md:mx-10 bg-white rounded-lg m-5 p-5" v-if="data">
+    <div v-if="title">
+      <h1 class="text-3xl font-bold default-categories_text">{{title}}</h1>
+      <hr class="flex-grow border-t m-3 default-categories_divider">
+    </div>
     <div class="grid grid-cols-auto gap-5">
       <DefaultCategoriesVehicleCard v-for="vehicle in data" :vehicle="vehicle"
                                     class="rounded-lg shadow-xl border border-gray-200"/>

@@ -5,4 +5,5 @@
 
 <template>
   <DefaultStockTopBar />
+  <DefaultStockFilter />
 </template>

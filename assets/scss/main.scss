@@ -356,6 +356,11 @@ select {
 //------------------------------------------------------------------DEFAULT CSS--------------------------------------------------------------------//
 
 .default {
+
+  &_primary_color {
+    color: $primary-color;
+  }
+
   &-header {
     &_top {
       background-color: $primary-color;
@@ -391,6 +396,48 @@ select {
   &-about {
     &_font {
       font-family: "Poppins", serif !important;
+    }
+  }
+
+  &-topbar {
+    &_button {
+      color: #fff;
+      background-color: darken($primary-color, 5%);
+      border-color: darken($primary-color, 10%);
+
+      span {
+        background-color: #fff;
+      }
+
+      &:hover {
+        background-color: $primary-color;
+        border-color: darken($primary-color, 5%);
+      }
+    }
+  }
+
+  &-categories {
+    &_text {
+        color: $primary-color;
+    }
+
+    &_divider {
+      border-color: $primary-color;
+    }
+
+    &_button {
+      color: #fff;
+      background-color: darken($primary-color, 5%);
+      border-color: darken($primary-color, 10%);
+
+      span {
+        background-color: #fff;
+      }
+
+      &:hover {
+        background-color: $primary-color;
+        border-color: darken($primary-color, 5%);
+      }
     }
   }
 }
