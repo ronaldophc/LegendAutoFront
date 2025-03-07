@@ -33,10 +33,10 @@ function toReais(price: number) {
     <h2 class="text-xl font-bold mb-4">Filtros</h2>
     <div class="mb-4">
       <h3 class="font-semibold mb-2">Tipo de veículo</h3>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
-        <button @click="updateVehicleType('')" :class="buttonClass('')" class="px-4 py-2 rounded text-sm flex items-center justify-center">TODOS</button>
-        <button @click="updateVehicleType('CAR')" :class="buttonClass('CAR')" class="px-4 py-2 rounded text-sm flex items-center justify-center">CARRO</button>
-        <button @click="updateVehicleType('MOTORCYCLE')" :class="buttonClass('MOTORCYCLE')" class="px-4 py-2 rounded text-sm flex items-center justify-center">MOTO</button>
+      <div class="flex flex-col md:flex-row gap-2">
+        <button @click="updateVehicleType('')" :class="buttonClass('')" class="px-4 py-2 rounded text-sm">TODOS</button>
+        <button @click="updateVehicleType('CAR')" :class="buttonClass('CAR')" class="px-4 py-2 rounded text-sm">CARRO</button>
+        <button @click="updateVehicleType('MOTORCYCLE')" :class="buttonClass('MOTORCYCLE')" class="px-4 py-2 rounded text-sm">MOTO</button>
       </div>
     </div>
     <div class="mb-4">

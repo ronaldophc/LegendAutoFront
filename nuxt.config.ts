@@ -15,7 +15,7 @@ export default defineNuxtConfig({
     ],
 
     sanctum: {
-        baseUrl: process.env.NUXT_PUBLIC_SANCTUM_BASE_URL || 'http://localhost:8001',
+        baseUrl: process.env.NUXT_PUBLIC_SANCTUM_BASE_URL || 'http://localhost:8080',
         mode: 'cookie',
         endpoints: {
             login: '/api/users/login',
@@ -54,7 +54,7 @@ export default defineNuxtConfig({
 
     runtimeConfig: {
         public: {
-            apiBase: process.env.NUXT_PUBLIC_RUNTIME_CONFIG_PUBLIC_API_BASE || 'http://localhost:8001/',
+            apiBase: process.env.NUXT_PUBLIC_RUNTIME_CONFIG_PUBLIC_API_BASE || 'http://localhost:8080/',
         }
     },
 

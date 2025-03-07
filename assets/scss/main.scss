@@ -442,4 +442,24 @@ select {
   }
 }
 
+//------------------------------------------------------------------STOCK CSS--------------------------------------------------------------------//
 
+.stock {
+
+  &_item {
+    display: flex;
+    min-height: 225px;
+
+    &_details {
+      margin: 1rem 1rem 1.5rem;
+    }
+
+    &_image {
+      object-fit: cover;
+      min-height: 225px;
+      max-width: 100%;
+      object-position: center;
+    }
+
+  }
+}

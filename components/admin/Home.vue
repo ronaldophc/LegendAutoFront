@@ -132,10 +132,8 @@ function toReais(price: number) {
               <!-- Repetir este bloco para cada veículo -->
               <div v-for="vehicle in vehicles" :key="vehicle.id"
                    class="w-80 bg-white rounded-lg shadow-md overflow-hidden">
-                <!-- Foto do vehicle -->
                 <img class="w-full h-52" :src="vehicle.image_url" alt="Carro">
 
-                <!-- Informações do vehicle -->
                 <div class="p-4">
                   <h2 class="text-xl font-semibold text-gray-800">{{ vehicleName(vehicle) }}</h2>
                   <p class="text-gray-600">Km: {{ vehicle.current_km }} km</p>
@@ -143,7 +141,6 @@ function toReais(price: number) {
                   <p class="text-gray-600">Cor: {{ vehicle.color }}</p>
                   <p class="text-xl font-bold text-green-500">{{ toReais(vehicle.price) }}</p>
 
-                  <!-- Botões de ação -->
                   <div class="flex justify-between mt-4">
                     <AdminHomeEditModal :vehicle="vehicle"
                                         @update-vehicles="requestVehicles()"/>
